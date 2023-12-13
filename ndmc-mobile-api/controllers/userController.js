@@ -57,13 +57,16 @@ const loginUser = async (req, res) => {
     if (!password || !email) {
       return res
         .status(400)
-        .json({ error: "Password and username are required!" });
+        .json({ error: "Password and email are required!" });
+    }
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
     }
     const user = await User.find({ email });
-    if (!user) {
+    console.log(user);
+    if (!user.length) {
       return res.status(400).json({ error: "User not found!" });
     }
-    console.log(user, password);
     const isValid = await bcrypt.compare(password, user[0].password);
 
     if (!isValid) {
@@ -72,7 +75,7 @@ const loginUser = async (req, res) => {
         .json({ error: "Invalid detail please check password and username!" });
     }
 
-    const userData = _.pick(user[0], ["_id", "username", "name"]);
+    const userData = _.pick(user[0], ["_id", "email"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
@@ -81,7 +84,7 @@ const loginUser = async (req, res) => {
     });
   } catch (err) {
     console.log({ error: err });
-    res.status(400).json({ Error: "Some error" });
+    res.status(400).json({ Error: err.message });
   }
 };
 

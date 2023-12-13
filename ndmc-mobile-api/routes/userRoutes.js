@@ -17,5 +17,6 @@ userRouter.get("/", (req, res) => {
 //signup user
 */
 userRouter.post("/", userController.createUser);
+userRouter.post("/login", userController.loginUser);
 
 module.exports = userRouter;
