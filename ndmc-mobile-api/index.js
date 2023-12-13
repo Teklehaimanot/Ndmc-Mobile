@@ -12,6 +12,8 @@ app.get("/", (req, res) => {
   res.send("We are on the home page");
 });
 
+app.use("/api/user", require("./routes/userRoutes"));
+
 mongoose.connect(process.env.DB_CONNECTION, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
