@@ -1,7 +1,7 @@
 require("dotenv/config");
 const jwt = require("jsonwebtoken");
 
-const authenticateToken = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   const authHeader = req.headers["x-auth"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return res.status(404).json({ error: "Token not found" });
@@ -12,4 +12,4 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-module.exports = authenticateToken;
+module.exports = authMiddleware;

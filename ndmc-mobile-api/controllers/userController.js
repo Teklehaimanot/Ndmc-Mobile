@@ -39,12 +39,12 @@ const createUser = async (req, res) => {
       password: passwordHash,
     });
     console.log(user);
-    const userData = _.pick(user, ["_id", "email"]);
+    const userData = _.pick(user, ["_id", "email", "role"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
       token: `Bearer ${accessToken}`,
-      user: { name, email, role: user.role },
+      user: { _id: user._id, name, email, role: user.role },
     });
   } catch (err) {
     console.log({ error: err });
@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
         .json({ error: "Invalid detail please check password and username!" });
     }
 
-    const userData = _.pick(user[0], ["_id", "email"]);
+    const userData = _.pick(user[0], ["_id", "email", "role"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
@@ -92,7 +92,6 @@ const loginUser = async (req, res) => {
 const getAll = async (req, res) => {
   try {
     const user = await User.find().select("-password");
-    console.log(user);
     res.status(200).json({
       success: true,
       user: user,
