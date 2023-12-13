@@ -26,6 +26,10 @@ const createUser = async (req, res) => {
     if (!isValidEmail(email)) {
       return res.status(400).json({ error: "Invalid email format" });
     }
+    const getUserByEmail = await User.find({ email });
+    if (getUserByEmail.length) {
+      return res.status(400).json({ error: "A User exist by this email" });
+    }
     const saltRound = 10;
     const passwordHash = await bcrypt.hash(password, saltRound);
     const user = await User.create({
