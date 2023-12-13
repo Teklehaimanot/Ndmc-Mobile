@@ -88,7 +88,36 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  try {
+    const user = await User.find();
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    const find = await User.findById({ _id: req.params.userId });
+    if (!find) {
+      return res.status(404).json({ error: "dataset not found" });
+    }
+    const deltedUser = await User.deleteOne({ _id: req.params.userId });
+    res.status(200).json({
+      success: true,
+      user: deltedUser,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
 module.exports = {
   createUser,
   loginUser,
+  getAll,
+  deleteUser,
 };
