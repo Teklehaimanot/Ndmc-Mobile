@@ -91,10 +91,9 @@ const loginUser = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const user = await User.find().select("-password");
     res.status(200).json({
       success: true,
-      user: user,
+      user: req.paginatedResults,
     });
   } catch (error) {
     res.status(404).json({ message: error.message });
