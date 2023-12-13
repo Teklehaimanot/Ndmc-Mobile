@@ -11,7 +11,20 @@ const paginationMiddleware = (model) => {
         .select("-password")
         .skip(skip)
         .limit(limit);
-      req.paginatedResults = results;
+      const totalDocuments = await model.countDocuments();
+      const totalPages = Math.ceil(totalDocuments / limit);
+
+      const paginationInfo = {
+        currentPage: page,
+        totalPages: totalPages,
+        nextPage: page < totalPages ? page + 1 : null,
+        prevPage: page > 1 ? page - 1 : null,
+      };
+      req.paginatedResults = {
+        success: true,
+        pagination: paginationInfo,
+        data: results,
+      };
       next();
     } catch (error) {
       console.error("Error fetching paginated data:", error);

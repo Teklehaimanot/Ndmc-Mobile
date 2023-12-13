@@ -91,10 +91,7 @@ const loginUser = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    res.status(200).json({
-      success: true,
-      user: req.paginatedResults,
-    });
+    res.status(200).json(req.paginatedResults);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
