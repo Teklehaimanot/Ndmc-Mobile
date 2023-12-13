@@ -14,7 +14,7 @@ const createUser = async (req, res) => {
   ]);
 
   try {
-    if (!name || !email || !role || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({ error: "all fileds are required" });
     }
 
@@ -38,12 +38,13 @@ const createUser = async (req, res) => {
       role: role,
       password: passwordHash,
     });
+    console.log(user);
     const userData = _.pick(user, ["_id", "email"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
       token: `Bearer ${accessToken}`,
-      user: { name, email, role },
+      user: { name, email, role: user.role },
     });
   } catch (err) {
     console.log({ error: err });
@@ -90,7 +91,8 @@ const loginUser = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    const user = await User.find();
+    const user = await User.find().select("-password");
+    console.log(user);
     res.status(200).json({
       success: true,
       user: user,
@@ -100,6 +102,22 @@ const getAll = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.params.userId }).select(
+      "-password"
+    );
+    if (!user) {
+      return res.status(400).json({ error: "user not found" });
+    }
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
 const deleteUser = async (req, res) => {
   try {
     const find = await User.findById({ _id: req.params.userId });
@@ -119,5 +137,6 @@ module.exports = {
   createUser,
   loginUser,
   getAll,
+  getUserById,
   deleteUser,
 };
