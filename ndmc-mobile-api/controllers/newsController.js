@@ -32,8 +32,8 @@ const uploadAsync = (req, res) => {
 };
 
 const createNews = async (req, res) => {
-  await uploadAsync(req, res);
   try {
+    await uploadAsync(req, res);
     const imagePath = req.file ? req.file.path : null;
     const { title, description, date } = req.body;
 
@@ -112,21 +112,50 @@ const updateNews = async (req, res) => {
     const { newsId } = req.params;
     const { title, description, date } = req.body;
 
-    const news = await News.findByIdAndUpdate(
-      newsId,
-      { title, description, date },
-      { new: true }
-    );
+    await uploadAsync(req, res);
+    const updatedImagePath = req.file ? req.file.path : null;
 
-    if (!news) {
+    const updatedFields = {
+      title,
+      description,
+      date,
+      // Add the image field only if an updated image is provided
+      ...(updatedImagePath && { image: updatedImagePath }),
+    };
+
+    // Use findByIdAndUpdate to update the news by ID
+    const updatedNews = await News.findByIdAndUpdate(newsId, updatedFields, {
+      new: true,
+    });
+
+    if (!updatedNews) {
       return res.status(404).json({ error: "News not found" });
     }
 
-    res.status(200).json(news);
+    res.status(200).json(updatedNews);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+  //   try {
+  //     const { newsId } = req.params;
+  //     const { title, description, date } = req.body;
+
+  //     const news = await News.findByIdAndUpdate(
+  //       newsId,
+  //       { title, description, date },
+  //       { new: true }
+  //     );
+
+  //     if (!news) {
+  //       return res.status(404).json({ error: "News not found" });
+  //     }
+
+  //     res.status(200).json(news);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.status(500).json({ error: "Internal Server Error" });
+  //   }
 };
 
 module.exports = {

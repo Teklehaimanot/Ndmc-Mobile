@@ -20,6 +20,6 @@ newsRouter.post(
   authMiddleware,
   newsController.createComment
 );
-newsRouter.put("/:newsId", newsController.updateNews);
+newsRouter.patch("/:newsId", newsController.updateNews);
 
 module.exports = newsRouter;
