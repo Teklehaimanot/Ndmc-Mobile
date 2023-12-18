@@ -7,6 +7,7 @@ require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("news"));
 
 app.get("/", (req, res) => {
   res.send("We are on the home page");
