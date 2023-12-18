@@ -21,6 +21,11 @@ newsRouter.post(
   newsController.createComment
 );
 newsRouter.patch("/:newsId", newsController.updateNews);
-newsRouter.delete("/:newsId", newsController.deleteNewsById);
+newsRouter.delete(
+  "/:newsId",
+  authMiddleware,
+  roleMiddleware("admin"),
+  newsController.deleteNewsById
+);
 
 module.exports = newsRouter;

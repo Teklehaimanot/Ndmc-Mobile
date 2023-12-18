@@ -17,6 +17,11 @@ userRouter.get(
   userController.getAll
 );
 userRouter.get("/:userId", userController.getUserById);
-userRouter.delete("/:userId", userController.deleteUser);
+userRouter.delete(
+  "/:userId",
+  authMiddleware,
+  roleMiddleware("admin"),
+  userController.deleteUser
+);
 
 module.exports = userRouter;
