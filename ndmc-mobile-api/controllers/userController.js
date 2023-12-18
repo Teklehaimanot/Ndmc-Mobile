@@ -120,10 +120,7 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "dataset not found" });
     }
     const deltedUser = await User.deleteOne({ _id: req.params.userId });
-    res.status(204).json({
-      success: true,
-      user: deltedUser,
-    });
+    res.status(204).end();
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
