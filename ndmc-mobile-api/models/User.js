@@ -19,6 +19,12 @@ const UserSchema = {
     type: String,
     required: true,
   },
+  profileImage: {
+    type: String,
+  },
+  bio: {
+    type: String,
+  },
 };
 
 module.exports = mongoose.model("users", UserSchema);

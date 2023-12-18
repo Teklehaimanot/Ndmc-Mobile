@@ -48,7 +48,7 @@ const createUser = async (req, res) => {
     });
   } catch (err) {
     console.log({ error: err });
-    res.status(400).json({ Error: err.message });
+    res.status(500).json({ Error: "Internal Server Error" });
   }
 };
 
@@ -85,7 +85,7 @@ const loginUser = async (req, res) => {
     });
   } catch (err) {
     console.log({ error: err });
-    res.status(400).json({ Error: err.message });
+    res.status(500).json({ Error: "Internal Server Error" });
   }
 };
 
@@ -93,7 +93,7 @@ const getAll = async (req, res) => {
   try {
     res.status(200).json(req.paginatedResults);
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -103,14 +103,14 @@ const getUserById = async (req, res) => {
       "-password"
     );
     if (!user) {
-      return res.status(400).json({ error: "user not found" });
+      return res.status(404).json({ error: "user not found" });
     }
     res.status(200).json({
       success: true,
       user: user,
     });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 const deleteUser = async (req, res) => {
@@ -120,12 +120,12 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "dataset not found" });
     }
     const deltedUser = await User.deleteOne({ _id: req.params.userId });
-    res.status(200).json({
+    res.status(204).json({
       success: true,
       user: deltedUser,
     });
   } catch (error) {
-    res.status(404).json({ message: error.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 module.exports = {

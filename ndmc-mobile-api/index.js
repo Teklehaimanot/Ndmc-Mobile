@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/user", require("./routes/userRoutes"));
+app.use("/api/v1/news", require("./routes/newsRoutes"));
 
 mongoose.connect(process.env.DB_CONNECTION, {
   useNewUrlParser: true,
