@@ -70,10 +70,13 @@ const createComment = async (req, res) => {
   }
 };
 
-module.exports = {
-  createComment,
+const getAll = async (req, res) => {
+  try {
+    res.status(200).json(req.paginatedResults);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
-
 const uploadAsync = (req, res) => {
   return new Promise((resolve, reject) => {
     upload(req, res, (err) => {
@@ -88,4 +91,5 @@ const uploadAsync = (req, res) => {
 module.exports = {
   createNews,
   createComment,
+  getAll,
 };
