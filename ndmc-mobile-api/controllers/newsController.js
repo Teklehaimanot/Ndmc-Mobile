@@ -19,6 +19,18 @@ const upload = multer({
   limits: { fileSize: 1000000 }, // Optional: Limit the file size (1 MB in this case)
 }).single("image");
 
+const uploadAsync = (req, res) => {
+  return new Promise((resolve, reject) => {
+    upload(req, res, (err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
 const createNews = async (req, res) => {
   await uploadAsync(req, res);
   try {
@@ -66,30 +78,38 @@ const createComment = async (req, res) => {
     res.status(201).json(updatedNews);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-const getAll = async (req, res) => {
+const getAllNews = async (req, res) => {
   try {
     res.status(200).json(req.paginatedResults);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-const uploadAsync = (req, res) => {
-  return new Promise((resolve, reject) => {
-    upload(req, res, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
+
+const getNewsById = async (req, res) => {
+  try {
+    const { newsId } = req.params;
+
+    const news = await News.findById(newsId);
+
+    if (!news) {
+      return res.status(404).json({ error: "News not found" });
+    }
+
+    res.status(200).json(news);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
+
 module.exports = {
   createNews,
   createComment,
-  getAll,
+  getAllNews,
+  getNewsById,
 };

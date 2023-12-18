@@ -13,7 +13,8 @@ newsRouter.post(
   roleMiddleware("admin"),
   newsController.createNews
 );
-newsRouter.get("/", paginationMiddleware(News), newsController.getAll);
+newsRouter.get("/", paginationMiddleware(News), newsController.getAllNews);
+newsRouter.get("/:newsId", newsController.getNewsById);
 newsRouter.post(
   "/createComment/:newsId",
   authMiddleware,
