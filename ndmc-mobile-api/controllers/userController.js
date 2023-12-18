@@ -38,7 +38,6 @@ const createUser = async (req, res) => {
       role: role,
       password: passwordHash,
     });
-    console.log(user);
     const userData = _.pick(user, ["_id", "email", "role"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
