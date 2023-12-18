@@ -31,7 +31,7 @@ const newsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User", // Reference to a User model if you have one
       },
-      text: {
+      comment: {
         type: String,
         required: true,
       },

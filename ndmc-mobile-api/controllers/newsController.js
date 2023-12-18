@@ -1,4 +1,5 @@
 const News = require("../models/News");
+const User = require("../models/User");
 const _ = require("lodash");
 const multer = require("multer");
 const path = require("path");
@@ -42,6 +43,37 @@ const createNews = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  try {
+    const { userId, commentText } = req.body;
+    const { newsId } = req.params;
+
+    const news = await News.findById(newsId);
+
+    if (!news) {
+      return res.status(404).json({ error: "News not found" });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    news.comments.push({ user: userId, comment: commentText });
+    const updatedNews = await news.save();
+
+    res.status(201).json(updatedNews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createComment,
+};
+
 const uploadAsync = (req, res) => {
   return new Promise((resolve, reject) => {
     upload(req, res, (err) => {
@@ -55,4 +87,5 @@ const uploadAsync = (req, res) => {
 };
 module.exports = {
   createNews,
+  createComment,
 };
