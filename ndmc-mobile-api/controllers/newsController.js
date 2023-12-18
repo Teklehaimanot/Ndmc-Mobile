@@ -107,9 +107,32 @@ const getNewsById = async (req, res) => {
   }
 };
 
+const updateNews = async (req, res) => {
+  try {
+    const { newsId } = req.params;
+    const { title, description, date } = req.body;
+
+    const news = await News.findByIdAndUpdate(
+      newsId,
+      { title, description, date },
+      { new: true }
+    );
+
+    if (!news) {
+      return res.status(404).json({ error: "News not found" });
+    }
+
+    res.status(200).json(news);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createNews,
   createComment,
   getAllNews,
   getNewsById,
+  updateNews,
 };
