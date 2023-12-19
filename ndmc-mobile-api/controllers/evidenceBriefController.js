@@ -114,9 +114,64 @@ const getEvidenceBriefById = async (req, res) => {
   }
 };
 
+const updateEvidenceBrief = async (req, res) => {
+  const { evidenceBriefId } = req.params;
+
+  try {
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({
+          error: "File upload failed",
+        });
+      }
+
+      const imagePath = req.files?.image ? req.files.image[0].path : null;
+      const pdfPath = req.files?.pdf ? req.files.pdf[0].path : null;
+
+      const { title, description, date } = req.body;
+
+      if (!title || !description) {
+        return res.status(400).json({
+          error: "Title and description are required",
+        });
+      }
+
+      // Find the evidence brief by ID
+      const evidenceBrief = await EvidenceBrief.findById(evidenceBriefId);
+
+      if (!evidenceBrief) {
+        return res.status(404).json({
+          error: "Evidence Brief not found",
+        });
+      }
+
+      // Update evidence brief properties
+      evidenceBrief.title = title;
+      evidenceBrief.description = description;
+      evidenceBrief.date = date || evidenceBrief.date;
+
+      // Update image and PDF paths if provided
+      if (imagePath) {
+        evidenceBrief.image = imagePath;
+      }
+      if (pdfPath) {
+        evidenceBrief.pdf = pdfPath;
+      }
+
+      // Save the updated evidence brief
+      const updatedEvidenceBrief = await evidenceBrief.save();
+      res.status(200).json(updatedEvidenceBrief);
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createEvidenceBrief,
   createComment,
   getAllEvidenceBriefs,
   getEvidenceBriefById,
+  updateEvidenceBrief,
 };

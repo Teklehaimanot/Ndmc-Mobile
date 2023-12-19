@@ -108,34 +108,45 @@ const getNewsById = async (req, res) => {
 };
 
 const updateNews = async (req, res) => {
+  const { newsId } = req.params;
+
   try {
-    const { newsId } = req.params;
-    const { title, description, date } = req.body;
+    upload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({
+          error: "File upload failed",
+        });
+      }
 
-    await uploadAsync(req, res);
-    const updatedImagePath = req.file ? req.file.path : null;
+      const imagePath = req.file ? req.file.path : null;
+      const { title, description, date } = req.body;
 
-    const updatedFields = {
-      title,
-      description,
-      date,
-      // Add the image field only if an updated image is provided
-      ...(updatedImagePath && { image: updatedImagePath }),
-    };
+      if (!title || !description) {
+        return res.status(400).json({
+          error: "Title and description are required",
+        });
+      }
 
-    // Use findByIdAndUpdate to update the news by ID
-    const updatedNews = await News.findByIdAndUpdate(newsId, updatedFields, {
-      new: true,
+      const news = await News.findById(newsId);
+
+      if (!news) {
+        return res.status(404).json({
+          error: "Evidence Brief not found",
+        });
+      }
+      news.title = title;
+      news.description = description;
+      news.date = date || news.date;
+
+      if (imagePath) {
+        news.image = imagePath;
+      }
+      const updatedNews = await news.save();
+      res.status(200).json(updatedNews);
     });
-
-    if (!updatedNews) {
-      return res.status(404).json({ error: "News not found" });
-    }
-
-    res.status(200).json(updatedNews);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 

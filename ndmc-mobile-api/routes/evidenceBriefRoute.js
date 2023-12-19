@@ -28,4 +28,9 @@ evidenceBriefRouter.get(
   evidenceBriefController.getEvidenceBriefById
 );
 
+evidenceBriefRouter.patch(
+  "/:evidenceBriefId",
+  evidenceBriefController.updateEvidenceBrief
+);
+
 module.exports = evidenceBriefRouter;
