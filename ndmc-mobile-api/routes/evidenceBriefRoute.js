@@ -30,10 +30,14 @@ evidenceBriefRouter.get(
 
 evidenceBriefRouter.patch(
   "/:evidenceBriefId",
+  authMiddleware,
+  roleMiddleware("admin"),
   evidenceBriefController.updateEvidenceBrief
 );
 evidenceBriefRouter.delete(
   "/:evidenceBriefId",
+  authMiddleware,
+  roleMiddleware("admin"),
   evidenceBriefController.deleteEvidenceBriefById
 );
 
