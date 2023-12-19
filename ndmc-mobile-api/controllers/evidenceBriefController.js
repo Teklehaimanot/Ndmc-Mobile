@@ -168,10 +168,29 @@ const updateEvidenceBrief = async (req, res) => {
   }
 };
 
+const deleteEvidenceBriefById = async (req, res) => {
+  try {
+    const { evidenceBriefId } = req.params;
+    const deletedEvidenceBrief = await EvidenceBrief.findByIdAndDelete(
+      evidenceBriefId
+    );
+
+    if (!deletedEvidenceBrief) {
+      return res.status(404).json({ error: "Evidence Brief not found" });
+    }
+
+    res.status(204).end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createEvidenceBrief,
   createComment,
   getAllEvidenceBriefs,
   getEvidenceBriefById,
   updateEvidenceBrief,
+  deleteEvidenceBriefById,
 };

@@ -32,5 +32,9 @@ evidenceBriefRouter.patch(
   "/:evidenceBriefId",
   evidenceBriefController.updateEvidenceBrief
 );
+evidenceBriefRouter.delete(
+  "/:evidenceBriefId",
+  evidenceBriefController.deleteEvidenceBriefById
+);
 
 module.exports = evidenceBriefRouter;
