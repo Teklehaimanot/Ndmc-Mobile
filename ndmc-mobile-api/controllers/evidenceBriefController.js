@@ -70,7 +70,7 @@ const createComment = async (req, res) => {
     const evidenceBrief = await EvidenceBrief.findById(evidenceBriefId);
 
     if (!evidenceBrief) {
-      return res.status(404).json({ error: "News not found" });
+      return res.status(404).json({ error: "Evidence Brief not found" });
     }
 
     const user = await User.findById(userId);
@@ -97,8 +97,26 @@ const getAllEvidenceBriefs = async (req, res) => {
   }
 };
 
+const getEvidenceBriefById = async (req, res) => {
+  try {
+    const { evidenceBriefId } = req.params;
+
+    const evidenceBrief = await EvidenceBrief.findById(evidenceBriefId);
+
+    if (!evidenceBrief) {
+      return res.status(404).json({ error: "Evidence Brief not found" });
+    }
+
+    res.status(200).json(evidenceBrief);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createEvidenceBrief,
   createComment,
   getAllEvidenceBriefs,
+  getEvidenceBriefById,
 };
