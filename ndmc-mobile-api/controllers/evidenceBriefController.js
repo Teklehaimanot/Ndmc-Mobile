@@ -136,7 +136,6 @@ const updateEvidenceBrief = async (req, res) => {
         });
       }
 
-      // Find the evidence brief by ID
       const evidenceBrief = await EvidenceBrief.findById(evidenceBriefId);
 
       if (!evidenceBrief) {
@@ -145,20 +144,16 @@ const updateEvidenceBrief = async (req, res) => {
         });
       }
 
-      // Update evidence brief properties
       evidenceBrief.title = title;
       evidenceBrief.description = description;
       evidenceBrief.date = date || evidenceBrief.date;
 
-      // Update image and PDF paths if provided
       if (imagePath) {
         evidenceBrief.image = imagePath;
       }
       if (pdfPath) {
         evidenceBrief.pdf = pdfPath;
       }
-
-      // Save the updated evidence brief
       const updatedEvidenceBrief = await evidenceBrief.save();
       res.status(200).json(updatedEvidenceBrief);
     });
