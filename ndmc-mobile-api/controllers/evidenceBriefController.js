@@ -88,7 +88,17 @@ const createComment = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+const getAllEvidenceBriefs = async (req, res) => {
+  try {
+    res.status(200).json(req.paginatedResults);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   createEvidenceBrief,
   createComment,
+  getAllEvidenceBriefs,
 };
