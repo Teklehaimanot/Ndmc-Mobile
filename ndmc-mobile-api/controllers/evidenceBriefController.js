@@ -62,6 +62,33 @@ const createEvidenceBrief = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  try {
+    const { userId, commentText } = req.body;
+    const { evidenceBriefId } = req.params;
+
+    const evidenceBrief = await EvidenceBrief.findById(evidenceBriefId);
+
+    if (!evidenceBrief) {
+      return res.status(404).json({ error: "News not found" });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    evidenceBrief.comments.push({ user: userId, comment: commentText });
+    const updatedEvidenceBrief = await evidenceBrief.save();
+
+    res.status(201).json(updatedEvidenceBrief);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 module.exports = {
   createEvidenceBrief,
+  createComment,
 };
