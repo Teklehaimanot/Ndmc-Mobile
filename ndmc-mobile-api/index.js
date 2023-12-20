@@ -16,6 +16,7 @@ app.get("/", (req, res) => {
 app.use("/api/v1/user", require("./routes/userRoutes"));
 app.use("/api/v1/news", require("./routes/newsRoutes"));
 app.use("/api/v1/evidenceBrief", require("./routes/evidenceBriefRoute"));
+app.use("/api/v1/aboutNdmc", require("./routes/aboutNdmcRoute"));
 
 mongoose.connect(process.env.DB_CONNECTION, {
   useNewUrlParser: true,
