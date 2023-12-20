@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const newsSchema = new mongoose.Schema({
+const aboutNdmcSchema = new mongoose.Schema({
   directorStatement: {
     title: {
       type: String,
@@ -35,6 +35,6 @@ const newsSchema = new mongoose.Schema({
   },
 });
 
-const AboutNdmc = mongoose.model("AboutNdmc", newsSchema);
+const AboutNdmc = mongoose.model("AboutNdmc", aboutNdmcSchema);
 
 module.exports = AboutNdmc;
