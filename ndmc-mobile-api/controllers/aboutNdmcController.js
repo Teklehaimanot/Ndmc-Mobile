@@ -53,6 +53,36 @@ const getAboutNdmc = async (req, res) => {
   }
 };
 
+const updateAboutData = async (req, res) => {
+  try {
+    const { directorStatement, strategies, aboutUs, vision, mission } =
+      req.body;
+
+    if (
+      !directorStatement.title ||
+      !directorStatement.description ||
+      !strategies.title ||
+      !strategies.description ||
+      !aboutUs ||
+      !vision ||
+      !mission
+    ) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const updatedAbout = await AboutNdmc.findOneAndUpdate(
+      {},
+      { directorStatement, strategies, aboutUs, vision, mission },
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json(updatedAbout);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteAllAboutData = async (req, res) => {
   try {
     const result = await AboutNdmc.deleteMany({});
@@ -68,4 +98,5 @@ module.exports = {
   createAbout,
   getAboutNdmc,
   deleteAllAboutData,
+  updateAboutData,
 };

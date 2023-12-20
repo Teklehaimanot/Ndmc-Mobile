@@ -19,4 +19,11 @@ aboutNdmcRouter.delete(
   aboutNdmcController.deleteAllAboutData
 );
 
+aboutNdmcRouter.put(
+  "/",
+  authMiddleware,
+  roleMiddleware("admin"),
+  aboutNdmcController.updateAboutData
+);
+
 module.exports = aboutNdmcRouter;
