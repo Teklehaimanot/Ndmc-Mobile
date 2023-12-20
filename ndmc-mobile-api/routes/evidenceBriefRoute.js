@@ -41,4 +41,8 @@ evidenceBriefRouter.delete(
   evidenceBriefController.deleteEvidenceBriefById
 );
 
+evidenceBriefRouter.get(
+  "/downloadPdf/:evidenceBriefId",
+  evidenceBriefController.downloadPdf
+);
 module.exports = evidenceBriefRouter;

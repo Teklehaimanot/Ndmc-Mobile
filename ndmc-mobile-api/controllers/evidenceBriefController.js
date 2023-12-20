@@ -2,6 +2,7 @@ const EvidenceBrief = require("../models/EvidenceBrief");
 const User = require("../models/User");
 const _ = require("lodash");
 const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 
 const storage = multer.diskStorage({
@@ -180,6 +181,30 @@ const deleteEvidenceBriefById = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+const downloadPdf = async (req, res) => {
+  const { evidenceBriefId } = req.params;
+  try {
+    const evidenceBrief = await EvidenceBrief.findById(evidenceBriefId);
+
+    if (!evidenceBrief || !evidenceBrief.pdf) {
+      return res.status(404).json({ error: "PDF not found" });
+    }
+
+    const pdfPath = evidenceBrief.pdf;
+
+    res.setHeader(
+      "Content-disposition",
+      "attachment; filename=" + path.basename(pdfPath)
+    );
+    res.setHeader("Content-type", "application/pdf");
+
+    const pdfStream = fs.createReadStream(pdfPath);
+    pdfStream.pipe(res);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 module.exports = {
   createEvidenceBrief,
@@ -188,4 +213,5 @@ module.exports = {
   getEvidenceBriefById,
   updateEvidenceBrief,
   deleteEvidenceBriefById,
+  downloadPdf,
 };
