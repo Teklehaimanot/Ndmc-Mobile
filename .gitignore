@@ -19,6 +19,7 @@ ndmc-web-app/coverage
 ndmc-web-app/build
 
 # misc
+.DS_Store
 ndmc-web-app/.DS_Store
 ndmc-web-app/.env.local
 ndmc-web-app/.env.development.local
