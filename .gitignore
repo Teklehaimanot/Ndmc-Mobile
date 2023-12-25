@@ -1,3 +1,30 @@
+
+# for back-end api
 ndmc-mobile-api/.env
 ndmc-mobile-api/node_modules
 ndmc-mobile-api/uploads
+
+
+# for front-end web
+
+# dependencies
+ndmc-web-app/node_modules
+ndmc-web-app/.pnp
+ndmc-web-app/.pnp.js
+
+# testing
+ndmc-web-app/coverage
+
+# production
+ndmc-web-app/build
+
+# misc
+ndmc-web-app/.DS_Store
+ndmc-web-app/.env.local
+ndmc-web-app/.env.development.local
+ndmc-web-app/.env.test.local
+ndmc-web-app/.env.production.local
+
+ndmc-web-app/npm-debug.log*
+ndmc-web-app/yarn-debug.log*
+ndmc-web-app/yarn-error.log*
