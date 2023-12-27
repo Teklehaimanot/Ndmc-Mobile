@@ -11,6 +11,7 @@ module.exports = {
     colors: {
       primary: "#87C767",
       secondary: "#fff",
+      error: "#EA526F",
       transparent: "transparent",
       current: "currentColor",
       blue: "#1fb6ff",
