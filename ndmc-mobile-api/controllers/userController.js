@@ -80,7 +80,12 @@ const loginUser = async (req, res) => {
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
       token: `Bearer ${accessToken}`,
-      role: user[0].role,
+      user: {
+        id: user[0]._id,
+        name: user[0].name,
+        email: user[0].email,
+        role: user[0].role,
+      },
     });
   } catch (err) {
     console.log({ error: err });
