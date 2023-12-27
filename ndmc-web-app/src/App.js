@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "./state/auth/authSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import User from "./pages/User";
+import { Dashboard } from "./pages/Dashboard";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -25,7 +27,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectedRoutes />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />}>
+            <Route index element={<Dashboard />} />
+            <Route path="/user" element={<User />} />
+          </Route>
         </Route>
         <Route
           path="/auth"
@@ -34,6 +39,9 @@ function App() {
           <Route index element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
         </Route>
+        {/* <Route element={<ProtectedRoutes />}>
+          <Route path="/user" element={<User />} />
+        </Route> */}
         <Route
           path="*"
           element={!isAuthenticated ? <NotFound /> : <Navigate to="/" />}
