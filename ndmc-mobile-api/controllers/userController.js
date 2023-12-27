@@ -6,15 +6,16 @@ const isValidEmail = require("../utility/validateEmail");
 require("dotenv/config");
 
 const createUser = async (req, res) => {
-  let { name, email, role, password } = _.pick(req.body, [
+  let { name, email, role, password, confirmPassword } = _.pick(req.body, [
     "name",
     "email",
     "role",
     "password",
+    "confirmPassword",
   ]);
 
   try {
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       return res.status(400).json({ error: "all fileds are required" });
     }
 
@@ -22,6 +23,11 @@ const createUser = async (req, res) => {
       return res
         .status(400)
         .json({ error: "Min password length should be atleast 7" });
+    }
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: "Passwords do not match. Please check and try again" });
     }
     if (!isValidEmail(email)) {
       return res.status(400).json({ error: "Invalid email format" });
