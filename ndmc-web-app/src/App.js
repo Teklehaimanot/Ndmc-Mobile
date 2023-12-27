@@ -34,7 +34,10 @@ function App() {
           <Route index element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="*"
+          element={!isAuthenticated ? <NotFound /> : <Navigate to="/" />}
+        />
       </Routes>
     </BrowserRouter>
   );
