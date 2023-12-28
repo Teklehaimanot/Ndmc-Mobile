@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "./state/auth/authSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import User from "./pages/User";
-import { Dashboard } from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
