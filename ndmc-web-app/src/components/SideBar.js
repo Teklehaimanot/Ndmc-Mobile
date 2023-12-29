@@ -5,11 +5,9 @@ import {
   FaRegHandshake,
 } from "react-icons/fa";
 import { FaUsersRays } from "react-icons/fa6";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 const SideBar = () => {
-  const dispatch = useDispatch();
   return (
     <div className="w-1/5 bg-blue-dark">
       <ul className="space-y-6 py-5 px-2 w-2/3">

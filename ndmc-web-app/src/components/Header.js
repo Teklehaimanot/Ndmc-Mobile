@@ -17,7 +17,7 @@ const Header = () => {
       localStorage.removeItem("token");
     }
   };
-  console.log("u", user);
+
   return (
     <div className="flex flex-row justify-between bg-primary text-secondary py-4 items-center border-b border-black shadow-md">
       <div className="mx-5 flex flex-row justify-between items-center space-x-1">

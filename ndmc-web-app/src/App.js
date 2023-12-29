@@ -12,6 +12,7 @@ import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
 import UserRegister from "./components/UserRegister";
 import UserManagement from "./components/UserManagement";
+import UserUpdate from "./components/UserUpdate";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -34,6 +35,7 @@ function App() {
             <Route path="user" element={<User />}>
               <Route index element={<UserManagement />} />
               <Route path="register" element={<UserRegister />} />
+              <Route path=":userId" element={<UserUpdate />}></Route>
             </Route>
           </Route>
         </Route>

@@ -1,6 +1,39 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+
+const PopupDelete = () => (
+  <Popup
+    trigger={
+      <button>
+        <MdDeleteOutline className="text-2xl hover:text-error" />
+      </button>
+    }
+    position="left center"
+  >
+    {(close) => (
+      <div className="modal">
+        <div className="content text-error p-2 my-2">
+          Are you sure you want to delete this ?
+        </div>
+        <div>
+          <button
+            className="bg-primary px-3 py-1 rounded text-secondary hover:bg-blue"
+            onClick={() => {
+              console.log("delte");
+              close();
+            }}
+          >
+            Yes
+          </button>
+        </div>
+      </div>
+    )}
+  </Popup>
+);
 
 const UserListView = () => {
   return (
@@ -19,8 +52,14 @@ const UserListView = () => {
           </td>
           <td className="w-1/5 text-center">Maria Anders</td>
           <td className="w-1/5 text-center">Germany</td>
-          <FaEdit className="w-1/5 text-center text-xl hover:text-primary" />
-          <MdDeleteOutline className="w-1/5 text-center text-2xl hover:text-error" />
+          <td className="w-1/5 text-center">
+            <Link className=" text-xl hover:text-primary" to="tekle">
+              <FaEdit className="mx-auto" />
+            </Link>
+          </td>
+          <td className="w-1/5 text-center">
+            <PopupDelete />
+          </td>
         </tr>
         <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark">
           <td className="w-1/5 text-center">
@@ -28,8 +67,14 @@ const UserListView = () => {
           </td>
           <td className="w-1/5 text-center">Maria Anders</td>
           <td className="w-1/5 text-center">Germany</td>
-          <FaEdit className="w-1/5 text-center text-xl hover:text-primary" />
-          <MdDeleteOutline className="w-1/5 text-center text-2xl hover:text-error" />
+          <td className="w-1/5 text-center">
+            <Link className=" text-xl hover:text-primary" to="tekle">
+              <FaEdit className="mx-auto" />
+            </Link>
+          </td>
+          <td className="w-1/5 text-center">
+            <PopupDelete />
+          </td>
         </tr>
         <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark">
           <td className="w-1/5 text-center">
@@ -37,8 +82,14 @@ const UserListView = () => {
           </td>
           <td className="w-1/5 text-center">Maria Anders</td>
           <td className="w-1/5 text-center">Germany</td>
-          <FaEdit className="w-1/5 text-center text-xl hover:text-primary" />
-          <MdDeleteOutline className="w-1/5 text-center text-2xl hover:text-error" />
+          <td className="w-1/5 text-center">
+            <Link className=" text-xl hover:text-primary" to="tekle">
+              <FaEdit className="mx-auto" />
+            </Link>
+          </td>
+          <td className="w-1/5 text-center">
+            <PopupDelete />
+          </td>
         </tr>
       </table>
     </div>
