@@ -24,5 +24,6 @@ userRouter.delete(
   userController.deleteUser
 );
 userRouter.get("/logout/:userId", userController.logoutUser);
+userRouter.patch("/:userId", userController.updateUser);
 
 module.exports = userRouter;

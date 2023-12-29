@@ -76,7 +76,6 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid email format" });
     }
     const user = await User.find({ email });
-    console.log(user);
     if (!user.length) {
       return res.status(400).json({ error: "User not found!" });
     }
@@ -127,6 +126,42 @@ const logoutUser = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  const { name, email, password, role, confirmPassword } = req.body;
+  try {
+    if (!name || !email || !password || !role || !confirmPassword) {
+      return res.status(400).json({ error: "all fileds are required" });
+    }
+    if (password && password.length < 7) {
+      return res
+        .status(400)
+        .json({ error: "Min password length should be atleast 7" });
+    }
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: "Passwords do not match. Please check and try again" });
+    }
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+    const user = await User.findById({ _id: req.params.userId });
+    if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
+    (user.name = name),
+      (user.email = email),
+      (user.password = password),
+      (user.role = role);
+
+    const updatedUser = await user.save();
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getAll = async (req, res) => {
   try {
     res.status(200).json(req.paginatedResults);
@@ -170,4 +205,5 @@ module.exports = {
   getUserById,
   deleteUser,
   logoutUser,
+  updateUser,
 };
