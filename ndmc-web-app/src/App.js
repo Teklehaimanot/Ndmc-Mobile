@@ -10,6 +10,8 @@ import { login } from "./state/auth/authSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
+import UserRegister from "./components/UserRegister";
+import UserManagement from "./components/UserManagement";
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -29,7 +31,10 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<Home />}>
             <Route index element={<Dashboard />} />
-            <Route path="/user" element={<User />} />
+            <Route path="user" element={<User />}>
+              <Route index element={<UserManagement />} />
+              <Route path="register" element={<UserRegister />} />
+            </Route>
           </Route>
         </Route>
         <Route
@@ -39,9 +44,6 @@ function App() {
           <Route index element={<Login />} />
           <Route path="signUp" element={<SignUp />} />
         </Route>
-        {/* <Route element={<ProtectedRoutes />}>
-          <Route path="/user" element={<User />} />
-        </Route> */}
         <Route
           path="*"
           element={!isAuthenticated ? <NotFound /> : <Navigate to="/" />}

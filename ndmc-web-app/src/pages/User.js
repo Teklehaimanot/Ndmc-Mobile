@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
-import SearchBar from "../components/SearchBar";
 import { setCatagory } from "../state/catagory/catagorySlice";
 import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
+import UserManagement from "../components/UserManagement";
 
 const User = () => {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const User = () => {
   }, [dispatch]);
   return (
     <div className="w-4/5 bg-gray-light">
-      <SearchBar />
+      <Outlet />
     </div>
   );
 };

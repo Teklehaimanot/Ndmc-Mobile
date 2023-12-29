@@ -1,4 +1,6 @@
 import { FaRegAddressCard } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const SearchBar = () => {
   return (
     <div className="flex flex-row items-center justify-between border-b border-secondary">
@@ -19,10 +21,13 @@ const SearchBar = () => {
           </button>
         </form>
       </div>
-      <div className="border-1 p-2 rounded-md bg-secondary hover:bg-primary hover:text-secondary m-8 flex flex-row justify-between items-center space-x-2 shadow">
+      <Link
+        to="register"
+        className="border-1 p-2 rounded-md bg-secondary hover:bg-primary hover:text-secondary m-8 flex flex-row justify-between items-center space-x-2 shadow"
+      >
         <FaRegAddressCard />
         <button>New</button>
-      </div>
+      </Link>
     </div>
   );
 };
