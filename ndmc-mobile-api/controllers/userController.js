@@ -43,13 +43,20 @@ const createUser = async (req, res) => {
       email: email,
       role: role,
       password: passwordHash,
+      active: true,
     });
     const userData = _.pick(user, ["_id", "email", "role"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
       token: `Bearer ${accessToken}`,
-      user: { _id: user._id, name, email, role: user.role },
+      user: {
+        _id: user._id,
+        name,
+        email,
+        role: user.role,
+        status: user.active,
+      },
     });
   } catch (err) {
     console.log({ error: err });
