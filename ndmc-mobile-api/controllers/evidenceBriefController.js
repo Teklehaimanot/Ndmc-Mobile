@@ -164,6 +164,19 @@ const updateEvidenceBrief = async (req, res) => {
   }
 };
 
+const searchEvidenceByTitle = async (req, res) => {
+  try {
+    const { title } = req.params;
+    const regex = new RegExp(title, "i");
+    const evidences = await EvidenceBrief.find({ title: regex });
+
+    res.status(200).json(evidences);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteEvidenceBriefById = async (req, res) => {
   try {
     const { evidenceBriefId } = req.params;
@@ -214,4 +227,5 @@ module.exports = {
   updateEvidenceBrief,
   deleteEvidenceBriefById,
   downloadPdf,
+  searchEvidenceByTitle,
 };

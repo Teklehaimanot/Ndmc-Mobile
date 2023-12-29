@@ -150,6 +150,19 @@ const updateNews = async (req, res) => {
   }
 };
 
+const searchNewsByTitle = async (req, res) => {
+  try {
+    const { title } = req.params;
+    const regex = new RegExp(title, "i");
+    const news = await News.find({ title: regex });
+
+    res.status(200).json(news);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteNewsById = async (req, res) => {
   try {
     const { newsId } = req.params;
@@ -173,4 +186,5 @@ module.exports = {
   getNewsById,
   updateNews,
   deleteNewsById,
+  searchNewsByTitle,
 };

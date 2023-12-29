@@ -34,6 +34,11 @@ evidenceBriefRouter.patch(
   roleMiddleware("admin"),
   evidenceBriefController.updateEvidenceBrief
 );
+
+evidenceBriefRouter.get(
+  "/search/:title",
+  evidenceBriefController.searchEvidenceByTitle
+);
 evidenceBriefRouter.delete(
   "/:evidenceBriefId",
   authMiddleware,

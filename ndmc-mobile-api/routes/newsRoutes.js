@@ -21,6 +21,8 @@ newsRouter.post(
   newsController.createComment
 );
 newsRouter.patch("/:newsId", newsController.updateNews);
+newsRouter.get("/search/:title", newsController.searchNewsByTitle);
+// newsRouter.get("/search/:title", newsController.searchNewsByTitle);
 newsRouter.delete(
   "/:newsId",
   authMiddleware,

@@ -186,6 +186,20 @@ const getUserById = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const searchUserByName = async (req, res) => {
+  try {
+    const { name } = req.params;
+    const regex = new RegExp(name, "i");
+    const users = await User.find({ name: regex });
+
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 const deleteUser = async (req, res) => {
   try {
     const find = await User.findById({ _id: req.params.userId });
@@ -206,4 +220,5 @@ module.exports = {
   deleteUser,
   logoutUser,
   updateUser,
+  searchUserByName,
 };

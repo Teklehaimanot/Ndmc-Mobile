@@ -25,5 +25,6 @@ userRouter.delete(
 );
 userRouter.get("/logout/:userId", userController.logoutUser);
 userRouter.patch("/:userId", userController.updateUser);
+userRouter.get("/search/:name", userController.searchUserByName);
 
 module.exports = userRouter;
