@@ -23,5 +23,6 @@ userRouter.delete(
   roleMiddleware("admin"),
   userController.deleteUser
 );
+userRouter.get("/logout/:userId", userController.logoutUser);
 
 module.exports = userRouter;

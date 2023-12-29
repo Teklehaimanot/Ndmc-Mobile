@@ -87,22 +87,43 @@ const loginUser = async (req, res) => {
         .status(400)
         .json({ error: "Invalid detail please check password and username!" });
     }
-
+    user[0].active = true;
+    const updatedUser = await user[0].save();
     const userData = _.pick(user[0], ["_id", "email", "role"]);
     const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET);
     res.header("x-auth", `Bearer ${accessToken}`).json({
       success: true,
       token: `Bearer ${accessToken}`,
       user: {
-        id: user[0]._id,
-        name: user[0].name,
-        email: user[0].email,
-        role: user[0].role,
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+        active: updatedUser.active,
       },
     });
   } catch (err) {
     console.log({ error: err });
     res.status(500).json({ Error: "Internal Server Error" });
+  }
+};
+
+const logoutUser = async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.params.userId }).select(
+      "-password"
+    );
+    if (!user) {
+      return res.status(404).json({ error: "user not found" });
+    }
+    user.active = false;
+    const updatedUser = await user.save();
+    res.status(201).json({
+      success: true,
+      user: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -148,4 +169,5 @@ module.exports = {
   getAll,
   getUserById,
   deleteUser,
+  logoutUser,
 };
