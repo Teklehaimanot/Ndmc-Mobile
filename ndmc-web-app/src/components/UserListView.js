@@ -13,7 +13,7 @@ const UserListView = () => {
           <th className="w-1/5">Edit</th>
           <th className="w-1/5">Delete</th>
         </tr>
-        <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark">
+        <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark text-sm">
           <td className="w-1/5 text-center">
             Alfreds Futterkiste ljsj ljlsj lkjs j
           </td>
