@@ -9,7 +9,7 @@ const User = () => {
     dispatch(setCatagory({ catagory: "User Management" }));
   }, [dispatch]);
   return (
-    <div className="w-4/5 bg-gray-light">
+    <div className=" w-4/5 bg-gray-light ">
       <Outlet />
     </div>
   );

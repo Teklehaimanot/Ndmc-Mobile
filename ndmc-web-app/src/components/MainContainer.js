@@ -3,7 +3,7 @@ import SideBar from "./SideBar";
 
 const MainContainer = () => {
   return (
-    <div className="h-full flex flex-row ">
+    <div className="flex flex-row " style={{ height: "90vh" }}>
       <SideBar />
       <Outlet />
     </div>

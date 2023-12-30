@@ -19,7 +19,10 @@ const Header = () => {
   };
 
   return (
-    <div className="flex flex-row justify-between bg-primary text-secondary py-4 items-center border-b border-black shadow-md">
+    <div
+      className="flex flex-row justify-between bg-primary text-secondary items-center border-b border-black shadow-md "
+      style={{ height: "10vh" }}
+    >
       <div className="mx-5 flex flex-row justify-between items-center space-x-1">
         <div>NDMC</div>
         <IoIosArrowForward />
