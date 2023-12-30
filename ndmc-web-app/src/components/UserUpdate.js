@@ -1,6 +1,6 @@
 import React from "react";
 
-const userUpdate = () => {
+const UserUpdate = () => {
   return (
     <div className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center">
       <div className="text-error">Error message</div>
@@ -48,4 +48,4 @@ const userUpdate = () => {
   );
 };
 
-export default userUpdate;
+export default UserUpdate;

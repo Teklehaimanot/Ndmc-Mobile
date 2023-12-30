@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
+import { useGetUsersQuery } from "../services";
+import Loading from "./Loading";
 
 const PopupDelete = () => (
   <Popup
@@ -36,6 +38,18 @@ const PopupDelete = () => (
 );
 
 const UserListView = () => {
+  const { data, error, isLoading } = useGetUsersQuery();
+
+  console.log("data", data, error, isLoading);
+
+  if (error) {
+    return (
+      <div className="w-full text-center my-4">
+        <h1 className="text-error">{error.data.error}</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full ">
       <table className="w-full flex flex-col justify-between bg-secondary mt-8 py-2">
@@ -46,51 +60,26 @@ const UserListView = () => {
           <th className="w-1/5">Edit</th>
           <th className="w-1/5">Delete</th>
         </tr>
-        <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark text-sm">
-          <td className="w-1/5 text-center">
-            Alfreds Futterkiste ljsj ljlsj lkjs j
-          </td>
-          <td className="w-1/5 text-center">Maria Anders</td>
-          <td className="w-1/5 text-center">Germany</td>
-          <td className="w-1/5 text-center">
-            <Link className=" text-xl hover:text-primary" to="tekle">
-              <FaEdit className="mx-auto" />
-            </Link>
-          </td>
-          <td className="w-1/5 text-center">
-            <PopupDelete />
-          </td>
-        </tr>
-        <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark">
-          <td className="w-1/5 text-center">
-            Alfreds Futterkiste ljsj ljlsj lkjs j
-          </td>
-          <td className="w-1/5 text-center">Maria Anders</td>
-          <td className="w-1/5 text-center">Germany</td>
-          <td className="w-1/5 text-center">
-            <Link className=" text-xl hover:text-primary" to="tekle">
-              <FaEdit className="mx-auto" />
-            </Link>
-          </td>
-          <td className="w-1/5 text-center">
-            <PopupDelete />
-          </td>
-        </tr>
-        <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark">
-          <td className="w-1/5 text-center">
-            Alfreds Futterkiste ljsj ljlsj lkjs j
-          </td>
-          <td className="w-1/5 text-center">Maria Anders</td>
-          <td className="w-1/5 text-center">Germany</td>
-          <td className="w-1/5 text-center">
-            <Link className=" text-xl hover:text-primary" to="tekle">
-              <FaEdit className="mx-auto" />
-            </Link>
-          </td>
-          <td className="w-1/5 text-center">
-            <PopupDelete />
-          </td>
-        </tr>
+        {isLoading && (
+          <div className=" mx-auto">
+            <Loading />
+          </div>
+        )}
+        {data?.data.map((user) => (
+          <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark text-sm">
+            <td className="w-1/5 text-center">{user.name}</td>
+            <td className="w-1/5 text-center">{user.email}</td>
+            <td className="w-1/5 text-center">{user.role}</td>
+            <td className="w-1/5 text-center">
+              <Link className=" text-xl hover:text-primary" to="tekle">
+                <FaEdit className="mx-auto" />
+              </Link>
+            </td>
+            <td className="w-1/5 text-center">
+              <PopupDelete />
+            </td>
+          </tr>
+        ))}
       </table>
     </div>
   );

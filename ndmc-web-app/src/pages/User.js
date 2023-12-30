@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { setCatagory } from "../state/catagory/catagorySlice";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import UserManagement from "../components/UserManagement";
 
 const User = () => {
   const dispatch = useDispatch();
