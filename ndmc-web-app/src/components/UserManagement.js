@@ -3,32 +3,35 @@ import SearchBar from "./SearchBar";
 import UserListView from "./UserListView";
 
 const UserManagement = () => {
+  const [pagination, setPagination] = useState(1);
+
   const [page, setPage] = useState(1);
+
+  console.log(pagination);
   return (
     <>
       <div className="overflow-y-scroll" style={{ height: "90%" }}>
         <SearchBar />
-        <UserListView page={page} />
+        <UserListView page={page} handlePagination={setPagination} />
       </div>
       <div className="bg-primary" style={{ height: "10%" }}>
-        <div className="flex justify-center items-center space-x-2">
+        <div className="flex justify-center items-center space-x-2 w-1/3 m-auto h-full ">
           <button
-            onClick={() => setPage(1)}
-            className="text-gray-700 px-4 py-2 rounded"
+            className="border px-4 py-2 text-secondary hover:bg-blue-dark "
+            onClick={() => setPage(pagination.prevPage)}
+            disabled={pagination.prevPage === null}
           >
-            1
+            previous
+          </button>
+          <button className="px-4 py-2 rounded border bg-gray">
+            {pagination.currentPage}
           </button>
           <button
-            onClick={() => setPage(2)}
-            className="text-gray-700 px-4 py-2 rounded"
+            className="border px-4 py-2 text-secondary hover:bg-blue-dark"
+            onClick={() => setPage(pagination.nextPage)}
+            disabled={pagination.currentPage === pagination.totalPages}
           >
-            2
-          </button>
-          <button
-            onClick={() => setPage(3)}
-            className="text-gray-700 px-4 py-2 rounded"
-          >
-            3
+            Next
           </button>
         </div>
       </div>

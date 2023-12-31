@@ -16,7 +16,7 @@ export const userApi = createApi({
 
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: (page) => `/user/?page=${page}&limit=10`,
+      query: (page) => `/user/?page=${page}&limit=15`,
     }),
   }),
 });

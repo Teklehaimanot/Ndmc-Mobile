@@ -6,7 +6,7 @@ import { useGetUsersQuery } from "../services";
 import Loading from "./Loading";
 import PopupDelete from "./PopupDelete";
 
-const UserListView = ({ page }) => {
+const UserListView = ({ page, handlePagination }) => {
   const { data, error, isLoading } = useGetUsersQuery(page);
 
   console.log("data", data, error, isLoading);
@@ -17,6 +17,10 @@ const UserListView = ({ page }) => {
         <h1 className="text-error">{error.data.error}</h1>
       </div>
     );
+  }
+
+  if (data) {
+    handlePagination(data.pagination);
   }
 
   return (
