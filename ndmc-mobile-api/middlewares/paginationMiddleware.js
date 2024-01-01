@@ -2,16 +2,21 @@ const paginationMiddleware = (model) => {
   return async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const searchName = req.query.name || "";
 
     const skip = (page - 1) * limit;
 
     try {
+      // Build the search query based on the provided name
+      const searchQuery = { name: { $regex: new RegExp(searchName, "i") } };
+
       const results = await model
-        .find()
+        .find(searchQuery)
         .select("-password")
         .skip(skip)
         .limit(limit);
-      const totalDocuments = await model.countDocuments();
+
+      const totalDocuments = await model.countDocuments(searchQuery);
       const totalPages = Math.ceil(totalDocuments / limit);
 
       const paginationInfo = {
@@ -19,12 +24,15 @@ const paginationMiddleware = (model) => {
         totalPages: totalPages,
         nextPage: page < totalPages ? page + 1 : null,
         prevPage: page > 1 ? page - 1 : null,
+        count: totalDocuments,
       };
+
       req.paginatedResults = {
         success: true,
         pagination: paginationInfo,
         data: results,
       };
+
       next();
     } catch (error) {
       console.error("Error fetching paginated data:", error);
