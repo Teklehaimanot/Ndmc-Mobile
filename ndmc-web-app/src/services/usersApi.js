@@ -6,19 +6,27 @@ export const userApi = createApi({
     baseUrl: process.env.REACT_APP_BACKEND_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
-      console.log("tok", token);
-
       if (token) {
         headers.set("x-auth", `${token}`);
       }
     },
   }),
-
+  tagTypes: ["Users"],
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: ({ page, name }) => `/user/?page=${page}&limit=15&name=${name}`,
+      providesTags: ["Users"],
+    }),
+
+    createUser: builder.mutation({
+      query: (newUser) => ({
+        url: "/user",
+        method: "POST",
+        body: newUser,
+      }),
+      invalidatesTags: ["Users"],
     }),
   }),
 });
 
-export const { useGetUsersQuery } = userApi;
+export const { useGetUsersQuery, useCreateUserMutation } = userApi;
