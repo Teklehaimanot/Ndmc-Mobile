@@ -1,7 +1,16 @@
+import { useState } from "react";
 import { FaRegAddressCard } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const SearchBar = () => {
+const SearchBar = ({ handleSearch }) => {
+  const [search, setSearch] = useState("");
+
+  const onChange = (e) => {
+    setSearch(e.target.value);
+    handleSearch(e.target.value);
+  };
+
+  console.log("ss", search);
   return (
     <div className="flex flex-row items-center justify-between border-b border-secondary">
       <div className="m-8 w-1/3 ">
@@ -9,16 +18,10 @@ const SearchBar = () => {
           <input
             className="p-2 rounded-md w-3/4 shadow"
             type="text"
-            value=""
-            onChange=""
-            placeholder="Type to search"
+            value={search}
+            onChange={onChange}
+            placeholder="Type name to search"
           />
-          <button
-            className="p-2 border-1 bg-secondary rounded-md hover:bg-primary hover:text-secondary shadow"
-            type="submit"
-          >
-            Search
-          </button>
         </form>
       </div>
       <Link

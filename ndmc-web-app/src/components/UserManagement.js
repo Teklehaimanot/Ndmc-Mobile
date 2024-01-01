@@ -7,12 +7,17 @@ const UserManagement = () => {
 
   const [page, setPage] = useState(1);
 
-  console.log(pagination);
+  const [searchName, setSearchName] = useState("");
+
   return (
     <>
       <div className="overflow-y-scroll" style={{ height: "90%" }}>
-        <SearchBar />
-        <UserListView page={page} handlePagination={setPagination} />
+        <SearchBar handleSearch={setSearchName} />
+        <UserListView
+          page={page}
+          handlePagination={setPagination}
+          searchName={searchName}
+        />
       </div>
       <div className="bg-primary" style={{ height: "10%" }}>
         <div className="flex justify-center items-center space-x-2 w-1/3 m-auto h-full ">

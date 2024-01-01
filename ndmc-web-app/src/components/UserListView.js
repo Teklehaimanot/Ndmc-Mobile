@@ -5,11 +5,14 @@ import "reactjs-popup/dist/index.css";
 import { useGetUsersQuery } from "../services";
 import Loading from "./Loading";
 import PopupDelete from "./PopupDelete";
+import { useDebounce } from "use-debounce";
 
-const UserListView = ({ page, handlePagination }) => {
-  const { data, error, isLoading } = useGetUsersQuery(page);
-
-  console.log("data", data, error, isLoading);
+const UserListView = ({ page, handlePagination, searchName }) => {
+  const [debouncedValue] = useDebounce(searchName, 500);
+  const { data, error, isLoading } = useGetUsersQuery({
+    page: page,
+    name: debouncedValue,
+  });
 
   if (error) {
     return (
