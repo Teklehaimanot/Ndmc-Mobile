@@ -17,7 +17,14 @@ export const newsApi = createApi({
       query: ({ page, title }) => `/news/?page=${page}&limit=15&title=${title}`,
       providesTags: ["News"],
     }),
+    deleteNews: builder.mutation({
+      query: (newsId) => ({
+        url: `news/${newsId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["News"],
+    }),
   }),
 });
 
-export const { useGetNewsQuery } = newsApi;
+export const { useGetNewsQuery, useDeleteNewsMutation } = newsApi;

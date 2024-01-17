@@ -2,7 +2,7 @@ import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "reactjs-popup/dist/index.css";
-import { useGetUsersQuery } from "../../services";
+import { useDeleteUserMutation, useGetUsersQuery } from "../../services";
 import Loading from "../Loading";
 import PopupDelete from "../PopupDelete";
 import { useDebounce } from "use-debounce";
@@ -13,6 +13,7 @@ const UserListView = ({ page, handlePagination, searchName }) => {
     page: page,
     name: debouncedValue,
   });
+  const [deleteUser] = useDeleteUserMutation();
 
   if (error) {
     return (
@@ -25,6 +26,14 @@ const UserListView = ({ page, handlePagination, searchName }) => {
   if (data) {
     handlePagination(data.pagination);
   }
+
+  const handleDelete = async (userId) => {
+    try {
+      await deleteUser(userId);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
 
   return (
     <div className="w-full ">
@@ -55,7 +64,7 @@ const UserListView = ({ page, handlePagination, searchName }) => {
               </Link>
             </td>
             <td className="w-1/5 text-center">
-              <PopupDelete id={user._id} />
+              <PopupDelete id={user._id} handleDelete={handleDelete} />
             </td>
           </tr>
         ))}

@@ -3,7 +3,7 @@ import Loading from "../Loading";
 import { Link } from "react-router-dom";
 import PopupDelete from "../PopupDelete";
 import { FaEdit } from "react-icons/fa";
-import { useGetNewsQuery } from "../../services";
+import { useDeleteNewsMutation, useGetNewsQuery } from "../../services";
 import { useDebounce } from "use-debounce";
 
 const NewsListView = ({ page, handlePagination, searchName }) => {
@@ -12,6 +12,8 @@ const NewsListView = ({ page, handlePagination, searchName }) => {
     page: page,
     title: debouncedValue,
   });
+
+  const [deleteUser] = useDeleteNewsMutation();
 
   if (error) {
     return (
@@ -25,6 +27,13 @@ const NewsListView = ({ page, handlePagination, searchName }) => {
     handlePagination(data.pagination);
   }
 
+  const handleDelete = async (newsId) => {
+    try {
+      await deleteUser(newsId);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
   return (
     <div className="w-full ">
       <table className="w-full flex flex-col justify-between bg-secondary mt-1 py-2 ">
@@ -56,7 +65,7 @@ const NewsListView = ({ page, handlePagination, searchName }) => {
               </Link>
             </td>
             <td className="w-1/5 text-center">
-              <PopupDelete id={news._id} />
+              <PopupDelete id={news._id} handleDelete={handleDelete} />
             </td>
           </tr>
         ))}
