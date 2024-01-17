@@ -15,6 +15,8 @@ import UserManagement from "./components/user/UserManagement";
 import UserUpdate from "./components/user/UserUpdate";
 import News from "./pages/News";
 import NewsAndEvents from "./components/news/NewsAndEvents";
+import NewsRegister from "./components/news/NewsRegister";
+import NewsUpdate from "./components/news/NewsUpdate";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -40,8 +42,8 @@ function App() {
             </Route>
             <Route path="news" element={<News />}>
               <Route index element={<NewsAndEvents />} />
-              {/* <Route path="register" element={<NewsRegister />} /> */}
-              {/* <Route path=":newsId" element={<NewsUpdate />}></Route> */}
+              <Route path="register" element={<NewsRegister />} />
+              <Route path=":newsId" element={<NewsUpdate />}></Route>
             </Route>
           </Route>
         </Route>

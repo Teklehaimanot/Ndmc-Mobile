@@ -26,7 +26,9 @@ const Header = () => {
       <div className="mx-5 flex flex-row justify-between items-center space-x-1">
         <div>NDMC</div>
         <IoIosArrowForward />
-        <div>{catagory}</div>
+        <div className="border px-2 py-1.5 bg-secondary text-blue border-1 rounded-md  ">
+          {catagory}
+        </div>
       </div>
 
       <div className="flex flex-row w-1/2 justify-end items-center space-x-8 mx-5">
