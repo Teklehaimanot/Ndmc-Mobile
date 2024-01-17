@@ -19,7 +19,7 @@ evidenceBriefRouter.post(
 );
 evidenceBriefRouter.get(
   "/",
-  paginationMiddleware(EvidenceBrief),
+  paginationMiddleware(EvidenceBrief, "title"),
   evidenceBriefController.getAllEvidenceBriefs
 );
 

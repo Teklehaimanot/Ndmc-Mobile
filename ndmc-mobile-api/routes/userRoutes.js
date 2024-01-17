@@ -13,7 +13,7 @@ userRouter.get(
   "/",
   authMiddleware,
   roleMiddleware("admin"),
-  paginationMiddleware(User),
+  paginationMiddleware(User, "name"),
   userController.getAll
 );
 userRouter.get("/:userId", userController.getUserById);

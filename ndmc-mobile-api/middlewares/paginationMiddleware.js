@@ -1,14 +1,16 @@
-const paginationMiddleware = (model) => {
+const paginationMiddleware = (model, searchField = "name") => {
   return async (req, res, next) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    const searchName = req.query.name || "";
+    const searchString = req.query[searchField] || "";
 
     const skip = (page - 1) * limit;
 
     try {
       // Build the search query based on the provided name
-      const searchQuery = { name: { $regex: new RegExp(searchName, "i") } };
+      const searchQuery = {
+        [searchField]: { $regex: new RegExp(searchString, "i") },
+      };
 
       const results = await model
         .find(searchQuery)
