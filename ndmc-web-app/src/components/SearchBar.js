@@ -10,7 +10,6 @@ const SearchBar = ({ handleSearch }) => {
     handleSearch(e.target.value);
   };
 
-  console.log("ss", search);
   return (
     <div className="flex flex-row items-center justify-between border-b border-secondary">
       <div className="m-8 w-1/3 ">

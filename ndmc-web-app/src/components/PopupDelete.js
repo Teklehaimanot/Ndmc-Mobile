@@ -1,7 +1,18 @@
 import React from "react";
 import Popup from "reactjs-popup";
 import { MdDeleteOutline } from "react-icons/md";
-const PopupDelete = () => {
+import { useDeleteUserMutation } from "../services";
+const PopupDelete = ({ id }) => {
+  const [deleteUser] = useDeleteUserMutation();
+
+  const handleDelete = async () => {
+    try {
+      await deleteUser(id);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
   return (
     <Popup
       trigger={
@@ -16,11 +27,19 @@ const PopupDelete = () => {
           <div className="content text-error p-2 my-2">
             Are you sure you want to delete this ?
           </div>
-          <div>
+          <div className="flex flex-row justify-between">
+            <button
+              className="bg-gray px-3 py-1 rounded text-secondary hover:bg-blue"
+              onClick={() => {
+                close();
+              }}
+            >
+              Cancel
+            </button>
             <button
               className="bg-primary px-3 py-1 rounded text-secondary hover:bg-blue"
               onClick={() => {
-                console.log("delte");
+                handleDelete();
                 close();
               }}
             >

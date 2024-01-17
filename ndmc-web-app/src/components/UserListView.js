@@ -42,7 +42,10 @@ const UserListView = ({ page, handlePagination, searchName }) => {
           </div>
         )}
         {data?.data.map((user) => (
-          <tr className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark text-sm">
+          <tr
+            className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark text-sm"
+            key={user._id}
+          >
             <td className="w-1/5 text-center">{user.name}</td>
             <td className="w-1/5 text-center">{user.email}</td>
             <td className="w-1/5 text-center">{user.role}</td>
@@ -52,7 +55,7 @@ const UserListView = ({ page, handlePagination, searchName }) => {
               </Link>
             </td>
             <td className="w-1/5 text-center">
-              <PopupDelete />
+              <PopupDelete id={user._id} />
             </td>
           </tr>
         ))}
