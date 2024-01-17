@@ -2,9 +2,9 @@ import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "reactjs-popup/dist/index.css";
-import { useGetUsersQuery } from "../services";
-import Loading from "./Loading";
-import PopupDelete from "./PopupDelete";
+import { useGetUsersQuery } from "../../services";
+import Loading from "../Loading";
+import PopupDelete from "../PopupDelete";
 import { useDebounce } from "use-debounce";
 
 const UserListView = ({ page, handlePagination, searchName }) => {

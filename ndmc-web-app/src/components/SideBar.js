@@ -26,22 +26,25 @@ const SideBar = () => {
           <FaRegUser />
           <h3> User Management</h3>
         </Link>
-        <li className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
+        <Link
+          to="/news"
+          className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3"
+        >
           <FaRegNewspaper />
           <h3>News and Events</h3>
-        </li>
-        <li className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
+        </Link>
+        <Link className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
           <FaResearchgate />
           <h3>Evidence Briefs</h3>
-        </li>
-        <li className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
+        </Link>
+        <Link className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
           <FaUsersRays />
           <h3> About NDMC</h3>
-        </li>
-        <li className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
+        </Link>
+        <Link className="p-2 text-secondary border rounded text-center hover:bg-primary flex flex-row items-center space-x-3">
           <FaRegHandshake />
           <h3> Collaborators</h3>
-        </li>
+        </Link>
       </ul>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useUpdateUserMutation } from "../services";
-import Loading from "./Loading";
+import { useUpdateUserMutation } from "../../services";
+import Loading from "../Loading";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 

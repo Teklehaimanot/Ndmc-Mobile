@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useCreateUserMutation } from "../services";
-import Loading from "./Loading";
+import { useCreateUserMutation } from "../../services";
+import Loading from "../Loading";
 
 const UserRegister = () => {
   const [formData, setFormData] = useState({

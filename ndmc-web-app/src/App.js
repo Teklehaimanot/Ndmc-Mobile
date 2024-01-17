@@ -10,9 +10,11 @@ import { login } from "./state/auth/authSlice";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import User from "./pages/User";
 import Dashboard from "./pages/Dashboard";
-import UserRegister from "./components/UserRegister";
-import UserManagement from "./components/UserManagement";
-import UserUpdate from "./components/UserUpdate";
+import UserRegister from "./components/user/UserRegister";
+import UserManagement from "./components/user/UserManagement";
+import UserUpdate from "./components/user/UserUpdate";
+import News from "./pages/News";
+import NewsAndEvents from "./components/news/NewsAndEvents";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -35,6 +37,11 @@ function App() {
               <Route index element={<UserManagement />} />
               <Route path="register" element={<UserRegister />} />
               <Route path=":userId" element={<UserUpdate />}></Route>
+            </Route>
+            <Route path="news" element={<News />}>
+              <Route index element={<NewsAndEvents />} />
+              {/* <Route path="register" element={<NewsRegister />} /> */}
+              {/* <Route path=":newsId" element={<NewsUpdate />}></Route> */}
             </Route>
           </Route>
         </Route>
