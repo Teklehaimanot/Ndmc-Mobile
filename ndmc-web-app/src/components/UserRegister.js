@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { useCreateUserMutation } from "../services";
+import Loading from "./Loading";
 
 const UserRegister = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    role: "user",
+    password: "",
     confirmPassword: "",
   });
   const [createUser, { isLoading, data, isSuccess, isError, error }] =
@@ -20,11 +23,13 @@ const UserRegister = () => {
   const newUser = {
     name: formData.name,
     email: formData.email,
+    role: formData.role,
     password: formData.password,
     confirmPassword: formData.confirmPassword,
   };
 
   const handelSubmit = (e) => {
+    console.log(newUser);
     e.preventDefault();
     try {
       createUser(newUser);
@@ -34,14 +39,11 @@ const UserRegister = () => {
   };
 
   if (isLoading) {
-    return <div className="bg-primary">Loading...</div>;
-  }
-
-  if (isError) {
-    const errors = error?.data?.error || "An error occurred.";
     return (
-      <div className=" text-error h-full text-center">
-        <div className="bg-secondary p-10 m-auto text-2xl"> {errors}</div>
+      <div className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center  bg-transparent">
+        <div className=" p-10 m-auto text-2xl">
+          <Loading />
+        </div>
       </div>
     );
   }
@@ -49,16 +51,20 @@ const UserRegister = () => {
   if (isSuccess) {
     return (
       <div className=" text-primary h-full text-center">
-        <div className="bg-secondary p-10 m-auto text-2xl">
-          User {formData.name} is successfully created
+        <div className="bg-secondary p-10 m-auto text-2xl shadow-lg">
+          User {data.name} is successfully created
         </div>
       </div>
     );
   }
 
-  console.log("dd", data);
   return (
     <div className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center">
+      {isError && (
+        <div className=" text-error">
+          {error?.data?.error || "An error occured"}
+        </div>
+      )}
       <div className="text-blue">Create a user</div>
       <form className="flex flex-col space-y-5" onSubmit={handelSubmit}>
         <input
@@ -77,7 +83,12 @@ const UserRegister = () => {
           name="email"
           value={formData.email}
         />
-        <select className="p-3  placeholder-gray rounded">
+        <select
+          onChange={handleChange}
+          name="role"
+          value={formData.role}
+          className="p-3  placeholder-gray rounded"
+        >
           <option value="user">User</option>
           <option value="admin">Admin</option>
         </select>
@@ -99,7 +110,7 @@ const UserRegister = () => {
         />
         <input
           type="submit"
-          value={"isloading" ? "Create" : ".... loading"}
+          value={!isLoading ? "Create" : ".... loading"}
           className="p-3  placeholder-gray rounded bg-primary text-secondary text-lg text-bold"
         />
       </form>

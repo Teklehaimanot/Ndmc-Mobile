@@ -26,7 +26,24 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+    updateUser: builder.mutation({
+      query: ({ userId, updatedUserData }) => ({
+        url: `user/${userId}`,
+        method: "PATCH",
+        body: updatedUserData,
+      }),
+      invalidatesTags: ["Users"],
+    }),
+    getUserById: builder.query({
+      query: ({ userId }) => `/user/${userId}`,
+      providesTags: ["Users"],
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useCreateUserMutation } = userApi;
+export const {
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+} = userApi;

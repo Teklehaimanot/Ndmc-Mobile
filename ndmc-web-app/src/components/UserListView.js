@@ -47,7 +47,7 @@ const UserListView = ({ page, handlePagination, searchName }) => {
             <td className="w-1/5 text-center">{user.email}</td>
             <td className="w-1/5 text-center">{user.role}</td>
             <td className="w-1/5 text-center">
-              <Link className=" text-xl hover:text-primary" to="tekle">
+              <Link className=" text-xl hover:text-primary" to={user._id}>
                 <FaEdit className="mx-auto" />
               </Link>
             </td>
