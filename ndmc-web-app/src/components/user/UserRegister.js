@@ -74,6 +74,7 @@ const UserRegister = () => {
           name="name"
           onChange={handleChange}
           value={formData.name}
+          required
         />
         <input
           type="email"
@@ -82,6 +83,7 @@ const UserRegister = () => {
           onChange={handleChange}
           name="email"
           value={formData.email}
+          required
         />
         <select
           onChange={handleChange}
@@ -99,6 +101,7 @@ const UserRegister = () => {
           onChange={handleChange}
           name="password"
           value={formData.password}
+          required
         />
         <input
           type="password"
@@ -107,6 +110,7 @@ const UserRegister = () => {
           onChange={handleChange}
           name="confirmPassword"
           value={formData.confirmPassword}
+          required
         />
         <input
           type="submit"
