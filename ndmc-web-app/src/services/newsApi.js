@@ -32,8 +32,20 @@ export const newsApi = createApi({
       }),
       invalidatesTags: ["News"],
     }),
+    updateNews: builder.mutation({
+      query: ({ newsId, updatedNewsData }) => ({
+        url: `news/${newsId}`,
+        method: "PATCH",
+        body: updatedNewsData,
+      }),
+      invalidatesTags: ["News"],
+    }),
   }),
 });
 
-export const { useGetNewsQuery, useDeleteNewsMutation, useCreateNewsMutation } =
-  newsApi;
+export const {
+  useGetNewsQuery,
+  useDeleteNewsMutation,
+  useCreateNewsMutation,
+  useUpdateNewsMutation,
+} = newsApi;
