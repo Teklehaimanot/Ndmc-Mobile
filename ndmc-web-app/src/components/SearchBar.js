@@ -19,7 +19,7 @@ const SearchBar = ({ handleSearch }) => {
             type="text"
             value={search}
             onChange={onChange}
-            placeholder="Type name to search"
+            placeholder="Type here to search"
           />
         </form>
       </div>
