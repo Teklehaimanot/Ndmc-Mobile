@@ -25,14 +25,14 @@ export const evidenceBriefApi = createApi({
       }),
       invalidatesTags: ["EvidenceBrief"],
     }),
-    // createEvidenceBrief: builder.mutation({
-    //   query: (newData) => ({
-    //     url: "/evidenceBrief",
-    //     method: "POST",
-    //     body: newData,
-    //   }),
-    //   invalidatesTags: ["EvidenceBrief"],
-    // }),
+    createEvidenceBrief: builder.mutation({
+      query: (newData) => ({
+        url: "/evidenceBrief",
+        method: "POST",
+        body: newData,
+      }),
+      invalidatesTags: ["EvidenceBrief"],
+    }),
     // updateEvidenceBrief: builder.mutation({
     //   query: ({ newsId, updatedNewsData }) => ({
     //     url: `evidenceBrief/${newsId}`,
@@ -47,6 +47,6 @@ export const evidenceBriefApi = createApi({
 export const {
   useGetEvidenceBriefQuery,
   useDeleteEvidenceBriefMutation,
-  //   useCreateNewsMutation,
+  useCreateEvidenceBriefMutation,
   //   useUpdateNewsMutation,
 } = evidenceBriefApi;

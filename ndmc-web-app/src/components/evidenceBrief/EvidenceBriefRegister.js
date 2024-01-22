@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import { useCreateNewsMutation } from "../../services";
+import { useCreateEvidenceBriefMutation } from "../../services";
 import Loading from "../Loading";
 
-const NewsRegister = () => {
+const EvidenceBriefRegister = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     date: "",
     image: null,
+    pdf: null,
   });
   const [createNews, { isLoading, data, isSuccess, isError, error }] =
-    useCreateNewsMutation();
+    useCreateEvidenceBriefMutation();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -29,6 +30,7 @@ const NewsRegister = () => {
       newData.append("description", formData.description);
       newData.append("date", formData.date);
       newData.append("image", formData.image);
+      newData.append("image", formData.pdf);
       createNews(newData);
     } catch (error) {
       console.log(error);
@@ -49,7 +51,7 @@ const NewsRegister = () => {
     return (
       <div className=" text-primary h-full text-center">
         <div className="bg-secondary p-10 m-auto text-2xl shadow-lg">
-          News {data.title} is successfully created
+          Evidence Brief {data.title} is successfully created
         </div>
       </div>
     );
@@ -99,6 +101,16 @@ const NewsRegister = () => {
             required
           />
         </div>
+        <div className="p-3  placeholder-gray rounded bg-secondary flex flex-col">
+          <span className="text-primary mb-2">Upload Pdf</span>
+          <input
+            type="file"
+            name="pdf"
+            onChange={handleChange}
+            accept=".pdf"
+            required
+          />
+        </div>
         <input
           type="submit"
           value={!isLoading ? "Create" : ".... loading"}
@@ -109,4 +121,4 @@ const NewsRegister = () => {
   );
 };
 
-export default NewsRegister;
+export default EvidenceBriefRegister;
