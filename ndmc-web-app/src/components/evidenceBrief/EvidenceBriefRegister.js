@@ -30,7 +30,7 @@ const EvidenceBriefRegister = () => {
       newData.append("description", formData.description);
       newData.append("date", formData.date);
       newData.append("image", formData.image);
-      newData.append("image", formData.pdf);
+      newData.append("pdf", formData.pdf);
       createNews(newData);
     } catch (error) {
       console.log(error);
@@ -56,6 +56,7 @@ const EvidenceBriefRegister = () => {
       </div>
     );
   }
+  console.log("fd", formData);
   return (
     <div className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center">
       {isError && (
@@ -63,7 +64,7 @@ const EvidenceBriefRegister = () => {
           {error?.data?.error || "An error occured"}
         </div>
       )}
-      <div className="text-blue">Create a News</div>
+      <div className="text-blue">Create Evidence Brief</div>
       <form className="flex flex-col space-y-5" onSubmit={handelSubmit}>
         <input
           type="text"
@@ -72,7 +73,7 @@ const EvidenceBriefRegister = () => {
           name="title"
           onChange={handleChange}
           value={formData.title}
-          required
+          //   required
         />
         <textarea
           placeholder="Compose a paragraph to serve as a description."
@@ -80,7 +81,7 @@ const EvidenceBriefRegister = () => {
           onChange={handleChange}
           name="description"
           value={formData.description}
-          required
+          //   required
         />
         <input
           type="date"
@@ -88,7 +89,7 @@ const EvidenceBriefRegister = () => {
           onChange={handleChange}
           name="date"
           value={formData.date}
-          required
+          //   required
         />
 
         <div className="p-3  placeholder-gray rounded bg-secondary flex flex-col">
@@ -98,7 +99,7 @@ const EvidenceBriefRegister = () => {
             name="image"
             onChange={handleChange}
             accept="image/*"
-            required
+            // required
           />
         </div>
         <div className="p-3  placeholder-gray rounded bg-secondary flex flex-col">
@@ -108,7 +109,7 @@ const EvidenceBriefRegister = () => {
             name="pdf"
             onChange={handleChange}
             accept=".pdf"
-            required
+            // required
           />
         </div>
         <input
