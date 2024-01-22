@@ -73,7 +73,7 @@ const EvidenceBriefRegister = () => {
           name="title"
           onChange={handleChange}
           value={formData.title}
-          //   required
+          required
         />
         <textarea
           placeholder="Compose a paragraph to serve as a description."
@@ -81,7 +81,7 @@ const EvidenceBriefRegister = () => {
           onChange={handleChange}
           name="description"
           value={formData.description}
-          //   required
+          required
         />
         <input
           type="date"
@@ -89,7 +89,7 @@ const EvidenceBriefRegister = () => {
           onChange={handleChange}
           name="date"
           value={formData.date}
-          //   required
+          required
         />
 
         <div className="p-3  placeholder-gray rounded bg-secondary flex flex-col">
@@ -99,7 +99,7 @@ const EvidenceBriefRegister = () => {
             name="image"
             onChange={handleChange}
             accept="image/*"
-            // required
+            required
           />
         </div>
         <div className="p-3  placeholder-gray rounded bg-secondary flex flex-col">
@@ -109,7 +109,7 @@ const EvidenceBriefRegister = () => {
             name="pdf"
             onChange={handleChange}
             accept=".pdf"
-            // required
+            required
           />
         </div>
         <input
