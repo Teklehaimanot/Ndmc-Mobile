@@ -1,19 +1,24 @@
 import React from "react";
-import Loading from "../Loading";
-import { Link } from "react-router-dom";
-import PopupDelete from "../PopupDelete";
 import { FaEdit } from "react-icons/fa";
-import { useDeleteNewsMutation, useGetNewsQuery } from "../../services";
+import { Link } from "react-router-dom";
+import "reactjs-popup/dist/index.css";
+import { useDeleteNewsMutation } from "../../services";
+import Loading from "../Loading";
+import PopupDelete from "../PopupDelete";
 import { useDebounce } from "use-debounce";
+import {
+  useDeleteEvidenceBriefMutation,
+  useGetEvidenceBriefQuery,
+} from "../../services/evidenceBriefApi";
 
-const NewsListView = ({ page, handlePagination, searchName }) => {
+const EvidenceBriefListView = ({ page, handlePagination, searchName }) => {
   const [debouncedValue] = useDebounce(searchName, 500);
-  const { data, error, isLoading } = useGetNewsQuery({
+  const { data, error, isLoading } = useGetEvidenceBriefQuery({
     page: page,
     title: debouncedValue,
   });
 
-  const [deleteNews] = useDeleteNewsMutation();
+  const [deleteEvidenceBrief] = useDeleteEvidenceBriefMutation();
 
   if (error) {
     return (
@@ -27,9 +32,9 @@ const NewsListView = ({ page, handlePagination, searchName }) => {
     handlePagination(data.pagination);
   }
 
-  const handleDelete = async (newsId) => {
+  const handleDelete = async (evidenceBriefId) => {
     try {
-      await deleteNews(newsId);
+      await deleteEvidenceBrief(evidenceBriefId);
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -50,22 +55,27 @@ const NewsListView = ({ page, handlePagination, searchName }) => {
             <Loading />
           </div>
         )}
-        {data?.data.map((news) => (
+        {data?.data.map((evidenceBrief) => (
           <tr
             className="flex flex-row justify-between items-center  my-3 py-1 border-b text-gray-dark text-sm"
-            key={news._id}
+            key={evidenceBrief._id}
           >
-            <td className="w-1/5 text-center">{news.title}</td>
-            <td className="w-1/5 text-center">{news.date}</td>
-            <td className="w-1/5 text-center">{news.likes}</td>
-            <td className="w-1/5 text-center">{news.comments.length}</td>
+            <td className="w-1/5 text-center">{evidenceBrief.title}</td>
+            <td className="w-1/5 text-center">{evidenceBrief.date}</td>
+            <td className="w-1/5 text-center">{evidenceBrief.likes}</td>
             <td className="w-1/5 text-center">
-              <Link className=" text-xl hover:text-primary" to={news._id}>
+              {evidenceBrief.comments.length}
+            </td>
+            <td className="w-1/5 text-center">
+              <Link
+                className=" text-xl hover:text-primary"
+                to={evidenceBrief._id}
+              >
                 <FaEdit className="mx-auto" />
               </Link>
             </td>
             <td className="w-1/5 text-center">
-              <PopupDelete id={news._id} handleDelete={handleDelete} />
+              <PopupDelete id={evidenceBrief._id} handleDelete={handleDelete} />
             </td>
           </tr>
         ))}
@@ -74,4 +84,4 @@ const NewsListView = ({ page, handlePagination, searchName }) => {
   );
 };
 
-export default NewsListView;
+export default EvidenceBriefListView;

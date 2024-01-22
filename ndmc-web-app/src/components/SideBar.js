@@ -33,7 +33,10 @@ const SideBar = () => {
           <FaRegNewspaper />
           <h3>News and Events</h3>
         </Link>
-        <Link className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3">
+        <Link
+          to="evidenceBrief"
+          className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3"
+        >
           <FaResearchgate />
           <h3>Evidence Briefs</h3>
         </Link>
