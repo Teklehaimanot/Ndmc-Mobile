@@ -20,6 +20,7 @@ import NewsUpdate from "./components/news/NewsUpdate";
 import EvidenceBrief from "./pages/EvidenceBrief";
 import EvidenceBriefs from "./components/evidenceBrief/EvidenceBriefs";
 import EvidenceBriefRegister from "./components/evidenceBrief/EvidenceBriefRegister";
+import EvidenceBriefUpdate from "./components/evidenceBrief/EvidenceBriefUpdate";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -51,7 +52,10 @@ function App() {
             <Route path="evidenceBrief" element={<EvidenceBrief />}>
               <Route index element={<EvidenceBriefs />} />
               <Route path="register" element={<EvidenceBriefRegister />} />
-              <Route path=":newsId" element={<NewsUpdate />}></Route>
+              <Route
+                path=":evidenceBriefId"
+                element={<EvidenceBriefUpdate />}
+              ></Route>
             </Route>
           </Route>
         </Route>

@@ -33,14 +33,14 @@ export const evidenceBriefApi = createApi({
       }),
       invalidatesTags: ["EvidenceBrief"],
     }),
-    // updateEvidenceBrief: builder.mutation({
-    //   query: ({ newsId, updatedNewsData }) => ({
-    //     url: `evidenceBrief/${newsId}`,
-    //     method: "PATCH",
-    //     body: updatedNewsData,
-    //   }),
-    //   invalidatesTags: ["EvidenceBrief"],
-    // }),
+    updateEvidenceBrief: builder.mutation({
+      query: ({ evidenceBriefId, updatedEvidenceBriefData }) => ({
+        url: `evidenceBrief/${evidenceBriefId}`,
+        method: "PATCH",
+        body: updatedEvidenceBriefData,
+      }),
+      invalidatesTags: ["EvidenceBrief"],
+    }),
   }),
 });
 
@@ -48,5 +48,5 @@ export const {
   useGetEvidenceBriefQuery,
   useDeleteEvidenceBriefMutation,
   useCreateEvidenceBriefMutation,
-  //   useUpdateNewsMutation,
+  useUpdateEvidenceBriefMutation,
 } = evidenceBriefApi;
