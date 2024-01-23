@@ -21,6 +21,8 @@ import EvidenceBrief from "./pages/EvidenceBrief";
 import EvidenceBriefs from "./components/evidenceBrief/EvidenceBriefs";
 import EvidenceBriefRegister from "./components/evidenceBrief/EvidenceBriefRegister";
 import EvidenceBriefUpdate from "./components/evidenceBrief/EvidenceBriefUpdate";
+import AboutNdmc from "./pages/AboutNdmc";
+import About from "./components/aboutNdmc/About";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -56,6 +58,10 @@ function App() {
                 path=":evidenceBriefId"
                 element={<EvidenceBriefUpdate />}
               ></Route>
+            </Route>
+            <Route path="about" element={<AboutNdmc />}>
+              <Route index element={<About />} />
+              <Route path="update" element={<NewsRegister />} />
             </Route>
           </Route>
         </Route>

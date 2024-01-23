@@ -34,13 +34,16 @@ const SideBar = () => {
           <h3>News and Events</h3>
         </Link>
         <Link
-          to="evidenceBrief"
+          to="/evidenceBrief"
           className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3"
         >
           <FaResearchgate />
           <h3>Evidence Briefs</h3>
         </Link>
-        <Link className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3">
+        <Link
+          to="/about"
+          className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3"
+        >
           <FaUsersRays />
           <h3> About NDMC</h3>
         </Link>
