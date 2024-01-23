@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./auth/authSlice";
 import catagoryReducer from "./catagory/catagorySlice";
-import { evidenceBriefApi, newsApi, userApi } from "../services";
+import { aboutNdmcApi, evidenceBriefApi, newsApi, userApi } from "../services";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -9,12 +9,14 @@ const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [newsApi.reducerPath]: newsApi.reducer,
     [evidenceBriefApi.reducerPath]: evidenceBriefApi.reducer,
+    [aboutNdmcApi.reducerPath]: aboutNdmcApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       userApi.middleware,
       newsApi.middleware,
-      evidenceBriefApi.middleware
+      evidenceBriefApi.middleware,
+      aboutNdmcApi.middleware
     ),
 });
 

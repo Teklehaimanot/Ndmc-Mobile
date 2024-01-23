@@ -1,8 +1,19 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useGetAboutNdmcQuery } from "../../services";
 
 const About = () => {
+  const { data, error, isLoading } = useGetAboutNdmcQuery();
+
+  if (error) {
+    return (
+      <div className="w-full text-center my-4">
+        <h1 className="text-error">{error.data.error}</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-y-scroll" style={{ height: "95%" }}>
       <div className="flex flex-row items-center justify-between border-b border-secondary">
@@ -23,23 +34,11 @@ const About = () => {
           <div className=" flex flex-row justify-between mx-10 space-x-10">
             <div>
               <h3 className="text-primary">Title:</h3>
-              <p>
-                National Data Management Centers for Health are institutions or
-                organizations established by governments to centralize the
-                management,
-              </p>
+              <p>{data.directorStatement.title}</p>
             </div>
             <div>
               <h3 className="text-primary">Description:</h3>
-              <p>
-                National Data Management Centers for Health are institutions or
-                organizations established by governments to centralize the
-                management, storage, analysis, and dissemination of
-                health-related data at the national level. These centers play a
-                crucial role in supporting evidence-based decision-making,
-                policy formulation, and monitoring the health status of the
-                population.
-              </p>
+              <p>{data.directorStatement.description}</p>
             </div>
           </div>
         </div>
@@ -48,57 +47,30 @@ const About = () => {
           <div className=" flex flex-row justify-between mx-10 space-x-10">
             <div>
               <h3 className="text-primary">Title:</h3>
-              <p>
-                National Data Management Centers for Health are institutions or
-                organizations established by governments to centralize the
-                management,
-              </p>
+              <p>{data.strategies.title}</p>
             </div>
             <div>
               <h3 className="text-primary">Description:</h3>
-              <p>
-                National Data Management Centers for Health are institutions or
-                organizations established by governments to centralize the
-                management, storage, analysis, and dissemination of
-                health-related data at the national level. These centers play a
-                crucial role in supporting evidence-based decision-making,
-                policy formulation, and monitoring the health status of the
-                population.
-              </p>
+              <p>{data.strategies.description}</p>
             </div>
           </div>
         </div>
         <div className="flex flex-col border-1 shadow-md p-5 rounded bg-secondary">
           <div className="text-blue text-xl">About Us</div>
           <div className=" flex flex-row justify-between mx-10 space-x-10">
-            <p>
-              National Data Management Centers for Health are institutions or
-              organizations established by governments to centralize the
-              management, storage, analysis, and dissemination of health-related
-              data at the national level. These centers play a crucial ro
-            </p>
+            <p>{data.aboutUs}</p>
           </div>
         </div>
         <div className="flex flex-col border-1 shadow-md p-5 rounded bg-secondary">
           <div className="text-blue text-xl">Vision</div>
           <div className=" flex flex-row justify-between mx-10 space-x-10">
-            <p>
-              National Data Management Centers for Health are institutions or
-              organizations established by governments to centralize the
-              management, storage, analysis, and dissemination of health-related
-              data at the national level. These centers play a crucial ro
-            </p>
+            <p>{data.vision}</p>
           </div>
         </div>
         <div className="flex flex-col border-1 shadow-md p-5 rounded bg-secondary">
           <div className="text-blue text-xl">Mission</div>
           <div className=" flex flex-row justify-between mx-10 space-x-10">
-            <p>
-              National Data Management Centers for Health are institutions or
-              organizations established by governments to centralize the
-              management, storage, analysis, and dissemination of health-related
-              data at the national level. These centers play a crucial ro
-            </p>
+            <p>{data.mission}</p>
           </div>
         </div>
       </div>
