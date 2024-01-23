@@ -17,7 +17,16 @@ export const aboutNdmcApi = createApi({
       query: () => `/aboutNdmc`,
       providesTags: ["AboutNdmc"],
     }),
+    updateAboutNdmc: builder.mutation({
+      query: (updatedAboutData) => ({
+        url: `/aboutNdmc`,
+        method: "PUT",
+        body: updatedAboutData,
+      }),
+      invalidatesTags: ["AboutNdmc"],
+    }),
   }),
 });
 
-export const { useGetAboutNdmcQuery } = aboutNdmcApi;
+export const { useGetAboutNdmcQuery, useUpdateAboutNdmcMutation } =
+  aboutNdmcApi;
