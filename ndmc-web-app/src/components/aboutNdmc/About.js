@@ -22,7 +22,7 @@ const About = () => {
           National Data Analytics and Management Center(NDMC)
         </div>
         <Link
-          to="register"
+          to="update"
           className="border-1 p-2 rounded-md bg-secondary hover:bg-primary hover:text-secondary m-8 flex flex-row justify-between items-center space-x-2 shadow"
         >
           <FaEdit />

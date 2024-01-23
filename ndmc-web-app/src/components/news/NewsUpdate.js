@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useUpdateNewsMutation, useUpdateUserMutation } from "../../services";
+import { useUpdateNewsMutation } from "../../services";
 import Loading from "../Loading";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -62,7 +62,10 @@ const NewsUpdate = () => {
 
   if (isLoading) {
     return (
-      <div className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center  bg-transparent">
+      <div
+        className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center overflow-y-scroll "
+        style={{ height: "90%" }}
+      >
         <div className=" p-10 m-auto text-2xl">
           <Loading />
         </div>

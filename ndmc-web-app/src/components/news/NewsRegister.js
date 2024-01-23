@@ -55,7 +55,10 @@ const NewsRegister = () => {
     );
   }
   return (
-    <div className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center">
+    <div
+      className="w-1/3 m-auto flex flex-col space-y-5 h-2/3 justify-center overflow-y-scroll "
+      style={{ height: "90%" }}
+    >
       {isError && (
         <div className=" text-error">
           {error?.data?.error || "An error occured"}
