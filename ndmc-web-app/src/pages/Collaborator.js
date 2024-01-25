@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCatagory } from "../state/catagory/catagorySlice";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
-const AboutNdmc = () => {
+const Collaborator = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setCatagory({ catagory: "About Ndmc" }));
+    dispatch(setCatagory({ catagory: "Collaborators" }));
   }, [dispatch]);
   return (
     <div className=" w-4/5 bg-gray-light ">
@@ -15,4 +15,4 @@ const AboutNdmc = () => {
   );
 };
 
-export default AboutNdmc;
+export default Collaborator;

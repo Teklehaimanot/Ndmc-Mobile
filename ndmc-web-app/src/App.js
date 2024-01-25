@@ -24,6 +24,8 @@ import EvidenceBriefUpdate from "./components/evidenceBrief/EvidenceBriefUpdate"
 import AboutNdmc from "./pages/AboutNdmc";
 import About from "./components/aboutNdmc/About";
 import AboutUpdate from "./components/aboutNdmc/AboutUpdate";
+import Collaborator from "./pages/Collaborator";
+import Collaborators from "./components/collaborator/Collaborators";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -62,6 +64,10 @@ function App() {
             </Route>
             <Route path="about" element={<AboutNdmc />}>
               <Route index element={<About />} />
+              <Route path="update" element={<AboutUpdate />} />
+            </Route>
+            <Route path="collaborator" element={<Collaborator />}>
+              <Route index element={<Collaborators />} />
               <Route path="update" element={<AboutUpdate />} />
             </Route>
           </Route>

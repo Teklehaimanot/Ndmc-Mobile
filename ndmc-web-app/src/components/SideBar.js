@@ -47,7 +47,10 @@ const SideBar = () => {
           <FaUsersRays />
           <h3> About NDMC</h3>
         </Link>
-        <Link className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3">
+        <Link
+          to="/collaborator"
+          className="p-2 text-secondary border rounded text-center bg-primary hover:bg-blue flex flex-row items-center space-x-3"
+        >
           <FaRegHandshake />
           <h3> Collaborators</h3>
         </Link>
