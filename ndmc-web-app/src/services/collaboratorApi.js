@@ -24,24 +24,28 @@ export const collaboratorApi = createApi({
       }),
       invalidatesTags: ["Collaborator"],
     }),
-    // createNews: builder.mutation({
-    //   query: (newData) => ({
-    //     url: "/news",
-    //     method: "POST",
-    //     body: newData,
-    //   }),
-    //   invalidatesTags: ["Collaborator"],
-    // }),
-    // updateNews: builder.mutation({
-    //   query: ({ newsId, updatedNewsData }) => ({
-    //     url: `news/${newsId}`,
-    //     method: "PATCH",
-    //     body: updatedNewsData,
-    //   }),
-    //   invalidatesTags: ["Collaborator"],
-    // }),
+    createCollaborator: builder.mutation({
+      query: (newData) => ({
+        url: "/collaborator",
+        method: "POST",
+        body: newData,
+      }),
+      invalidatesTags: ["Collaborator"],
+    }),
+    updateCollaborator: builder.mutation({
+      query: ({ collaboratorId, updatedCollaboratorData }) => ({
+        url: `collaborator/${collaboratorId}`,
+        method: "PATCH",
+        body: updatedCollaboratorData,
+      }),
+      invalidatesTags: ["Collaborator"],
+    }),
   }),
 });
 
-export const { useGetCollaboratorsQuery, useDeleteCollaboratorMutation } =
-  collaboratorApi;
+export const {
+  useGetCollaboratorsQuery,
+  useDeleteCollaboratorMutation,
+  useCreateCollaboratorMutation,
+  useUpdateCollaboratorMutation,
+} = collaboratorApi;

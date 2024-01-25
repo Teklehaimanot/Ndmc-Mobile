@@ -26,6 +26,8 @@ import About from "./components/aboutNdmc/About";
 import AboutUpdate from "./components/aboutNdmc/AboutUpdate";
 import Collaborator from "./pages/Collaborator";
 import Collaborators from "./components/collaborator/Collaborators";
+import CollaboratorRegister from "./components/collaborator/CollaboratorRegister";
+import CollaboratorUpdate from "./components/collaborator/CollaboratorUpdate";
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -68,7 +70,11 @@ function App() {
             </Route>
             <Route path="collaborator" element={<Collaborator />}>
               <Route index element={<Collaborators />} />
-              <Route path="update" element={<AboutUpdate />} />
+              <Route path="register" element={<CollaboratorRegister />} />
+              <Route
+                path=":collaboratorId"
+                element={<CollaboratorUpdate />}
+              ></Route>
             </Route>
           </Route>
         </Route>
