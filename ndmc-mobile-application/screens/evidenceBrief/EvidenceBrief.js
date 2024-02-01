@@ -12,27 +12,20 @@ import { database } from "../../services/firebase.config";
 import { onValue, ref as myref } from "firebase/database";
 import { color } from "../../utilities/Colors";
 import { useState, useEffect } from "react";
+import { useGetEvidenceBriefQuery } from "../../services";
 
 const { width } = Dimensions.get("window");
 const EvidenceBrief = ({ navigation }) => {
   const [evidences, setEvidences] = useState([]);
+  const basicUrl = process.env.REACT_APP_BACKEND_URL;
+  const { data, error, isLoading } = useGetEvidenceBriefQuery();
+
   useEffect(() => {
-    const db = database;
-    onValue(myref(db, "evidenceBrief"), (snapshot) => {
-      const obj = [];
-      const data = snapshot.val();
-      if (data !== null) {
-        const result = Object.keys(data).map((key) => [key, data[key]]);
-        for (let i = 0; i < result.length; i++) {
-          let key = result[i][0];
-          let value = result[i][1];
-          obj.push({ ...value, id: key });
-          obj[key] = value;
-        }
-      }
-      setEvidences(obj);
-    });
-  }, []);
+    if (!isLoading && !error && data) {
+      console.log(data);
+      setEvidences(data.data);
+    }
+  }, [data, error, isLoading]);
 
   if (!evidences.length) {
     return (
@@ -45,18 +38,18 @@ const EvidenceBrief = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.cardList}>
+        {error && <Text style={{ color: "red" }}>{error.data.error}</Text>}
         {evidences &&
           evidences.map((news) => (
             <TouchableOpacity
-              key={news.id}
+              key={news._id}
               onPress={() =>
                 navigation.navigate("EvidenceDetails", {
                   title: news.title,
-                  image: news.imageUrl,
+                  image: basicUrl + "/" + news.image,
                   description: news.description,
                   date: news.date,
-                  attachedUrl: news.attachedUrl,
-                  filename: news.filename,
+                  pdf: basicUrl + "/" + news.pdf,
                 })
               }
             >
@@ -78,7 +71,7 @@ const EvidenceBrief = ({ navigation }) => {
                 <Image
                   style={styles.image}
                   source={{
-                    uri: news.imageUrl,
+                    uri: `${basicUrl + "/" + news.image}`,
                   }}
                 />
               </View>

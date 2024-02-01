@@ -36,7 +36,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.cardList}>
-        {error && <Text style={{ color: "red" }}>{error}</Text>}
+        {error && <Text style={{ color: "red" }}>{error.data.error}</Text>}
         {mynews &&
           mynews.map((news) => (
             <TouchableOpacity

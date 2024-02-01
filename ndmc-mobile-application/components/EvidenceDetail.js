@@ -14,20 +14,23 @@ import { shareAsync } from "expo-sharing";
 
 const { width } = Dimensions.get("window");
 const EvidenceDetail = ({ route }) => {
-  const { title, image, description, date, attachedUrl, filename } =
-    route.params;
+  const { title, image, description, date, pdf } = route.params;
 
   handleDownload = async () => {
     try {
-      const result = await FileSystem.downloadAsync(
-        attachedUrl,
-        FileSystem.documentDirectory + filename
-      );
-      console.log(result.uri);
-      save(result.uri, filename, result.headers["Content-Type"]);
+      console.log("downloaded");
     } catch (error) {
       alert("dwonload error - plase try again");
     }
+  };
+
+  const formatDateToYYYYMMDD = (date) => {
+    const dateObject = new Date(date);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(dateObject.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
   };
 
   const save = async (uri, filename, mimetype) => {
@@ -85,7 +88,9 @@ const EvidenceDetail = ({ route }) => {
           {description}
         </Text>
         <Image style={styles.image} source={{ uri: image }} />
-        <Text style={{ margin: 10, color: color.blue }}>Date: {date}</Text>
+        <Text style={{ margin: 10, color: color.blue }}>
+          Date: {formatDateToYYYYMMDD(date)}
+        </Text>
         <Pressable style={styles.button} onPress={handleDownload}>
           <Text
             style={{ color: color.white, fontWeight: "bold", letterSpacing: 3 }}
