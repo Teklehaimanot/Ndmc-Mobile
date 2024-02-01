@@ -9,67 +9,42 @@ import {
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../../utilities/Colors";
 import { useEffect, useState } from "react";
-import { database } from "../../services/firebase.config";
-import { onValue, ref as myref } from "firebase/database";
 import { ActivityIndicator } from "react-native";
 import { useGetNewsQuery } from "../../services";
 
 const { width } = Dimensions.get("window");
-const Home = () => {
-  // const [mynews, setNews] = useState([]);
+const Home = ({ navigation }) => {
+  const [mynews, setNews] = useState([]);
+  const basicUrl = process.env.REACT_APP_BACKEND_URL;
 
   const { data, error, isLoading } = useGetNewsQuery();
 
   useEffect(() => {
-    // Ensure that the query has been executed and the data is available
     if (!isLoading && !error && data) {
-      console.log("News data:", data);
+      setNews(data.data);
     }
   }, [data, error, isLoading]);
 
-  console.log("d", error);
-  // if (error) {
-  //   console.log(error);
-  // }
-
-  // console.log("d", data);
-  // useEffect(() => {
-  //   const db = database;
-  //   onValue(myref(db, "news"), (snapshot) => {
-  //     const obj = [];
-  //     const data = snapshot.val();
-  //     if (data !== null) {
-  //       const result = Object.keys(data).map((key) => [key, data[key]]);
-  //       for (let i = 0; i < result.length; i++) {
-  //         let key = result[i][0];
-  //         let value = result[i][1];
-  //         obj.push({ ...value, id: key });
-  //         obj[key] = value;
-  //       }
-  //     }
-  //     setNews(obj);
-  //   });
-  // }, []);
-
-  // if (!mynews.length) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: "center" }}>
-  //       <ActivityIndicator size="large" color={color.primary} />
-  //     </View>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={color.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      {/* <ScrollView style={styles.cardList}>
+      <ScrollView style={styles.cardList}>
+        {error && <Text style={{ color: "red" }}>{error}</Text>}
         {mynews &&
           mynews.map((news) => (
             <TouchableOpacity
-              key={news.id}
+              key={news._id}
               onPress={() =>
                 navigation.navigate("details", {
                   title: news.title,
-                  image: news.imageUrl,
+                  image: basicUrl + "/" + news.image,
                   description: news.description,
                   date: news.date,
                 })
@@ -94,13 +69,13 @@ const Home = () => {
                 <Image
                   style={styles.image}
                   source={{
-                    uri: news.imageUrl,
+                    uri: `${basicUrl + "/" + news.image}`,
                   }}
                 />
               </View>
             </TouchableOpacity>
           ))}
-      </ScrollView> */}
+      </ScrollView>
     </View>
   );
 };

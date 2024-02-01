@@ -5,11 +5,11 @@ export const newsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.REACT_APP_BACKEND_URL}`,
   }),
-  tagTypes: ["News"],
+  // tagTypes: ["News"],
   endpoints: (builder) => ({
     getNews: builder.query({
-      query: () => `/news`,
-      providesTags: ["News"],
+      query: () => `api/v1/news`,
+      // providesTags: ["News"],
     }),
   }),
 });
