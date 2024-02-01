@@ -5,6 +5,16 @@ import { color } from "../utilities/Colors";
 const { width } = Dimensions.get("window");
 const Post = ({ route }) => {
   const { title, image, description, date } = route.params;
+
+  const formatDateToYYYYMMDD = (date) => {
+    const dateObject = new Date(date);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(dateObject.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -33,7 +43,9 @@ const Post = ({ route }) => {
           {description}
         </Text>
         <Image style={styles.image} source={{ uri: image }} />
-        <Text style={{ margin: 10, color: color.blue }}>Date: {date}</Text>
+        <Text style={{ margin: 10, color: color.blue }}>
+          Date: {formatDateToYYYYMMDD(date)}
+        </Text>
       </ScrollView>
     </View>
   );
