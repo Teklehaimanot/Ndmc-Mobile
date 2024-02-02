@@ -15,6 +15,7 @@ const paginationMiddleware = (model, searchField = "name") => {
       const results = await model
         .find(searchQuery)
         .select("-password")
+        .sort({ date: -1 })
         .skip(skip)
         .limit(limit);
 
