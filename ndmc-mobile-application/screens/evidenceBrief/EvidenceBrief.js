@@ -26,7 +26,7 @@ const EvidenceBrief = ({ navigation }) => {
     }
   }, [data, error, isLoading]);
 
-  if (!evidences.length) {
+  if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator size="large" color={color.primary} />
@@ -37,7 +37,9 @@ const EvidenceBrief = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.cardList}>
-        {error && <Text style={{ color: "red" }}>{error.data.error}</Text>}
+        {error?.data && (
+          <Text style={{ color: "red" }}>{error.data.error}</Text>
+        )}
         {evidences &&
           evidences.map((news) => (
             <TouchableOpacity

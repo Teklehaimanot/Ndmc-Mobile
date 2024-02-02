@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import { evidenceBriefApi, newsApi } from "../services";
 
 const store = configureStore({
@@ -13,4 +14,5 @@ const store = configureStore({
     ),
 });
 
+setupListeners(store.dispatch);
 export default store;

@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -5,27 +6,100 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
+  FlatList,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../../utilities/Colors";
-import { useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
 import { useGetNewsQuery } from "../../services";
+import { RefreshControl } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
+
 const Home = ({ navigation }) => {
+  const flatListRef = useRef();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [refreshing, setRefreshing] = useState(false);
   const [mynews, setNews] = useState([]);
   const basicUrl = process.env.REACT_APP_BACKEND_URL;
+  const { data, error, isLoading, refetch } = useGetNewsQuery({
+    page,
+    limit: pageSize,
+  });
 
-  const { data, error, isLoading } = useGetNewsQuery();
+  useEffect(() => {
+    refetch({ page, limit: pageSize });
+  }, [page, refetch]);
 
   useEffect(() => {
     if (!isLoading && !error && data) {
-      setNews(data.data);
+      setNews((prevNews) => {
+        if (page === 1) {
+          setPageSize(data.data.length);
+          return data.data;
+        } else {
+          const uniqueNews = new Set([...prevNews, ...data.data]);
+          return Array.from(uniqueNews);
+        }
+      });
     }
-  }, [data, error, isLoading]);
+  }, [data, error, isLoading, page]);
 
-  if (isLoading) {
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate("details", {
+          title: item.title,
+          image: basicUrl + "/" + item.image,
+          description: item.description,
+          date: item.date,
+        })
+      }
+    >
+      <View style={styles.cardview}>
+        <Text
+          style={{
+            marginHorizontal: 15,
+            marginTop: 15,
+            color: color.greenGray,
+            borderLeftWidth: 0.8,
+            borderLeftColor: color.primary,
+            paddingLeft: width * 0.05,
+            borderRightWidth: 0.8,
+            borderRightColor: color.primary,
+            paddingRight: width * 0.05,
+          }}
+        >
+          {item.title}
+        </Text>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `${basicUrl + "/" + item.image}`,
+          }}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+
+  const keyExtractor = (item) => `${item._id}`;
+
+  const handleEndReached = () => {
+    if (!isLoading && data.data.length === pageSize) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch({ page: 1, limit: pageSize });
+    setNews([]);
+    setPage(1);
+    setPage(10);
+    setRefreshing(false);
+  };
+
+  if (isLoading && page === 1) {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator size="large" color={color.primary} />
@@ -33,52 +107,29 @@ const Home = ({ navigation }) => {
     );
   }
 
+  console.log(page, data.data.length > 0);
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.cardList}>
-        {error && <Text style={{ color: "red" }}>{error.data.error}</Text>}
-        {mynews &&
-          mynews.map((news) => (
-            <TouchableOpacity
-              key={news._id}
-              onPress={() =>
-                navigation.navigate("details", {
-                  title: news.title,
-                  image: basicUrl + "/" + news.image,
-                  description: news.description,
-                  date: news.date,
-                })
-              }
-            >
-              <View style={styles.cardview}>
-                <Text
-                  style={{
-                    marginHorizontal: 15,
-                    marginTop: 15,
-                    color: color.greenGray,
-                    borderLeftWidth: 0.8,
-                    borderLeftColor: color.primary,
-                    paddingLeft: width * 0.05,
-                    borderRightWidth: 0.8,
-                    borderRightColor: color.primary,
-                    paddingRight: width * 0.05,
-                  }}
-                >
-                  {news.title}
-                </Text>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: `${basicUrl + "/" + news.image}`,
-                  }}
-                />
-              </View>
-            </TouchableOpacity>
-          ))}
-      </ScrollView>
+      <FlatList
+        ref={flatListRef}
+        style={styles.cardList}
+        data={mynews}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.1}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListFooterComponent={
+          isLoading &&
+          page > 1 && <ActivityIndicator size="large" color={color.primary} />
+        }
+      />
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

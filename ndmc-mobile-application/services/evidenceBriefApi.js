@@ -5,6 +5,7 @@ export const evidenceBriefApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.REACT_APP_BACKEND_URL}`,
   }),
+  tagTypes: ["EvidenceBrief"],
   endpoints: (builder) => ({
     getEvidenceBrief: builder.query({
       query: () => `api/v1/evidenceBrief`,
@@ -12,9 +13,9 @@ export const evidenceBriefApi = createApi({
     downloadPdf: builder.query({
       query: (evidenceBriefId) =>
         `api/v1/evidenceBrief/downloadPdf/${evidenceBriefId}`,
+      providesTags: ["EvidenceBrief"],
     }),
   }),
 });
-
 export const { useGetEvidenceBriefQuery, useDownloadPdfQuery } =
   evidenceBriefApi;
