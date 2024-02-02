@@ -9,7 +9,12 @@ export const evidenceBriefApi = createApi({
     getEvidenceBrief: builder.query({
       query: () => `api/v1/evidenceBrief`,
     }),
+    downloadPdf: builder.query({
+      query: (evidenceBriefId) =>
+        `api/v1/evidenceBrief/downloadPdf/${evidenceBriefId}`,
+    }),
   }),
 });
 
-export const { useGetEvidenceBriefQuery } = evidenceBriefApi;
+export const { useGetEvidenceBriefQuery, useDownloadPdfQuery } =
+  evidenceBriefApi;

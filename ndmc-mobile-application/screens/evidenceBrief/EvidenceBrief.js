@@ -22,7 +22,6 @@ const EvidenceBrief = ({ navigation }) => {
 
   useEffect(() => {
     if (!isLoading && !error && data) {
-      console.log(data);
       setEvidences(data.data);
     }
   }, [data, error, isLoading]);

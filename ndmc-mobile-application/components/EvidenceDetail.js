@@ -4,7 +4,6 @@ import {
   View,
   Image,
   Dimensions,
-  Button,
   Pressable,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -15,22 +14,20 @@ import { shareAsync } from "expo-sharing";
 const { width } = Dimensions.get("window");
 const EvidenceDetail = ({ route }) => {
   const { title, image, description, date, pdf } = route.params;
+  const apiUrl = pdf;
+  const name = apiUrl.split("/")[4];
 
-  handleDownload = async () => {
-    try {
-      console.log("downloaded");
-    } catch (error) {
-      alert("dwonload error - plase try again");
-    }
-  };
+  const downloadFromUrl = async () => {
+    const filename = name;
+    const result = await FileSystem.downloadAsync(
+      apiUrl,
+      FileSystem.documentDirectory + filename
+    );
 
-  const formatDateToYYYYMMDD = (date) => {
-    const dateObject = new Date(date);
-    const year = dateObject.getFullYear();
-    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-based
-    const day = String(dateObject.getDate()).padStart(2, "0");
+    const mimetype =
+      result.headers["Content-Type"] || "application/octet-stream";
 
-    return `${year}-${month}-${day}`;
+    save(result.uri, filename, mimetype);
   };
 
   const save = async (uri, filename, mimetype) => {
@@ -60,6 +57,14 @@ const EvidenceDetail = ({ route }) => {
     }
   };
 
+  const formatDateToYYYYMMDD = (date) => {
+    const dateObject = new Date(date);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(dateObject.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -91,7 +96,7 @@ const EvidenceDetail = ({ route }) => {
         <Text style={{ margin: 10, color: color.blue }}>
           Date: {formatDateToYYYYMMDD(date)}
         </Text>
-        <Pressable style={styles.button} onPress={handleDownload}>
+        <Pressable style={styles.button} onPress={downloadFromUrl}>
           <Text
             style={{ color: color.white, fontWeight: "bold", letterSpacing: 3 }}
           >
