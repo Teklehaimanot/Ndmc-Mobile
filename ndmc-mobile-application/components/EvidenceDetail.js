@@ -18,42 +18,51 @@ const EvidenceDetail = ({ route }) => {
   const name = apiUrl.split("/")[4];
 
   const downloadFromUrl = async () => {
+    console.log("download", pdf);
     const filename = name;
-    const result = await FileSystem.downloadAsync(
-      apiUrl,
-      FileSystem.documentDirectory + filename
-    );
+    try {
+      const result = await FileSystem.downloadAsync(
+        apiUrl,
+        FileSystem.documentDirectory + filename
+      );
 
-    const mimetype =
-      result.headers["Content-Type"] || "application/octet-stream";
+      const mimetype =
+        result.headers["Content-Type"] || "application/octet-stream";
 
-    save(result.uri, filename, mimetype);
+      await save(result.uri, filename, mimetype);
+    } catch (error) {
+      console.error("Error downloading from URL:", error);
+    }
   };
 
   const save = async (uri, filename, mimetype) => {
-    if (Platform.OS === "android") {
-      const permissions =
-        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-      if (permissions.granted) {
-        const base64 = await FileSystem.readAsStringAsync(uri, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-        await FileSystem.StorageAccessFramework.createFileAsync(
-          permissions.directoryUri,
-          filename,
-          mimetype
-        )
-          .then(async (uri) => {
-            await FileSystem.writeAsStringAsync(uri, base64, {
-              encoding: FileSystem.EncodingType.Base64,
-            });
-          })
-          .catch((e) => console.log(e));
+    try {
+      if (Platform.OS === "android") {
+        const permissions =
+          await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+        if (permissions.granted) {
+          const base64 = await FileSystem.readAsStringAsync(uri, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
+          await FileSystem.StorageAccessFramework.createFileAsync(
+            permissions.directoryUri,
+            filename,
+            mimetype
+          )
+            .then(async (uri) => {
+              await FileSystem.writeAsStringAsync(uri, base64, {
+                encoding: FileSystem.EncodingType.Base64,
+              });
+            })
+            .catch((e) => console.log(e));
+        } else {
+          shareAsync(uri);
+        }
       } else {
         shareAsync(uri);
       }
-    } else {
-      shareAsync(uri);
+    } catch (error) {
+      console.error("Error saving file:", error);
     }
   };
 
@@ -65,6 +74,8 @@ const EvidenceDetail = ({ route }) => {
 
     return `${year}-${month}-${day}`;
   };
+
+  console.log(pdf);
   return (
     <View style={styles.container}>
       <ScrollView>

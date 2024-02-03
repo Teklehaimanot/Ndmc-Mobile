@@ -38,7 +38,6 @@ const Home = ({ navigation }) => {
           setPageSize(data.data.length);
           return data.data;
         } else {
-          // Filter out duplicates based on some unique identifier, e.g., _id
           const newNews = data.data.filter(
             (newItem) => !prevNews.some((item) => item._id === newItem._id)
           );

@@ -8,14 +8,12 @@ export const evidenceBriefApi = createApi({
   tagTypes: ["EvidenceBrief"],
   endpoints: (builder) => ({
     getEvidenceBrief: builder.query({
-      query: () => `api/v1/evidenceBrief`,
-    }),
-    downloadPdf: builder.query({
-      query: (evidenceBriefId) =>
-        `api/v1/evidenceBrief/downloadPdf/${evidenceBriefId}`,
+      query: ({ page, limit }) =>
+        `api/v1/evidenceBrief?page=${page}&limit=${limit}/`,
       providesTags: ["EvidenceBrief"],
     }),
   }),
 });
+console.log("g", evidenceBriefApi);
 export const { useGetEvidenceBriefQuery, useDownloadPdfQuery } =
   evidenceBriefApi;

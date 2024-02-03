@@ -7,26 +7,102 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import { database } from "../../services/firebase.config";
-import { onValue, ref as myref } from "firebase/database";
+import {
+  FlatList,
+  RefreshControl,
+  ScrollView,
+} from "react-native-gesture-handler";
 import { color } from "../../utilities/Colors";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGetEvidenceBriefQuery } from "../../services";
 
 const { width } = Dimensions.get("window");
 const EvidenceBrief = ({ navigation }) => {
+  const flatListRef = useRef();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [refreshing, setRefreshing] = useState(false);
   const [evidences, setEvidences] = useState([]);
   const basicUrl = process.env.REACT_APP_BACKEND_URL;
-  const { data, error, isLoading } = useGetEvidenceBriefQuery();
+  const { data, error, isLoading, refetch } = useGetEvidenceBriefQuery({
+    page,
+    limit: pageSize,
+  });
+
+  useEffect(() => {
+    refetch({ page, limit: pageSize });
+  }, [page, refetch]);
 
   useEffect(() => {
     if (!isLoading && !error && data) {
-      setEvidences(data.data);
+      setEvidences((prevEvidences) => {
+        if (page === 1) {
+          setPageSize(data.data.length);
+          return data.data;
+        } else {
+          const newEvidences = data.data.filter(
+            (newItem) => !prevEvidences.some((item) => item._id === newItem._id)
+          );
+          return [...prevEvidences, ...newEvidences];
+        }
+      });
     }
-  }, [data, error, isLoading]);
+  }, [data, error, isLoading, page]);
 
-  if (isLoading) {
+  const renderItem = ({ item }) => (
+    <TouchableOpacity
+      key={item._id}
+      onPress={() =>
+        navigation.navigate("EvidenceDetails", {
+          title: item.title,
+          image: basicUrl + "/" + item.image,
+          description: item.description,
+          date: item.date,
+          pdf: basicUrl + "/" + item.pdf,
+        })
+      }
+    >
+      <View style={styles.cardview}>
+        <Text
+          style={{
+            marginHorizontal: 15,
+            marginTop: 15,
+            color: color.blueOcean,
+            backgroundColor: color.keyllyGreen,
+            padding: 15,
+            borderRadius: 5,
+            lineHeight: 20,
+            letterSpacing: 0.5,
+          }}
+        >
+          {item.title}
+        </Text>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `${basicUrl + "/" + item.image}`,
+          }}
+        />
+      </View>
+    </TouchableOpacity>
+  );
+
+  const keyExtractor = (item) => `${item._id}`;
+
+  const handleEndReached = () => {
+    if (!isLoading && data.data.length === pageSize) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch({ page: 1, limit: pageSize });
+    setRefreshing(false);
+    setPage(1);
+  };
+
+  if (isLoading && page === 1) {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator size="large" color={color.primary} />
@@ -34,51 +110,26 @@ const EvidenceBrief = ({ navigation }) => {
     );
   }
 
+  // console.log(page, data?.data.length > 0, pageSize, mynews.length);
+
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.cardList}>
-        {error?.data && (
-          <Text style={{ color: "red" }}>{error.data.error}</Text>
-        )}
-        {evidences &&
-          evidences.map((news) => (
-            <TouchableOpacity
-              key={news._id}
-              onPress={() =>
-                navigation.navigate("EvidenceDetails", {
-                  title: news.title,
-                  image: basicUrl + "/" + news.image,
-                  description: news.description,
-                  date: news.date,
-                  pdf: basicUrl + "/" + news.pdf,
-                })
-              }
-            >
-              <View style={styles.cardview}>
-                <Text
-                  style={{
-                    marginHorizontal: 15,
-                    marginTop: 15,
-                    color: color.blueOcean,
-                    backgroundColor: color.keyllyGreen,
-                    padding: 15,
-                    borderRadius: 5,
-                    lineHeight: 20,
-                    letterSpacing: 0.5,
-                  }}
-                >
-                  {news.title}
-                </Text>
-                <Image
-                  style={styles.image}
-                  source={{
-                    uri: `${basicUrl + "/" + news.image}`,
-                  }}
-                />
-              </View>
-            </TouchableOpacity>
-          ))}
-      </ScrollView>
+      <FlatList
+        ref={flatListRef}
+        style={styles.cardList}
+        data={evidences}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.1}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListFooterComponent={
+          isLoading &&
+          page > 1 && <ActivityIndicator size="large" color={color.primary} />
+        }
+      />
     </View>
   );
 };
