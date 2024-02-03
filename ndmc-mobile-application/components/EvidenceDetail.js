@@ -5,22 +5,26 @@ import {
   Image,
   Dimensions,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
 import * as FileSystem from "expo-file-system";
 import { shareAsync } from "expo-sharing";
+import { useState } from "react";
 
 const { width } = Dimensions.get("window");
 const EvidenceDetail = ({ route }) => {
   const { title, image, description, date, pdf } = route.params;
+  const [downloadingPdf, setDownloadingPdf] = useState(false);
   const apiUrl = pdf;
   const name = apiUrl.split("/")[4];
 
   const downloadFromUrl = async () => {
-    console.log("download", pdf);
-    const filename = name;
+    setDownloadingPdf(true);
+
     try {
+      const filename = name;
       const result = await FileSystem.downloadAsync(
         apiUrl,
         FileSystem.documentDirectory + filename
@@ -32,10 +36,13 @@ const EvidenceDetail = ({ route }) => {
       await save(result.uri, filename, mimetype);
     } catch (error) {
       console.error("Error downloading from URL:", error);
+    } finally {
+      setDownloadingPdf(false);
     }
   };
 
   const save = async (uri, filename, mimetype) => {
+    setDownloadingPdf(true);
     try {
       if (Platform.OS === "android") {
         const permissions =
@@ -63,6 +70,8 @@ const EvidenceDetail = ({ route }) => {
       }
     } catch (error) {
       console.error("Error saving file:", error);
+    } finally {
+      setDownloadingPdf(false);
     }
   };
 
@@ -108,11 +117,19 @@ const EvidenceDetail = ({ route }) => {
           Date: {formatDateToYYYYMMDD(date)}
         </Text>
         <Pressable style={styles.button} onPress={downloadFromUrl}>
-          <Text
-            style={{ color: color.white, fontWeight: "bold", letterSpacing: 3 }}
-          >
-            Download - PDF
-          </Text>
+          {downloadingPdf ? (
+            <ActivityIndicator size="small" color={color.white} />
+          ) : (
+            <Text
+              style={{
+                color: color.white,
+                fontWeight: "bold",
+                letterSpacing: 3,
+              }}
+            >
+              Download - PDF
+            </Text>
+          )}
         </Pressable>
       </ScrollView>
     </View>
