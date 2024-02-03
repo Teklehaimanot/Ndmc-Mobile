@@ -38,8 +38,11 @@ const Home = ({ navigation }) => {
           setPageSize(data.data.length);
           return data.data;
         } else {
-          const uniqueNews = new Set([...prevNews, ...data.data]);
-          return Array.from(uniqueNews);
+          // Filter out duplicates based on some unique identifier, e.g., _id
+          const newNews = data.data.filter(
+            (newItem) => !prevNews.some((item) => item._id === newItem._id)
+          );
+          return [...prevNews, ...newNews];
         }
       });
     }
@@ -93,10 +96,8 @@ const Home = ({ navigation }) => {
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch({ page: 1, limit: pageSize });
-    setNews([]);
-    setPage(1);
-    setPage(10);
     setRefreshing(false);
+    setPage(1);
   };
 
   if (isLoading && page === 1) {
@@ -107,7 +108,7 @@ const Home = ({ navigation }) => {
     );
   }
 
-  console.log(page, data.data.length > 0);
+  console.log(page, data?.data.length > 0, pageSize, mynews.length);
   return (
     <View style={styles.container}>
       <FlatList
