@@ -13,5 +13,5 @@ export const newsApi = createApi({
     }),
   }),
 });
-// console.log(newsApi, "g");
+console.log("n");
 export const { useGetNewsQuery } = newsApi;

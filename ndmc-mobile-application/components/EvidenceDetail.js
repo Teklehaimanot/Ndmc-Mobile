@@ -12,11 +12,14 @@ import { color } from "../utilities/Colors";
 import * as FileSystem from "expo-file-system";
 import { shareAsync } from "expo-sharing";
 import { useState } from "react";
+// import ImageViewer from "./ImageViewer";
+// import { Platform } from "react-native";
 
 const { width } = Dimensions.get("window");
 const EvidenceDetail = ({ route }) => {
   const { title, image, description, date, pdf } = route.params;
   const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [imageViewerVisible, setImageViewerVisible] = useState(false);
   const apiUrl = pdf;
   const name = apiUrl.split("/")[4];
 
@@ -112,7 +115,9 @@ const EvidenceDetail = ({ route }) => {
         >
           {description}
         </Text>
-        <Image style={styles.image} source={{ uri: image }} />
+        <Pressable onPress={() => setImageViewerVisible(true)}>
+          <Image style={styles.image} source={{ uri: image }} />
+        </Pressable>
         <Text style={{ margin: 10, color: color.blue }}>
           Date: {formatDateToYYYYMMDD(date)}
         </Text>
@@ -131,6 +136,11 @@ const EvidenceDetail = ({ route }) => {
             </Text>
           )}
         </Pressable>
+        {/* <ImageViewer
+          visible={imageViewerVisible}
+          imageUrl={image}
+          onClose={() => setImageViewerVisible(false)}
+        /> */}
       </ScrollView>
     </View>
   );

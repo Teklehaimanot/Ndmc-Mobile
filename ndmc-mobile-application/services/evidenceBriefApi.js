@@ -14,6 +14,6 @@ export const evidenceBriefApi = createApi({
     }),
   }),
 });
-console.log("g", evidenceBriefApi);
+console.log("ev");
 export const { useGetEvidenceBriefQuery, useDownloadPdfQuery } =
   evidenceBriefApi;
