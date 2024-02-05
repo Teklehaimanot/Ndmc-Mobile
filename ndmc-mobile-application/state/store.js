@@ -1,16 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { evidenceBriefApi, newsApi } from "../services";
+import { aboutNdmcApi, evidenceBriefApi, newsApi } from "../services";
 
 const store = configureStore({
   reducer: {
     [newsApi.reducerPath]: newsApi.reducer,
     [evidenceBriefApi.reducerPath]: evidenceBriefApi.reducer,
+    [aboutNdmcApi.reducerPath]: aboutNdmcApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       newsApi.middleware,
-      evidenceBriefApi.middleware
+      evidenceBriefApi.middleware,
+      aboutNdmcApi.middleware
     ),
 });
 

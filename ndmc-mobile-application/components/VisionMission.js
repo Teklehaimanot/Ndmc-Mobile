@@ -3,7 +3,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
 
 const { width } = Dimensions.get("window");
-const VisionMession = () => {
+const VisionMession = ({ route }) => {
+  const { aboutUs, vision, mission } = route.params;
   return (
     <View style={styles.container}>
       <View style={styles.cardView}>
@@ -24,16 +25,7 @@ const VisionMession = () => {
             ABOUT US
           </Text>
           <Text style={{ color: color.blueGray, lineHeight: 20 }}>
-            The National Data Management Center for health (NDMC) at the
-            Ethiopian Public Health Institute (EPHI) is a responsible center to
-            centrally archive health and health related data, process and manage
-            health research, apply robust data analytic technics, synthesis
-            evidence and to ensure evidence utilization for decision making by
-            the Federal Ministry of Health (FMoH) and other relevant
-            stakeholders at local, sub-national and national and international
-            levels. NDMC has collaborative partnership with Institute for Health
-            Metrics and Evaluation (IHME), University of Washington and has
-            established a Burden of Disease (BoD) Unit.
+            {aboutUs}
           </Text>
         </View>
         <View style={[styles.header, styles.boxShadow]}>
@@ -48,8 +40,7 @@ const VisionMession = () => {
               lineHeight: 20,
             }}
           >
-            Be a center for Excellence in generating, synthesizing, and
-            translating public health and biomedical evidence in Ethiopia
+            {vision}
           </Text>
         </View>
         <View style={[styles.header, styles.boxShadow]}>
@@ -64,8 +55,7 @@ const VisionMession = () => {
               lineHeight: 20,
             }}
           >
-            To improve public health through generating high-quality evidence
-            for the Federal Ministry of Health (FMOH) and other stakeholders
+            {mission}
           </Text>
         </View>
       </ScrollView>
