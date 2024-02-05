@@ -78,7 +78,7 @@ const updateCollaborator = async (req, res) => {
       const imagePath = req.file ? req.file.path : null;
       const { name, link } = req.body;
 
-      if (!name || link) {
+      if (!name || !link) {
         return res.status(400).json({
           error: "collaborator name and link is required",
         });
