@@ -5,6 +5,7 @@ import Loading from "../Loading";
 const CollaboratorRegister = () => {
   const [formData, setFormData] = useState({
     name: "",
+    link: "",
     image: null,
   });
   const [createCollaborator, { isLoading, data, isSuccess, isError, error }] =
@@ -24,6 +25,7 @@ const CollaboratorRegister = () => {
     try {
       const newData = new FormData();
       newData.append("name", formData.name);
+      newData.append("link", formData.link);
       newData.append("image", formData.image);
       createCollaborator(newData);
     } catch (error) {
@@ -68,6 +70,15 @@ const CollaboratorRegister = () => {
           name="name"
           onChange={handleChange}
           value={formData.name}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Collaborator Website link"
+          className="p-3  placeholder-gray rounded"
+          name="link"
+          onChange={handleChange}
+          value={formData.link}
           required
         />
 

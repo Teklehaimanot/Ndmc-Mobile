@@ -9,6 +9,7 @@ const CollaboratorUpdate = () => {
   console.log(collaboratorId);
   const [formData, setFormData] = useState({
     name: "",
+    link: "",
     image: null,
   });
   const basicUrl = process.env.REACT_APP_BACKEND_URL;
@@ -23,6 +24,7 @@ const CollaboratorUpdate = () => {
         setFormData({
           ...formData,
           name: newsData.name,
+          link: newsData.link,
         });
       } catch (error) {
         console.error("Error fetching news data", error);
@@ -49,6 +51,7 @@ const CollaboratorUpdate = () => {
     try {
       const updatedCollaboratorData = new FormData();
       updatedCollaboratorData.append("name", formData.name);
+      updatedCollaboratorData.append("link", formData.link);
       updatedCollaboratorData.append("image", formData.image);
       updateCollaborator({ collaboratorId, updatedCollaboratorData });
     } catch (error) {
@@ -94,6 +97,15 @@ const CollaboratorUpdate = () => {
           name="name"
           onChange={handleChange}
           value={formData.name}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Collaborator Website link"
+          className="p-3  placeholder-gray rounded"
+          name="link"
+          onChange={handleChange}
+          value={formData.link}
           required
         />
         <div className="p-3  placeholder-gray rounded bg-secondary flex flex-col">
