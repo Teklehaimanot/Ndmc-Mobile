@@ -33,15 +33,16 @@ const createCollaborator = async (req, res) => {
   try {
     await uploadAsync(req, res);
     const imagePath = req.file ? req.file.path : null;
-    const { name } = req.body;
+    const { name, link } = req.body;
 
-    if (!name || !imagePath) {
+    if ((!name || !imagePath, !link)) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const newCollaborator = new Collaborator({
       name,
       image: imagePath,
+      link,
     });
     const savedCollaborator = await newCollaborator.save();
 
@@ -75,11 +76,11 @@ const updateCollaborator = async (req, res) => {
       }
 
       const imagePath = req.file ? req.file.path : null;
-      const { name } = req.body;
+      const { name, link } = req.body;
 
-      if (!name) {
+      if (!name || link) {
         return res.status(400).json({
-          error: "collaborator name is required",
+          error: "collaborator name and link is required",
         });
       }
 
@@ -91,6 +92,7 @@ const updateCollaborator = async (req, res) => {
         });
       }
       collaborator.name = name;
+      collaborator.link = link;
 
       if (imagePath) {
         collaborator.image = imagePath;
