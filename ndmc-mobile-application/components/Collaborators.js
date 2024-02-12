@@ -6,16 +6,21 @@ import {
   Image,
   Linking,
   TouchableOpacity,
-  ActivityIndicator,
 } from "react-native";
 
 import { color } from "../utilities/Colors";
+import { useGetCollaboratorsQuery } from "../services";
 
 const { width } = Dimensions.get("window");
 const Collaborators = () => {
+  const { data, error, isLoading, refetch } = useGetCollaboratorsQuery();
+  const basicUrl = process.env.REACT_APP_BACKEND_URL;
+
+  // console.log("d", data[0]);
   return (
     <View style={[styles.header, styles.boxShadow]}>
       <Text style={styles.headingStyle}>PARTNERS AND COLLABORATORS</Text>
+
       <View
         style={{
           flex: 1,
@@ -24,7 +29,24 @@ const Collaborators = () => {
           flexWrap: "wrap",
         }}
       >
-        <TouchableOpacity
+        {data?.map((item) => (
+          <TouchableOpacity
+            key={item._id}
+            onPress={() => {
+              Linking.openURL("https://www.healthdata.org/");
+            }}
+          >
+            <View style={[styles.partinership, styles.boxShadow]}>
+              <Image
+                style={basicUrl + "/" + item.image}
+                source={{
+                  uri: item.link,
+                }}
+              />
+            </View>
+          </TouchableOpacity>
+        ))}
+        {/* <TouchableOpacity
           onPress={() => {
             Linking.openURL("https://www.healthdata.org/");
           }}
@@ -151,7 +173,7 @@ const Collaborators = () => {
               }}
             />
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
