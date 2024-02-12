@@ -6,6 +6,7 @@ import {
   Image,
   Linking,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import { color } from "../utilities/Colors";
@@ -16,7 +17,26 @@ const Collaborators = () => {
   const { data, error, isLoading, refetch } = useGetCollaboratorsQuery();
   const basicUrl = process.env.REACT_APP_BACKEND_URL;
 
-  // console.log("d", data[0]);
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={color.primary} />
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 18, color: color.red }}>
+          Error loading data. Please try again.
+        </Text>
+        <TouchableOpacity onPress={refetch}>
+          <Text style={{ color: color.blue, marginTop: 10 }}>Tap to retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+  console.log(basicUrl + "/" + data[0].image);
   return (
     <View style={[styles.header, styles.boxShadow]}>
       <Text style={styles.headingStyle}>PARTNERS AND COLLABORATORS</Text>
@@ -33,14 +53,14 @@ const Collaborators = () => {
           <TouchableOpacity
             key={item._id}
             onPress={() => {
-              Linking.openURL("https://www.healthdata.org/");
+              Linking.openURL(`${item.link}`);
             }}
           >
             <View style={[styles.partinership, styles.boxShadow]}>
               <Image
-                style={basicUrl + "/" + item.image}
+                style={styles.image}
                 source={{
-                  uri: item.link,
+                  uri: `${basicUrl + "/" + item.image}`,
                 }}
               />
             </View>
@@ -218,5 +238,6 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 5,
     resizeMode: "contain",
+    backgroundColor: color.white,
   },
 });
