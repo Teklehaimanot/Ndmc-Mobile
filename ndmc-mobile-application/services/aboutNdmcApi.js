@@ -13,5 +13,5 @@ export const aboutNdmcApi = createApi({
     }),
   }),
 });
-
+console.log("ab");
 export const { useGetAboutNdmcQuery } = aboutNdmcApi;

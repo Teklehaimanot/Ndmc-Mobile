@@ -110,7 +110,20 @@ const EvidenceBrief = ({ navigation }) => {
     );
   }
 
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 18, color: color.red }}>
+          Error loading data. Please try again.
+        </Text>
+        <TouchableOpacity onPress={refetch}>
+          <Text style={{ color: color.blue, marginTop: 10 }}>Tap to retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
   // console.log(page, data?.data.length > 0, pageSize, mynews.length);
+  console.log(basicUrl);
 
   return (
     <View style={styles.container}>

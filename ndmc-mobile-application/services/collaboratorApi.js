@@ -14,5 +14,5 @@ export const collaboratorApi = createApi({
   }),
 });
 
-console.log("g");
+console.log("cl");
 export const { useGetCollaboratorsQuery } = collaboratorApi;
