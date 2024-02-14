@@ -11,7 +11,8 @@ const DrawerNavigator = (props) => {
   return (
     <Drawer.Navigator
       initialRouteName="NDMC"
-      screenOptions={{
+      screenOptions={({ route }) => ({
+        // headerShown: route.state?.index === 0, // Hide the drawer header for the first screen in the nested stack
         drawerActiveTintColor: color.white,
         drawerActiveBackgroundColor: color.hoveringBackground,
         drawerItemStyle: { marginVertical: 5 },
@@ -24,7 +25,21 @@ const DrawerNavigator = (props) => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
-      }}
+      })}
+      // screenOptions={{
+      //   drawerActiveTintColor: color.white,
+      //   drawerActiveBackgroundColor: color.hoveringBackground,
+      //   drawerItemStyle: { marginVertical: 5 },
+      //   drawerLabelStyle: { fontWeight: "bold", fontSize: 15 },
+
+      //   headerStyle: {
+      //     backgroundColor: color.primary,
+      //   },
+      //   headerTintColor: color.white,
+      //   headerTitleStyle: {
+      //     fontWeight: "bold",
+      //   },
+      // }}
       drawerContent={(props) => <CustomSidebarMenu {...props} />}
     >
       <Drawer.Screen

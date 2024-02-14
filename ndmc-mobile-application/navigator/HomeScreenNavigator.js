@@ -3,13 +3,14 @@ import Home from "../screens/home/Home";
 import Post from "../components/NewsDetail";
 
 const Stack = createNativeStackNavigator();
-const HomeScreenNavigator = () => {
+const HomeScreenNavigator = ({ navigation }) => {
   return (
-    <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name="Home" component={Home} />
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="details" component={Post} />
     </Stack.Navigator>
   );

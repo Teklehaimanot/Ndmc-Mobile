@@ -1,9 +1,11 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { createApi } from "@reduxjs/toolkit/query/react";
+
+const BASE_URL = `http://192.168.1.2:5000`;
 export const newsApi = createApi({
   reducerPath: "newsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BACKEND_URL}`,
+    baseUrl: BASE_URL,
   }),
   tagTypes: ["News"],
   endpoints: (builder) => ({
@@ -13,4 +15,5 @@ export const newsApi = createApi({
     }),
   }),
 });
+
 export const { useGetNewsQuery } = newsApi;

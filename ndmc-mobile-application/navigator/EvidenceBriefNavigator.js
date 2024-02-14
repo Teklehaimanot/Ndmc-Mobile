@@ -8,9 +8,13 @@ const EvidenceBriefNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="EvidencBrief"
-      screenOptions={{ headerShown: false }}
+      // screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="EvidenceBrief" component={EvidenceBrief} />
+      <Stack.Screen
+        name="EvidenceBrief"
+        component={EvidenceBrief}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="EvidenceDetails" component={EvidenceDetail} />
     </Stack.Navigator>
   );

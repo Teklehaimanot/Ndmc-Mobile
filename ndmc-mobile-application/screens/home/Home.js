@@ -120,8 +120,9 @@ const Home = ({ navigation }) => {
     );
   }
 
-  console.log(page, data?.data.length > 0, pageSize, mynews.length);
-  console.log(basicUrl);
+  // console.log(page, data?.data.length > 0, pageSize, mynews.length);
+  // console.log(basicUrl);
+  console.log(isLoading);
   return (
     <View style={styles.container}>
       <FlatList

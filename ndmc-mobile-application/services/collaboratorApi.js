@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const BASE_URL = `http://192.168.1.2:5000`;
 export const collaboratorApi = createApi({
   reducerPath: "collaboratorApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_BACKEND_URL}`,
+    baseUrl: BASE_URL,
   }),
   tagTypes: ["Collaborator"],
   endpoints: (builder) => ({
@@ -14,5 +15,5 @@ export const collaboratorApi = createApi({
   }),
 });
 
-console.log("cl");
+console.log("colab");
 export const { useGetCollaboratorsQuery } = collaboratorApi;
