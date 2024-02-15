@@ -11,11 +11,12 @@ import {
 
 import { color } from "../utilities/Colors";
 import { useGetCollaboratorsQuery } from "../services";
+import { baseUrl } from "../config";
 
 const { width } = Dimensions.get("window");
 const Collaborators = () => {
   const { data, error, isLoading, refetch } = useGetCollaboratorsQuery();
-  const basicUrl = process.env.REACT_APP_BACKEND_URL;
+  const basicUrl = baseUrl;
 
   if (isLoading) {
     return (

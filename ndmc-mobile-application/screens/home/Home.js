@@ -12,6 +12,7 @@ import {
 import { color } from "../../utilities/Colors";
 import { useGetNewsQuery } from "../../services";
 import { RefreshControl } from "react-native-gesture-handler";
+import { baseUrl } from "../../config";
 
 const { width } = Dimensions.get("window");
 
@@ -21,7 +22,7 @@ const Home = ({ navigation }) => {
   const [pageSize, setPageSize] = useState(10);
   const [refreshing, setRefreshing] = useState(false);
   const [mynews, setNews] = useState([]);
-  const basicUrl = process.env.REACT_APP_BACKEND_URL;
+  const basicUrl = baseUrl;
   const { data, error, isLoading, refetch } = useGetNewsQuery({
     page,
     limit: pageSize,
@@ -120,9 +121,6 @@ const Home = ({ navigation }) => {
     );
   }
 
-  // console.log(page, data?.data.length > 0, pageSize, mynews.length);
-  // console.log(basicUrl);
-  console.log(isLoading);
   return (
     <View style={styles.container}>
       <FlatList

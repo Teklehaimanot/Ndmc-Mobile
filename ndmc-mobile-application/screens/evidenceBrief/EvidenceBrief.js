@@ -15,6 +15,7 @@ import {
 import { color } from "../../utilities/Colors";
 import { useState, useEffect, useRef } from "react";
 import { useGetEvidenceBriefQuery } from "../../services";
+import { baseUrl } from "../../config";
 
 const { width } = Dimensions.get("window");
 const EvidenceBrief = ({ navigation }) => {
@@ -23,7 +24,7 @@ const EvidenceBrief = ({ navigation }) => {
   const [pageSize, setPageSize] = useState(10);
   const [refreshing, setRefreshing] = useState(false);
   const [evidences, setEvidences] = useState([]);
-  const basicUrl = process.env.REACT_APP_BACKEND_URL;
+  const basicUrl = baseUrl;
   const { data, error, isLoading, refetch } = useGetEvidenceBriefQuery({
     page,
     limit: pageSize,
