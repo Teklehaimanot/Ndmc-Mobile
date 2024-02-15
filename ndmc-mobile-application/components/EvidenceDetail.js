@@ -7,6 +7,7 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
+import { Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
 import * as FileSystem from "expo-file-system";
