@@ -43,9 +43,20 @@ const Post = ({ route }) => {
           {description}
         </Text>
         <Image style={styles.image} source={{ uri: image }} />
-        <Text style={{ margin: 10, color: color.blue }}>
-          Date: {formatDateToYYYYMMDD(date)}
-        </Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            margin: 10,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ color: color.blue }}>
+            Date: {formatDateToYYYYMMDD(date)}
+          </Text>
+          <Text style={{ color: color.blue }}>like</Text>
+          <Text style={{ color: color.blue }}>Comments</Text>
+        </View>
       </ScrollView>
     </View>
   );
