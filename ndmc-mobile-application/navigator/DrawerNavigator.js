@@ -6,6 +6,7 @@ import EvidenceBriefNavigator from "./EvidenceBriefNavigator";
 import ReportScreenNavigator from "./ReportScreenNavigator";
 import AboutScreenNavigator from "./AboutScreenNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ResearchJornalNavigator from "./ResearchJornalNavigator";
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = (props) => {
@@ -40,6 +41,14 @@ const DrawerNavigator = (props) => {
           options={{
             drawerLabel: "Evidence For Action",
             title: "Evidence For Acition",
+          }}
+        />
+        <Drawer.Screen
+          name="Research Jornal | EPHI"
+          component={ResearchJornalNavigator}
+          options={{
+            drawerLabel: "Researche Jornal | EPHI",
+            title: "Research Jornal | EPHI",
           }}
         />
         <Drawer.Screen
