@@ -48,7 +48,7 @@ const DrawerNavigator = (props) => {
           component={ResearchJornalNavigator}
           options={{
             drawerLabel: "Research Publication | EPHI",
-            title: "Research Jornal | EPHI",
+            title: "Research Publication | EPHI",
           }}
         />
         <Drawer.Screen
