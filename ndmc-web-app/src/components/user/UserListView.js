@@ -18,7 +18,11 @@ const UserListView = ({ page, handlePagination, searchName }) => {
   if (error) {
     return (
       <div className="w-full text-center my-4">
-        <h1 className="text-error">{error.data.error}</h1>
+        <h1 className="text-error">
+          {error.data
+            ? error.data.error
+            : " Error loading data. Please try again."}
+        </h1>
       </div>
     );
   }
