@@ -47,7 +47,7 @@ const DrawerNavigator = (props) => {
           name="Research Jornal | EPHI"
           component={ResearchJornalNavigator}
           options={{
-            drawerLabel: "Researche Jornal | EPHI",
+            drawerLabel: "Research Publication | EPHI",
             title: "Research Jornal | EPHI",
           }}
         />

@@ -112,7 +112,6 @@ const ResearchJornal = () => {
           onChangeText={setSearchQuery}
         />
       </View>
-      {/* {isLoading && <ActivityIndicator size={"large"} style={styles.loader} />} */}
       {jornals && (
         <FlatList
           data={jornals}
