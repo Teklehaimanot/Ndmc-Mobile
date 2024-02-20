@@ -18,6 +18,7 @@ app.use("/api/v1/news", require("./routes/newsRoutes"));
 app.use("/api/v1/evidenceBrief", require("./routes/evidenceBriefRoute"));
 app.use("/api/v1/aboutNdmc", require("./routes/aboutNdmcRoute"));
 app.use("/api/v1/collaborator", require("./routes/collaboratorRoute"));
+app.use("/api/v1/researches", require("./routes/pubMedRoute"));
 
 mongoose.connect(process.env.DB_CONNECTION, {
   useNewUrlParser: true,
