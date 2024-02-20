@@ -12,12 +12,20 @@ import {
 import { color } from "../utilities/Colors";
 import { useGetCollaboratorsQuery } from "../services";
 import { baseUrl } from "../config";
+import { useState } from "react";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 
 const { width } = Dimensions.get("window");
 const Collaborators = () => {
+  const [refreshing, setRefreshing] = useState(false);
   const { data, error, isLoading, refetch } = useGetCollaboratorsQuery();
   const basicUrl = baseUrl;
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
   if (isLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
@@ -39,36 +47,43 @@ const Collaborators = () => {
   }
   console.log(basicUrl + "/" + data[0].image);
   return (
-    <View style={[styles.header, styles.boxShadow]}>
-      <Text style={styles.headingStyle}>PARTNERS AND COLLABORATORS</Text>
+    <ScrollView
+      // style={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <View style={[styles.header, styles.boxShadow]}>
+        <Text style={styles.headingStyle}>PARTNERS AND COLLABORATORS</Text>
 
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "space-around",
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
-      >
-        {data?.map((item) => (
-          <TouchableOpacity
-            key={item._id}
-            onPress={() => {
-              Linking.openURL(`${item.link}`);
-            }}
-          >
-            <View style={[styles.partinership, styles.boxShadow]}>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `${basicUrl + "/" + item.image}`,
-                }}
-              />
-            </View>
-          </TouchableOpacity>
-        ))}
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-around",
+            flexDirection: "row",
+            flexWrap: "wrap",
+          }}
+        >
+          {data?.map((item) => (
+            <TouchableOpacity
+              key={item._id}
+              onPress={() => {
+                Linking.openURL(`${item.link}`);
+              }}
+            >
+              <View style={[styles.partinership, styles.boxShadow]}>
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: `${basicUrl + "/" + item.image}`,
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

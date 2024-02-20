@@ -3,20 +3,26 @@ import {
   Text,
   StyleSheet,
   Dimensions,
-  Image,
-  Linking,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import { color } from "../../utilities/Colors";
-import { ScrollView } from "react-native-gesture-handler";
+import { RefreshControl, ScrollView } from "react-native-gesture-handler";
 import { useGetAboutNdmcQuery } from "../../services";
 import Collaborators from "../../components/Collaborators";
+import { useState } from "react";
 
 const { width } = Dimensions.get("window");
 
 const AboutPage = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
   const { data, error, isLoading, refetch } = useGetAboutNdmcQuery();
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   if (isLoading) {
     return (
@@ -54,6 +60,9 @@ const AboutPage = ({ navigation }) => {
             styles.cardView,
             { borderWidth: 0.4, padding: 10, marginVertical: 15 },
           ]}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
           <View style={[styles.header, styles.boxShadow]}>
             <Text style={styles.headingStyle}>DIRECTOR'S STATEMENT</Text>
