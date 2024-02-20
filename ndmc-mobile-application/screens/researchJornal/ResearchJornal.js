@@ -1,48 +1,133 @@
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
-  Button,
-  Pressable,
+  TextInput,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
-import { color } from "../../utilities/Colors";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { useGetJornalsQuery } from "../../services/researchJornalApi";
 import JornalCard from "../../components/JornalCard";
+import { RefreshControl } from "react-native-gesture-handler";
+import { color } from "../../utilities/Colors";
 
-const { width } = Dimensions.get("window");
 const ResearchJornal = () => {
-  return (
-    <View style={{ backgroundColor: color.grayDark }}>
-      <View style={styles.searchBarcardView}>
-        <View>
-          <Text style={styles.welcomeHeader}>
-            PubMed Journals From EPHI Affiliation
-          </Text>
-          <View style={styles.searchBar}>
-            <TextInput
-              style={styles.serachInput}
-              placeholder=" Search by Title"
-            />
-            <Pressable style={styles.searchButton}>
-              <Text style={{ color: color.white, textAlign: "center" }}>
-                Search
-              </Text>
-            </Pressable>
-          </View>
-        </View>
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [jornals, setJornals] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { data, error, refetch } = useGetJornalsQuery({
+    page: page,
+    title: searchQuery,
+  });
+
+  useEffect(() => {
+    refetch({ page });
+  }, [page, refetch]);
+
+  useEffect(() => {
+    if (!error && data) {
+      setIsLoading(false);
+    }
+  }, [data, error]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (!isLoading && !error && data) {
+      setJornals((prevJounals) => {
+        if (page === 1) {
+          return data.articles.filter(
+            (item) => item !== null && item.uid !== null
+          );
+        } else {
+          const newJornals = data.articles.filter((newItem) => {
+            console.log(newItem);
+            if (newItem && newItem.uid) {
+              return !prevJounals.some((item) => item.uid === newItem.uid);
+            }
+          });
+          return [...prevJounals, ...newJornals];
+        }
+      });
+    }
+  }, [data, error, isLoading, page]);
+
+  const renderJournalCard = ({ item }) => {
+    if (item && item.uid) {
+      return <JornalCard key={item.uid} contents={item} />;
+    }
+  };
+
+  const handleEndReached = () => {
+    if (!isLoading && jornals.length > 0) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch({ page: 1 });
+    setRefreshing(false);
+    setPage(1);
+  };
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    refetch();
+  };
+
+  if (isLoading && page === 1) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={color.primary} />
       </View>
-      <ScrollView>
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-        <JornalCard />
-      </ScrollView>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 18, color: color.red }}>
+          Error loading data. Please try again.
+        </Text>
+        <TouchableOpacity onPress={handleRetry}>
+          <Text style={{ color: color.blue, marginTop: 10 }}>Tap to retry</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+  return (
+    <View style={styles.container}>
+      <View style={styles.searchBar}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search by Title"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+      </View>
+      {/* {isLoading && <ActivityIndicator size={"large"} style={styles.loader} />} */}
+      {jornals && (
+        <FlatList
+          data={jornals}
+          renderItem={renderJournalCard}
+          keyExtractor={(item) => (item && item.uid ? item.uid.toString() : "")}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.1}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          ListFooterComponent={
+            page > 1 && <ActivityIndicator style={styles.loader} />
+          }
+        />
+      )}
     </View>
   );
 };
@@ -50,51 +135,39 @@ const ResearchJornal = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    marginTop: 10,
-    borderRadius: 5,
-    padding: width * 0.01,
-  },
-  boxShadow: {
-    borderRadius: 0.4,
-    elevation: 1,
-    shadowColor: color.greenGray,
-    shadowOffset: { width: 0, height: 0.5 * 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 0.8 * 2,
-  },
-  welcomeHeader: {
-    fontSize: 15,
-    color: color.greenGray,
-
-    paddingVertical: 5,
-    marginTop: 5,
-    marginHorizontal: 5,
+    padding: 10,
   },
   searchBar: {
     flexDirection: "row",
-    marginBottom: 15,
+    alignItems: "center",
+    marginBottom: 10,
   },
-  serachInput: {
-    borderWidth: 0.5,
-    margin: 2,
-    padding: 1,
-    width: width * 0.7,
-    marginHorizontal: 5,
-    borderRadius: 2,
+  searchInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    borderRadius: 5,
   },
   searchButton: {
-    borderWidth: 0.5,
-    paddingHorizontal: 10,
-    margin: 2,
-    backgroundColor: color.primary,
-    borderRadius: 2,
+    marginLeft: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "#007bff",
+    borderRadius: 5,
   },
-  searchBarcardView: {
-    width: width * 1,
-    backgroundColor: color.gray,
-    marginBottom: 3,
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  loader: {
+    marginTop: 20,
+  },
+  errorText: {
+    marginTop: 20,
+    color: "red",
+    fontSize: 16,
   },
 });
+
 export default ResearchJornal;

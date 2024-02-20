@@ -6,11 +6,12 @@ import {
   Dimensions,
   Button,
   Pressable,
+  Linking,
 } from "react-native";
 import { color } from "../utilities/Colors";
 
 const { width } = Dimensions.get("window");
-const JornalCard = () => {
+const JornalCard = ({ contents }) => {
   return (
     <View style={[styles.cardview, styles.boxShadow]}>
       <Text
@@ -30,8 +31,7 @@ const JornalCard = () => {
         >
           Title:
         </Text>{" "}
-        HIV-1 Disease Progression and Drug Resistance Mutations among Children
-        on First-Line Antiretroviral Therapy in Ethiopia
+        {contents.title}
       </Text>
       <Text
         style={{
@@ -49,7 +49,7 @@ const JornalCard = () => {
         >
           PubDate:
         </Text>{" "}
-        2023 Dec 13
+        {contents.pubdate}
       </Text>
       <Text
         style={{
@@ -67,7 +67,7 @@ const JornalCard = () => {
         >
           Source:
         </Text>{" "}
-        PLoS One
+        {contents.source}
       </Text>
       <Text
         style={{
@@ -85,14 +85,16 @@ const JornalCard = () => {
         >
           Authors:
         </Text>{" "}
-        [abebe, kebede, zeleke,Gesese,Agegnew,animaw, Dawit,
-        Abinet,Agegnew,animaw, Dawit, Abinet]
+        {contents.authors.map((auther) => auther.name + ", ")}
       </Text>
       <Text
         style={{
           color: color.blue,
           paddingHorizontal: 7,
           paddingTop: 3,
+        }}
+        onPress={() => {
+          Linking.openURL(contents.url);
         }}
       >
         Go to page

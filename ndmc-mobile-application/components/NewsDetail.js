@@ -54,8 +54,8 @@ const Post = ({ route }) => {
           <Text style={{ color: color.blue }}>
             Date: {formatDateToYYYYMMDD(date)}
           </Text>
-          <Text style={{ color: color.blue }}>like</Text>
-          <Text style={{ color: color.blue }}>Comments</Text>
+          {/* <Text style={{ color: color.blue }}>like</Text>
+          <Text style={{ color: color.blue }}>Comments</Text> */}
         </View>
       </ScrollView>
     </View>

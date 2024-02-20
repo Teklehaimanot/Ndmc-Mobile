@@ -5,6 +5,7 @@ import {
   collaboratorApi,
   evidenceBriefApi,
   newsApi,
+  researchJornalApi,
 } from "../services";
 
 const store = configureStore({
@@ -13,13 +14,17 @@ const store = configureStore({
     [evidenceBriefApi.reducerPath]: evidenceBriefApi.reducer,
     [aboutNdmcApi.reducerPath]: aboutNdmcApi.reducer,
     [collaboratorApi.reducerPath]: collaboratorApi.reducer,
+    [researchJornalApi.reducerPath]: researchJornalApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(
       newsApi.middleware,
       evidenceBriefApi.middleware,
       aboutNdmcApi.middleware,
-      collaboratorApi.middleware
+      collaboratorApi.middleware,
+      researchJornalApi.middleware
     ),
 });
 
