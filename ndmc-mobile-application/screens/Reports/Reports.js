@@ -1,20 +1,10 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { color } from "../../utilities/Colors";
+import PowerBIEmbed from "../../components/PowerBIEmbed";
 
 const { width } = Dimensions.get("window");
 const Reports = () => {
-  return (
-    <View>
-      <View style={styles.cardView}>
-        <View style={[styles.header, styles.boxShadow]}>
-          <Text style={styles.welcomeHeader}>NDMC AT A GLANCE</Text>
-          <Text style={{ color: color.greenGray, fontSize: 15 }}>
-            .. CENTRALLY ARCHIVING HEALTH AND HEALTH RELATED DATA
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
+  return <PowerBIEmbed />;
 };
 
 const styles = StyleSheet.create({
