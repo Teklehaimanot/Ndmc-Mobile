@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/home/Home";
 import Post from "../components/NewsDetail";
+import CommentScreen from "../components/CommentScreen";
 
 const Stack = createNativeStackNavigator();
 const HomeScreenNavigator = ({ navigation }) => {
@@ -15,12 +16,14 @@ const HomeScreenNavigator = ({ navigation }) => {
         name="details"
         component={Post}
         options={{
-          headerShown: true, // Show stack header for Details screen
-          headerTitle: "Details", // Optionally set a custom title for the stack header
-          headerLeft: null, // Optionally remove any left header component
-          drawerLabel: () => null, // Hide drawer label for Details screen
-          drawerIcon: () => null, // Hide drawer icon for Details screen
+          headerShown: true,
+          headerTitle: "Details",
         }}
+      />
+      <Stack.Screen
+        name="comments"
+        component={CommentScreen}
+        options={{ headerShown: true }}
       />
     </Stack.Navigator>
   );
