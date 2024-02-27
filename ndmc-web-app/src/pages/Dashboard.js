@@ -15,7 +15,9 @@ const Dashboard = () => {
         style={{ height: "20vh" }}
       >
         <div className="flex bg-secondary w-1/3 border-2 border-secondary rounded-md m-1 shadow-md items-center">
-          <h1 className="text-blue m-auto font-bold ">255 Active Users</h1>
+          <h1 className="text-blue m-auto font-bold ">
+            255 Active Mobile Users
+          </h1>
         </div>
         <div className="flex bg-secondary w-1/3 border-2 border-secondary rounded-md m-1 shadow-md items-center">
           <h1 className="text-blue m-auto font-bold ">489 Data Archived</h1>
