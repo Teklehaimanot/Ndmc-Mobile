@@ -8,11 +8,12 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
-import NewsDetailNavigator from "../navigator/NewsDetailNavigator";
 
 const { width } = Dimensions.get("window");
 const Post = ({ route, navigation }) => {
-  const { title, image, description, date } = route.params;
+  const { title, image, description, comments, date } = route.params;
+
+  console.log("cm", comments);
 
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
@@ -64,13 +65,16 @@ const Post = ({ route, navigation }) => {
           </View>
           <Pressable
             style={{ marginHorizontal: 10 }}
-            onPress={() => navigation.navigate("comments")}
+            onPress={() =>
+              navigation.navigate("comments", {
+                comments: comments,
+              })
+            }
           >
             <Text style={{ color: color.blue }}>comments</Text>
-            <Text style={{ textAlign: "center" }}>3</Text>
+            <Text style={{ textAlign: "center" }}>{comments.length}</Text>
           </Pressable>
         </View>
-        <NewsDetailNavigator />
       </ScrollView>
     </View>
   );

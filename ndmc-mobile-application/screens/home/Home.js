@@ -55,6 +55,7 @@ const Home = ({ navigation }) => {
           title: item.title,
           image: basicUrl + "/" + item.image,
           description: item.description,
+          comments: item.comments,
           date: item.date,
         })
       }

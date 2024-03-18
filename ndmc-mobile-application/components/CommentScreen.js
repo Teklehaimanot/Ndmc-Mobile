@@ -6,156 +6,27 @@ import { color } from "../utilities/Colors";
 
 const { width } = Dimensions.get("window");
 
-const CommentScreen = () => {
+const CommentScreen = ({ route }) => {
+  const newsComments = route.params;
+
+  const comments = newsComments.comments;
+
   return (
     <View style={styles.constainer}>
       <ScrollView>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
+        {comments.map((comment) => (
+          <View style={styles.commentCard} key={comment._id}>
+            <View>
+              <Image style={styles.image} uri={image} />
+            </View>
+            <View style={styles.commentView}>
+              <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+                {comment.comment}
+              </Text>
+              <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+            </View>
           </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
-          </View>
-        </View>
-        <View style={styles.commentCard}>
-          <View>
-            <Image style={styles.image} uri={image} />
-          </View>
-          <View style={styles.commentView}>
-            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-              Teklehaimanot
-            </Text>
-            <Text style={{ paddingHorizontal: 5 }}>
-              Great Job, That is really awsome work. keep up the good work
-            </Text>
-          </View>
-        </View>
+        ))}
       </ScrollView>
     </View>
   );
