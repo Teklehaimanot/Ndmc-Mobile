@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   commentCard: {
     flex: 1,
     flexDirection: "row",
-    marginVertical: 10,
+    marginVertical: 8,
     width: width * 0.8,
   },
   image: {
