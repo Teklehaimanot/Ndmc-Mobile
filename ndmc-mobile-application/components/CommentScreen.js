@@ -21,6 +21,141 @@ const CommentScreen = () => {
             <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
           </View>
         </View>
+
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+          </View>
+        </View>
+        <View style={styles.commentCard}>
+          <View>
+            <Image style={styles.image} uri={image} />
+          </View>
+          <View style={styles.commentView}>
+            <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
+              Teklehaimanot
+            </Text>
+            <Text style={{ paddingHorizontal: 5 }}>
+              Great Job, That is really awsome work. keep up the good work
+            </Text>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -33,16 +168,17 @@ const styles = StyleSheet.create({
   commentCard: {
     flex: 1,
     flexDirection: "row",
-    margin: 10,
+    marginVertical: 10,
+    width: width * 0.8,
   },
   image: {
     resizeMode: "center",
-    width: 50,
-    height: 50,
-    borderRadius: 50 / 2,
+    width: width * 0.13,
+    height: width * 0.13,
+    borderRadius: (width * 0.13) / 2,
     alignSelf: "center",
     backgroundColor: color.cameraBackground,
-    margin: 5,
+    marginHorizontal: width * 0.02,
   },
   commentView: {
     backgroundColor: color.grayBackground,
