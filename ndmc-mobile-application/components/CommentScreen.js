@@ -21,9 +21,9 @@ const CommentScreen = ({ route }) => {
             </View>
             <View style={styles.commentView}>
               <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-                {comment.comment}
+                {comment.user}
               </Text>
-              <Text style={{ paddingHorizontal: 5 }}>Great Job</Text>
+              <Text style={{ paddingHorizontal: 5 }}> {comment.comment}</Text>
             </View>
           </View>
         ))}
