@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import authReducer from "./auth/authSlice";
+
 import {
   aboutNdmcApi,
   collaboratorApi,
@@ -10,6 +12,7 @@ import {
 
 const store = configureStore({
   reducer: {
+    auth: authReducer,
     [newsApi.reducerPath]: newsApi.reducer,
     [evidenceBriefApi.reducerPath]: evidenceBriefApi.reducer,
     [aboutNdmcApi.reducerPath]: aboutNdmcApi.reducer,

@@ -11,10 +11,7 @@ import { color } from "../utilities/Colors";
 
 const { width } = Dimensions.get("window");
 const Post = ({ route, navigation }) => {
-  const { title, image, description, comments, date } = route.params;
-
-  console.log("cm", comments);
-
+  const { id, title, image, description, comments, date } = route.params;
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
     const year = dateObject.getFullYear();
@@ -67,7 +64,7 @@ const Post = ({ route, navigation }) => {
             style={{ marginHorizontal: 10 }}
             onPress={() =>
               navigation.navigate("comments", {
-                comments: comments,
+                newsid: id,
               })
             }
           >

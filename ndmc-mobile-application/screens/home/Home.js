@@ -52,6 +52,7 @@ const Home = ({ navigation }) => {
     <TouchableOpacity
       onPress={() =>
         navigation.navigate("details", {
+          id: item._id,
           title: item.title,
           image: basicUrl + "/" + item.image,
           description: item.description,
