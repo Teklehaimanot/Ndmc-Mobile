@@ -13,12 +13,16 @@ import { image } from "../assets/logo.png";
 import { color } from "../utilities/Colors";
 import { useGetCommentsByIdQuery, usePostCommentsMutation } from "../services";
 import { Feather } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { baseUrl } from "../config";
 
 const { width } = Dimensions.get("window");
 
 const CommentScreen = ({ route }) => {
   const { newsid } = route.params;
   const [comment, setComment] = useState("");
+  const { user } = useSelector((state) => state.auth);
+  const basicUrl = baseUrl;
 
   const {
     data: commentsData,
@@ -43,20 +47,23 @@ const CommentScreen = ({ route }) => {
 
   const handleSubmit = () => {
     try {
-      const newComment = {
-        commentText: comment,
-        userId: "65a79bceff35558b1c7ac88f",
-      };
+      if (user) {
+        const newComment = {
+          commentText: comment,
+          userId: "65a79bceff35558b1c7ac88f",
+        };
 
-      if (newComment.commentText) {
-        postCommment(newComment);
-      }
+        if (newComment.commentText) {
+          postCommment({ newComment, newsid });
+          setComment("");
+        }
+      } else console.log("not authorized user");
     } catch (error) {
       console.log(error);
     }
   };
 
-  if (isPostLoading) {
+  if (isPostLoading || isCommentsLoading) {
     return (
       <View style={{ flex: 1, justifyContent: "center" }}>
         <ActivityIndicator size="large" color={color.primary} />
@@ -76,21 +83,25 @@ const CommentScreen = ({ route }) => {
       </View>
     );
   }
-  console.log("cd", commentsData);
+
   return (
     <View style={styles.constainer}>
       <ScrollView>
         {commentsData?.map((comment) => (
           <View style={styles.commentCard} key={comment.comment._id}>
             <View>
-              <Image style={styles.image} uri={image} />
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `${basicUrl + "/" + comment.comment.user.profileImage}`,
+                }}
+              />
             </View>
             <View style={styles.commentView}>
               <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
                 {comment.comment.user.name}
               </Text>
               <Text style={{ paddingHorizontal: 5 }}>
-                {" "}
                 {comment.comment.comment}
               </Text>
             </View>

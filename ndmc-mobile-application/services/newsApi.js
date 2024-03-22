@@ -22,12 +22,12 @@ export const newsApi = createApi({
     }),
 
     postComments: builder.mutation({
-      query: (newComment) => ({
-        url: "api/v1/news/createComment/65f15be4cfcf26ec0fae89e4",
+      query: ({ newComment, newsid }) => ({
+        url: `api/v1/news/createComment/${newsid}`,
         method: "POST",
         body: newComment,
       }),
-      invalidatesTags: ["News"],
+      invalidatesTags: ["Comments", "News"],
     }),
     getCommentsById: builder.query({
       query: (newsid) => `api/v1/news/${newsid}/comments`,
