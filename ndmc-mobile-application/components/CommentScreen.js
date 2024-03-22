@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
@@ -18,7 +17,7 @@ import { baseUrl } from "../config";
 
 const { width } = Dimensions.get("window");
 
-const CommentScreen = ({ route }) => {
+const CommentScreen = ({ route, navigation }) => {
   const { newsid } = route.params;
   const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.auth);
@@ -57,7 +56,7 @@ const CommentScreen = ({ route }) => {
           postCommment({ newComment, newsid });
           setComment("");
         }
-      } else console.log("not authorized user");
+      } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
     }

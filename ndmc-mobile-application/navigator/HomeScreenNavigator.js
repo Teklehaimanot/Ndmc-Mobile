@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../screens/home/Home";
 import Post from "../components/NewsDetail";
 import CommentScreen from "../components/CommentScreen";
+import LoginScreen from "../components/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 const HomeScreenNavigator = ({ navigation }) => {
@@ -23,6 +24,11 @@ const HomeScreenNavigator = ({ navigation }) => {
       <Stack.Screen
         name="comments"
         component={CommentScreen}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="login"
+        component={LoginScreen}
         options={{ headerShown: true }}
       />
     </Stack.Navigator>
