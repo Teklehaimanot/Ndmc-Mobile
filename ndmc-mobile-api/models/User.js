@@ -25,6 +25,7 @@ const UserSchema = {
   },
   profileImage: {
     type: String,
+    default: "uploads/image-1711019085615.png",
   },
   bio: {
     type: String,

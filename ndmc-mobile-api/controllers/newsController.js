@@ -90,6 +90,28 @@ const getAllNews = async (req, res) => {
   }
 };
 
+const getCommentsByNewsId = async (req, res) => {
+  const { newsId } = req.params;
+  try {
+    const news = await News.findById(newsId).populate(
+      "comments.user",
+      "_id name profileImage"
+    );
+
+    if (!news) {
+      return res.status(404).json({ message: "News not found" });
+    }
+
+    const comments = news.comments.map((comment) => ({
+      comment,
+    }));
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const getNewsById = async (req, res) => {
   try {
     const { newsId } = req.params;
@@ -187,4 +209,5 @@ module.exports = {
   updateNews,
   deleteNewsById,
   searchNewsByTitle,
+  getCommentsByNewsId,
 };
