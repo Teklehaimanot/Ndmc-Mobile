@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
+  Pressable,
 } from "react-native";
 import { color } from "../../utilities/Colors";
 import { useGetNewsQuery } from "../../services";
@@ -27,6 +28,15 @@ const Home = ({ navigation }) => {
     page,
     limit: pageSize,
   });
+
+  const formatDateToYYYYMMDD = (date) => {
+    const dateObject = new Date(date);
+    const year = dateObject.getFullYear();
+    const month = String(dateObject.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+    const day = String(dateObject.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     refetch({ page, limit: pageSize });
@@ -49,42 +59,70 @@ const Home = ({ navigation }) => {
   }, [data, error, isLoading, page]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("details", {
-          id: item._id,
-          title: item.title,
-          image: basicUrl + "/" + item.image,
-          description: item.description,
-          comments: item.comments,
-          date: item.date,
-        })
-      }
-    >
-      <View style={styles.cardview}>
-        <Text
-          style={{
-            marginHorizontal: 15,
-            marginTop: 15,
-            color: color.greenGray,
-            borderLeftWidth: 0.8,
-            borderLeftColor: color.primary,
-            paddingLeft: width * 0.05,
-            borderRightWidth: 0.8,
-            borderRightColor: color.primary,
-            paddingRight: width * 0.05,
-          }}
+    <View style={styles.cardview}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("details", {
+            id: item._id,
+            title: item.title,
+            image: basicUrl + "/" + item.image,
+            description: item.description,
+            comments: item.comments,
+            date: item.date,
+          })
+        }
+      >
+        <View>
+          <Text
+            style={{
+              marginHorizontal: 15,
+              marginTop: 15,
+              color: color.greenGray,
+              borderLeftWidth: 0.8,
+              borderLeftColor: color.primary,
+              paddingLeft: width * 0.05,
+              borderRightWidth: 0.8,
+              borderRightColor: color.primary,
+              paddingRight: width * 0.05,
+            }}
+          >
+            {item.title}
+          </Text>
+          <Image
+            style={styles.image}
+            source={{
+              uri: `${basicUrl + "/" + item.image}`,
+            }}
+          />
+        </View>
+      </TouchableOpacity>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          margin: 10,
+          borderTopColor: color.blueOcean,
+          borderTopWidth: 0.5,
+          backgroundColor: color.gray,
+        }}
+      >
+        <View style={{ marginHorizontal: 10 }}>
+          <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
+          <Text>{formatDateToYYYYMMDD(item.date)}</Text>
+        </View>
+        <Pressable
+          style={{ marginHorizontal: 10 }}
+          onPress={() =>
+            navigation.navigate("comments", {
+              newsid: item._id,
+            })
+          }
         >
-          {item.title}
-        </Text>
-        <Image
-          style={styles.image}
-          source={{
-            uri: `${basicUrl + "/" + item.image}`,
-          }}
-        />
+          <Text style={{ color: color.blue }}>comments</Text>
+          <Text style={{ textAlign: "center" }}>{item.comments.length}</Text>
+        </Pressable>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 
   const keyExtractor = (item) => `${item._id}`;
