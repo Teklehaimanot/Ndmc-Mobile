@@ -31,7 +31,7 @@ export const newsApi = createApi({
     }),
     getCommentsById: builder.query({
       query: (newsid) => `api/v1/news/${newsid}/comments`,
-      providesTags: ["Comments"],
+      providesTags: ["Comments", "News"],
     }),
   }),
 });
