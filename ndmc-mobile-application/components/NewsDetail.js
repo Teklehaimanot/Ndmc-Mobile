@@ -54,6 +54,9 @@ const Post = ({ route, navigation }) => {
             flex: 1,
             flexDirection: "row",
             margin: 10,
+            borderTopColor: color.blueOcean,
+            borderTopWidth: 0.5,
+            paddingVertical: 15,
           }}
         >
           <View style={{ marginHorizontal: 10 }}>
@@ -85,6 +88,6 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width * 1,
-    height: 460,
+    height: 400,
   },
 });
