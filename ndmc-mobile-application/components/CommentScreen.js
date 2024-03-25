@@ -49,7 +49,7 @@ const CommentScreen = ({ route, navigation }) => {
       if (user) {
         const newComment = {
           commentText: comment,
-          userId: "65a79bceff35558b1c7ac88f",
+          userId: user.id,
         };
 
         if (newComment.commentText) {

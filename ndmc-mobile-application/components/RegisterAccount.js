@@ -16,9 +16,11 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const { width } = Dimensions.get("window");
-const LoginScreen = ({ navigation }) => {
+const RegisterAccount = ({ navigation }) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -27,9 +29,11 @@ const LoginScreen = ({ navigation }) => {
   const handleSubmit = async (e) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post(`${basicUrl}/api/v1/user/login`, {
+      const { data } = await axios.post(`${basicUrl}/api/v1/user`, {
+        name,
         email,
         password,
+        confirmPassword,
       });
       if (data) {
         const { user, token } = data;
@@ -68,8 +72,14 @@ const LoginScreen = ({ navigation }) => {
             fontSize: 20,
           }}
         >
-          Login
+          Create Account
         </Text>
+        <TextInput
+          placeholder="Name"
+          style={styles.textInput}
+          onChangeText={(text) => setName(text)}
+          value={name}
+        />
         <TextInput
           placeholder="Email"
           style={styles.textInput}
@@ -81,6 +91,13 @@ const LoginScreen = ({ navigation }) => {
           style={styles.textInput}
           onChangeText={(text) => setPassword(text)}
           value={password}
+          secureTextEntry={true}
+        />
+        <TextInput
+          placeholder="Confirm Password"
+          style={styles.textInput}
+          onChangeText={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
           secureTextEntry={true}
         />
         <Pressable style={styles.button} onPress={handleSubmit}>
@@ -96,15 +113,15 @@ const LoginScreen = ({ navigation }) => {
                 letterSpacing: 1,
               }}
             >
-              Login
+              Create Account
             </Text>
           )}
         </Pressable>
 
         <View style={styles.createAccount}>
-          <Text style={{ color: color.blueGray }}>New user?</Text>
-          <Pressable onPress={() => navigation.navigate("signUp")}>
-            <Text style={{ color: color.blue }}>Create an Account</Text>
+          <Text style={{ color: color.blueGray }}>Have an Account?</Text>
+          <Pressable onPress={() => navigation.navigate("login")}>
+            <Text style={{ color: color.blue }}>Login</Text>
           </Pressable>
         </View>
       </View>
@@ -147,4 +164,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-export default LoginScreen;
+export default RegisterAccount;

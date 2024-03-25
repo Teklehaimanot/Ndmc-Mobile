@@ -42,6 +42,7 @@ const CustomSidebarMenu = (props) => {
   };
 
   console.log(user);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.gray }}>
       <View
@@ -65,7 +66,7 @@ const CustomSidebarMenu = (props) => {
                 paddingBottom: 5,
               }}
             >
-              {user.name}
+              {user.name.charAt(0).toUpperCase() + user.name.slice(1)}
             </Text>
             <Text
               style={{
