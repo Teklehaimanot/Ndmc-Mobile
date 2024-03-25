@@ -41,6 +41,7 @@ const CustomSidebarMenu = (props) => {
     }
   };
 
+  console.log(user);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.gray }}>
       <View
@@ -54,6 +55,31 @@ const CustomSidebarMenu = (props) => {
           source={{ uri: BASE_PATH + proileImage }}
           style={styles.sideMenuProfileIcon}
         />
+        {user ? (
+          <View style={{ alignItems: "center" }}>
+            <Text
+              style={{
+                color: color.white,
+                fontSize: 20,
+                fontWeight: "bold",
+                paddingBottom: 5,
+              }}
+            >
+              {user.name}
+            </Text>
+            <Text
+              style={{
+                color: color.blueOcean,
+                fontSize: 12,
+                fontWeight: "bold",
+              }}
+            >
+              {user.email}
+            </Text>
+          </View>
+        ) : (
+          ""
+        )}
       </View>
 
       <DrawerContentScrollView {...props}>
@@ -83,11 +109,14 @@ const CustomSidebarMenu = (props) => {
           />
         </View>
         {!user ? (
-          <View style={styles.customLogout}>
-            <SimpleLineIcons name="logout" size={16} color={color.blue} />
+          <Pressable
+            style={styles.customLogout}
+            onPress={() => props.navigation.navigate("login")}
+          >
+            <SimpleLineIcons name="login" size={16} color={color.greenGray} />
             <Text
               style={{
-                color: color.blue,
+                color: color.greenGray,
                 fontWeight: "900",
                 letterSpacing: 1,
                 marginHorizontal: 5,
@@ -95,7 +124,7 @@ const CustomSidebarMenu = (props) => {
             >
               Login
             </Text>
-          </View>
+          </Pressable>
         ) : (
           <Pressable style={styles.customLogout} onPress={handleLogout}>
             <SimpleLineIcons name="logout" size={16} color={color.blue} />

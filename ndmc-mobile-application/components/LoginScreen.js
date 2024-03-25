@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 import { color } from "../utilities/Colors";
 import { TextInput } from "react-native-gesture-handler";
 import { useState } from "react";
@@ -20,7 +27,6 @@ const LoginScreen = ({ navigation }) => {
   const handleSubmit = async (e) => {
     try {
       setIsLoading(true);
-      console.log(basicUrl);
       const { data } = await axios.post(`${basicUrl}/api/v1/user/login`, {
         email,
         password,
@@ -33,7 +39,6 @@ const LoginScreen = ({ navigation }) => {
         setIsLoading(false);
         dispatch(login({ user, token }));
         navigation.navigate("Home");
-        console.log("Home");
       }
     } catch (error) {
       if (error.response) {
@@ -47,7 +52,14 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.loginCard}>
+      <View style={[styles.loginCard, styles.shadowProp]}>
+        <Text
+          style={{
+            color: color.error,
+          }}
+        >
+          {errors}
+        </Text>
         <Text
           style={{
             fontWeight: "bold",
@@ -76,18 +88,21 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
         <Pressable style={styles.button} onPress={handleSubmit}>
-          <Text
-            style={{
-              padding: 14,
-              color: color.white,
-              fontWeight: "bold",
-              fontSize: 15,
-              textAlign: "center",
-              letterSpacing: 1,
-            }}
-          >
-            Login
-          </Text>
+          {isLoading ? (
+            <ActivityIndicator size="small" color={color.white} />
+          ) : (
+            <Text
+              style={{
+                color: color.white,
+                fontWeight: "bold",
+                fontSize: 15,
+                textAlign: "center",
+                letterSpacing: 1,
+              }}
+            >
+              Login
+            </Text>
+          )}
         </Pressable>
 
         <View style={styles.createAccount}>
@@ -126,6 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.primary,
     margin: 5,
     borderRadius: 5,
+    paddingVertical: 14,
   },
   createAccount: {
     flexDirection: "row",
@@ -133,6 +149,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 10,
     alignItems: "center",
+  },
+  shadowProp: {
+    shadowColor: "r",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 });
 export default LoginScreen;
