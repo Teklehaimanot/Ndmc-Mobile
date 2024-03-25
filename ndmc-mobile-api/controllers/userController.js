@@ -51,11 +51,11 @@ const createUser = async (req, res) => {
       success: true,
       token: `Bearer ${accessToken}`,
       user: {
-        _id: user._id,
+        id: user._id,
         name,
         email,
         role: user.role,
-        status: user.active,
+        active: user.active,
       },
     });
   } catch (err) {
