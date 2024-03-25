@@ -7,6 +7,7 @@ import ReportScreenNavigator from "./ReportScreenNavigator";
 import AboutScreenNavigator from "./AboutScreenNavigator";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ResearchJornalNavigator from "./ResearchJornalNavigator";
+import LoginScreen from "../components/LoginScreen";
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = (props) => {

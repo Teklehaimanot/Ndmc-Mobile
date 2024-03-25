@@ -1,9 +1,50 @@
 import { View, Text, StyleSheet, Dimensions, Pressable } from "react-native";
 import { color } from "../utilities/Colors";
 import { TextInput } from "react-native-gesture-handler";
+import { useState } from "react";
+import { login } from "../state/auth/authSlice";
+import { baseUrl } from "../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const { width } = Dimensions.get("window");
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const basicUrl = baseUrl;
+
+  const handleSubmit = async (e) => {
+    try {
+      setIsLoading(true);
+      console.log(basicUrl);
+      const { data } = await axios.post(`${basicUrl}/api/v1/user/login`, {
+        email,
+        password,
+      });
+      if (data) {
+        const { user, token } = data;
+        const jsonUser = JSON.stringify(data);
+        AsyncStorage.setItem("token", jsonUser);
+        setErrors(false);
+        setIsLoading(false);
+        dispatch(login({ user, token }));
+        navigation.navigate("Home");
+        console.log("Home");
+      }
+    } catch (error) {
+      if (error.response) {
+        setErrors(error.response.data.error);
+        setIsLoading(false);
+      } else {
+        alert("Error setting up the request:", error.message);
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.loginCard}>
@@ -18,17 +59,29 @@ const LoginScreen = () => {
           Login
         </Text>
         <View>
-          <TextInput placeholder="Email" style={styles.textInput} />
+          <TextInput
+            placeholder="Email"
+            style={styles.textInput}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+          />
         </View>
         <View>
-          <TextInput placeholder="Password" style={styles.textInput} />
+          <TextInput
+            placeholder="Password"
+            style={styles.textInput}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+          />
         </View>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={handleSubmit}>
           <Text
             style={{
               padding: 14,
               color: color.white,
               fontWeight: "bold",
+              fontSize: 15,
               textAlign: "center",
               letterSpacing: 1,
             }}

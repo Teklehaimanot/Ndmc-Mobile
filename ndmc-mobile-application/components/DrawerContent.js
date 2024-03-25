@@ -6,20 +6,40 @@ import {
   Image,
   Text,
   Linking,
+  Pressable,
 } from "react-native";
-
+import { SimpleLineIcons } from "@expo/vector-icons";
 import {
   DrawerContentScrollView,
   DrawerItemList,
   DrawerItem,
 } from "@react-navigation/drawer";
 import { color } from "../utilities/Colors";
+import { useDispatch, useSelector } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { logout } from "../state/auth/authSlice";
+import { baseUrl } from "../config";
+import axios from "axios";
 
 const CustomSidebarMenu = (props) => {
   const BASE_PATH =
     "https://firebasestorage.googleapis.com/v0/b/ndmc-mobile-5a8b5.appspot.com/o/profileImage";
   const proileImage =
     "%2Flogo.png?alt=media&token=b9db2afd-6b47-4809-922e-b5bd8e2a68a1";
+
+  const { user } = useSelector((state) => state.auth);
+  const basicUrl = baseUrl;
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    const response = await axios.get(
+      `${basicUrl}/api/v1/user/logout/${user.id}`
+    );
+    const { data } = response;
+    if (data) {
+      dispatch(logout());
+      AsyncStorage.removeItem("token");
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.gray }}>
@@ -62,6 +82,35 @@ const CustomSidebarMenu = (props) => {
             style={styles.iconStyle}
           />
         </View>
+        {!user ? (
+          <View style={styles.customLogout}>
+            <SimpleLineIcons name="logout" size={16} color={color.blue} />
+            <Text
+              style={{
+                color: color.blue,
+                fontWeight: "900",
+                letterSpacing: 1,
+                marginHorizontal: 5,
+              }}
+            >
+              Login
+            </Text>
+          </View>
+        ) : (
+          <Pressable style={styles.customLogout} onPress={handleLogout}>
+            <SimpleLineIcons name="logout" size={16} color={color.blue} />
+            <Text
+              style={{
+                color: color.blue,
+                fontWeight: "900",
+                letterSpacing: 1,
+                marginHorizontal: 5,
+              }}
+            >
+              Logout
+            </Text>
+          </Pressable>
+        )}
       </DrawerContentScrollView>
     </SafeAreaView>
   );
@@ -84,6 +133,12 @@ const styles = StyleSheet.create({
   },
   customItem: {
     padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  customLogout: {
+    padding: 16,
+    borderRadius: 4,
     flexDirection: "row",
     alignItems: "center",
   },
