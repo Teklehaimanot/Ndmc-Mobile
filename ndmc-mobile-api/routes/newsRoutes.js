@@ -25,7 +25,12 @@ newsRouter.post(
   newsController.createComment
 );
 newsRouter.get("/:newsId/comments", newsController.getCommentsByNewsId);
-newsRouter.patch("/:newsId", newsController.updateNews);
+newsRouter.patch(
+  "/:newsId",
+  authMiddleware,
+  roleMiddleware("admin"),
+  newsController.updateNews
+);
 newsRouter.get("/search/:title", newsController.searchNewsByTitle);
 // newsRouter.get("/search/:title", newsController.searchNewsByTitle);
 newsRouter.delete(

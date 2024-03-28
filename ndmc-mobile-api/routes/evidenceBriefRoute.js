@@ -15,6 +15,7 @@ evidenceBriefRouter.post(
 );
 evidenceBriefRouter.post(
   "/createComment/:evidenceBriefId",
+  authMiddleware,
   evidenceBriefController.createComment
 );
 evidenceBriefRouter.get(
