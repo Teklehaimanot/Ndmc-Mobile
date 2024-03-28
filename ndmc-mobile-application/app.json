@@ -16,11 +16,15 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.teklehaimanot.NdmcMobile",
+      "packageType": "apk",
+      "config": {
+        "cleartext": true
+      },
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.teklehaimanot.NdmcMobile"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

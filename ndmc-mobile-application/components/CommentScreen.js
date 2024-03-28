@@ -69,7 +69,6 @@ const CommentScreen = ({ route, navigation }) => {
       </View>
     );
   }
-
   if (postError) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -86,26 +85,26 @@ const CommentScreen = ({ route, navigation }) => {
   return (
     <View style={styles.constainer}>
       <ScrollView>
-        {commentsData?.map((comment) => (
-          <View style={styles.commentCard} key={comment.comment._id}>
-            <View>
-              <Image
-                style={styles.image}
-                source={{
-                  uri: `${basicUrl + "/" + comment.comment.user.profileImage}`,
-                }}
-              />
-            </View>
-            <View style={styles.commentView}>
-              <Text style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}>
-                {comment.comment.user.name}
-              </Text>
-              <Text style={{ paddingHorizontal: 5 }}>
-                {comment.comment.comment}
-              </Text>
-            </View>
-          </View>
-        ))}
+        {commentsData?.map(
+          (comment) =>
+            comment.comment.user && (
+              <View style={styles.commentCard} key={comment.comment._id}>
+                <View>
+                  <Image style={styles.image} source={image} />
+                </View>
+                <View style={styles.commentView}>
+                  <Text
+                    style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}
+                  >
+                    {comment.comment.user.name}
+                  </Text>
+                  <Text style={{ paddingHorizontal: 5 }}>
+                    {comment.comment.comment}
+                  </Text>
+                </View>
+              </View>
+            )
+        )}
       </ScrollView>
       <View style={styles.commentInuptCard}>
         <TextInput
