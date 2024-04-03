@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
+  KeyboardAvoidingView,
   StyleSheet,
   Text,
   View,
@@ -106,24 +107,26 @@ const CommentScreen = ({ route, navigation }) => {
             )
         )}
       </ScrollView>
-      <View style={styles.commentInuptCard}>
-        <TextInput
-          onChangeText={handleChangeComment}
-          style={[
-            styles.commentInput,
-            { height: Math.max(40, comment.split("\n").length * 20) },
-          ]}
-          value={comment}
-          placeholder="Leave your thoughts here..."
-        />
-        <Feather
-          name="send"
-          style={{ marginRight: 10 }}
-          size={28}
-          color={color.primary}
-          onPress={handleSubmit}
-        />
-      </View>
+      <KeyboardAvoidingView behavior="">
+        <View style={styles.commentInuptCard}>
+          <TextInput
+            onChangeText={handleChangeComment}
+            style={[
+              styles.commentInput,
+              { height: Math.max(40, comment.split("\n").length * 20) },
+            ]}
+            value={comment}
+            placeholder="Leave your thoughts here..."
+          />
+          <Feather
+            name="send"
+            style={{ marginRight: 10 }}
+            size={28}
+            color={color.primary}
+            onPress={handleSubmit}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
