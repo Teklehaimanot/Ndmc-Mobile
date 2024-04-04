@@ -41,7 +41,7 @@ const CustomSidebarMenu = (props) => {
     }
   };
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.gray }}>

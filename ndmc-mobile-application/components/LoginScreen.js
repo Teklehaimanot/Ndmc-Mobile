@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { color } from "../utilities/Colors";
 import { TextInput } from "react-native-gesture-handler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login } from "../state/auth/authSlice";
 import { baseUrl } from "../config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -34,6 +34,7 @@ const LoginScreen = ({ navigation }) => {
       if (data) {
         const { user, token } = data;
         const jsonUser = JSON.stringify(data);
+        console.log(jsonUser);
         AsyncStorage.setItem("token", jsonUser);
         setErrors(false);
         setIsLoading(false);
