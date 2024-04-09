@@ -31,9 +31,9 @@ newsRouter.patch(
   roleMiddleware("admin"),
   newsController.updateNews
 );
-newsRouter.post("/:newsId/likes", authMiddleware, newsController.likeNews);
+newsRouter.post("/:newsId/like", authMiddleware, newsController.likeNews);
+newsRouter.post("/:newsId/disLike", authMiddleware, newsController.disLikeNews);
 newsRouter.get("/search/:title", newsController.searchNewsByTitle);
-// newsRouter.get("/search/:title", newsController.searchNewsByTitle);
 newsRouter.delete(
   "/:newsId",
   authMiddleware,

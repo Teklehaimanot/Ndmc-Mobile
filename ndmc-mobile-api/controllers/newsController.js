@@ -190,10 +190,44 @@ const likeNews = async (req, res) => {
     // Remove the user from the dislikedBy array if they previously disliked the news
     if (news.dislikedBy.includes(userId)) {
       news.dislikedBy.pull(userId);
+      news.dislikes -= 1;
     }
 
     news.likedBy.push(userId);
     news.likes += 1;
+    await news.save();
+    res.json(news);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+const disLikeNews = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { newsId } = req.params;
+
+    const news = await News.findById(newsId);
+    if (!news) {
+      return res.status(404).json({ error: "News not found" });
+    }
+
+    // Check if the user has already disliked the news
+    if (news.dislikedBy.includes(userId)) {
+      return res
+        .status(400)
+        .json({ error: "You have already disliked this news" });
+    }
+
+    // Remove the user from the likedBy array if they previously liked the news
+    if (news.likedBy.includes(userId)) {
+      news.likedBy.pull(userId);
+      news.likes -= 1;
+    }
+
+    news.dislikedBy.push(userId);
+    news.dislikes += 1;
     await news.save();
     res.json(news);
   } catch (err) {
@@ -241,4 +275,5 @@ module.exports = {
   searchNewsByTitle,
   getCommentsByNewsId,
   likeNews,
+  disLikeNews,
 };
