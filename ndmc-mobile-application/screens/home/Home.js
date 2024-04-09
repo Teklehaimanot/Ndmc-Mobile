@@ -13,6 +13,8 @@ import {
 import { color } from "../../utilities/Colors";
 import { useGetNewsQuery } from "../../services";
 import { RefreshControl } from "react-native-gesture-handler";
+import { EvilIcons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import { baseUrl } from "../../config";
 
 const { width } = Dimensions.get("window");
@@ -100,18 +102,27 @@ const Home = ({ navigation }) => {
         style={{
           flex: 1,
           flexDirection: "row",
+          justifyContent: "space-around",
           margin: 10,
           borderTopColor: color.blueOcean,
           borderTopWidth: 0.5,
           backgroundColor: color.gray,
+          paddingTop: 7,
         }}
       >
-        <View style={{ marginHorizontal: 10 }}>
+        <View>
           <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
           <Text>{formatDateToYYYYMMDD(item.date)}</Text>
         </View>
+        <Pressable>
+          <EvilIcons name="like" size={24} color={color.blue} />
+          <Text style={{ textAlign: "center" }}>{item.likes}</Text>
+        </Pressable>
+        <Pressable>
+          <AntDesign name="dislike2" size={18} color={color.blue} />
+          <Text style={{ textAlign: "center" }}>{item.likes}</Text>
+        </Pressable>
         <Pressable
-          style={{ marginHorizontal: 10 }}
           onPress={() =>
             navigation.navigate("comments", {
               newsid: item._id,
