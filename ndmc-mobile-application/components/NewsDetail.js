@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
+import { AntDesign, EvilIcons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 const Post = ({ route, navigation }) => {
-  const { id, title, image, description, comments, date } = route.params;
+  const { id, title, image, description, comments, date, likes, dislikes } =
+    route.params;
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
     const year = dateObject.getFullYear();
@@ -53,18 +55,27 @@ const Post = ({ route, navigation }) => {
           style={{
             flex: 1,
             flexDirection: "row",
+            justifyContent: "space-around",
             margin: 10,
             borderTopColor: color.blueOcean,
             borderTopWidth: 0.5,
-            paddingVertical: 15,
+            backgroundColor: color.gray,
+            paddingTop: 10,
           }}
         >
-          <View style={{ marginHorizontal: 10 }}>
+          <View>
             <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
             <Text>{formatDateToYYYYMMDD(date)}</Text>
           </View>
+          <Pressable>
+            <EvilIcons name="like" size={24} color={color.blue} />
+            <Text style={{ textAlign: "center" }}>{likes}</Text>
+          </Pressable>
+          <Pressable>
+            <AntDesign name="dislike2" size={18} color={color.blue} />
+            <Text style={{ textAlign: "center" }}>{dislikes}</Text>
+          </Pressable>
           <Pressable
-            style={{ marginHorizontal: 10 }}
             onPress={() =>
               navigation.navigate("comments", {
                 newsid: id,

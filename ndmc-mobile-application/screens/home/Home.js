@@ -71,6 +71,8 @@ const Home = ({ navigation }) => {
             description: item.description,
             comments: item.comments,
             date: item.date,
+            likes: item.likes,
+            dislikes: item.dislikes,
           })
         }
       >
@@ -120,7 +122,7 @@ const Home = ({ navigation }) => {
         </Pressable>
         <Pressable>
           <AntDesign name="dislike2" size={18} color={color.blue} />
-          <Text style={{ textAlign: "center" }}>{item.likes}</Text>
+          <Text style={{ textAlign: "center" }}>{item.dislikes}</Text>
         </Pressable>
         <Pressable
           onPress={() =>
