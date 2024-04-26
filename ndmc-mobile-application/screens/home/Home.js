@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  TouchableHighlight,
 } from "react-native";
 import { color } from "../../utilities/Colors";
 import {
@@ -30,33 +31,14 @@ const Home = ({ navigation }) => {
   const [pageSize, setPageSize] = useState(10);
   const [refreshing, setRefreshing] = useState(false);
   const [mynews, setNews] = useState([]);
-  const [like, setLike] = useState(false);
-  const [dislike, setDislike] = useState(false);
   const basicUrl = baseUrl;
   const { user } = useSelector((state) => state.auth);
   const { data, error, isLoading, refetch } = useGetNewsQuery({
     page,
     limit: pageSize,
   });
-  const [
-    likeNews,
-    {
-      isLoading: likeIsLoading,
-      isError: likeIsError,
-      isSuccess: likeIsSuccess,
-      error: likeError,
-      data: likeData,
-    },
-  ] = useLikeNewsByIdMutation();
-  const [
-    dislikeNews,
-    {
-      isLoading: dislikeIsLoading,
-      isError: dislikeIsError,
-      isSuccess: dislikeIsSuccess,
-      error: dislikeError,
-    },
-  ] = useDislikeNewsByIdMutation();
+  const [likeNews] = useLikeNewsByIdMutation();
+  const [dislikeNews] = useDislikeNewsByIdMutation();
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
     const year = dateObject.getFullYear();
@@ -90,8 +72,6 @@ const Home = ({ navigation }) => {
     try {
       if (user) {
         likeNews(newsid);
-        setLike(true);
-        setDislike(false);
       } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
@@ -102,15 +82,12 @@ const Home = ({ navigation }) => {
     try {
       if (user) {
         dislikeNews(newsid);
-        setLike(false);
-        setDislike(true);
       } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log(likeData?.likedBy.length);
   const renderItem = ({ item }) => (
     <View style={styles.cardview}>
       <TouchableOpacity
@@ -176,7 +153,7 @@ const Home = ({ navigation }) => {
             name="like2"
             size={18}
             color={color.blue}
-            style={like ? styles.likedeButton : " "}
+            style={item.likedBy.includes(user?.id) ? styles.likedeButton : " "}
           />
           <Text style={{ textAlign: "center" }}>{item.likes}</Text>
         </Pressable>
@@ -189,7 +166,9 @@ const Home = ({ navigation }) => {
             name="dislike2"
             size={18}
             color={color.blue}
-            style={dislike ? styles.likedeButton : " "}
+            style={
+              item.dislikedBy.includes(user?.id) ? styles.likedeButton : " "
+            }
           />
           <Text style={{ textAlign: "center" }}>{item.dislikes}</Text>
         </Pressable>
@@ -289,7 +268,6 @@ const styles = StyleSheet.create({
   likedeButton: {
     backgroundColor: color.blueOcean,
     color: color.white,
-    // padding: 3,
     width: 20,
     height: 20,
     borderRadius: 50,
