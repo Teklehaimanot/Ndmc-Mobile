@@ -101,6 +101,8 @@ const Home = ({ navigation }) => {
             date: item.date,
             likes: item.likes,
             dislikes: item.dislikes,
+            likedBy: item.likedBy,
+            dislikedBy: item.dislikedBy,
           })
         }
       >

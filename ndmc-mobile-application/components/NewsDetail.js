@@ -5,15 +5,26 @@ import {
   Image,
   Dimensions,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import {
+  useDislikeNewsByIdMutation,
+  useGetNewsByIdQuery,
+  useLikeNewsByIdMutation,
+} from "../services";
 
 const { width } = Dimensions.get("window");
 const Post = ({ route, navigation }) => {
-  const { id, title, image, description, comments, date, likes, dislikes } =
-    route.params;
+  const { id, title, image, description, date } = route.params;
+  const { user } = useSelector((state) => state.auth);
+  const { data, error, isLoading, refetch } = useGetNewsByIdQuery(id);
+
+  const [likeNews] = useLikeNewsByIdMutation();
+  const [dislikeNews] = useDislikeNewsByIdMutation();
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
     const year = dateObject.getFullYear();
@@ -22,6 +33,47 @@ const Post = ({ route, navigation }) => {
 
     return `${year}-${month}-${day}`;
   };
+
+  const handleLiked = (newsid) => {
+    try {
+      if (user) {
+        likeNews(newsid);
+      } else navigation.navigate("login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDisliked = (newsid) => {
+    try {
+      if (user) {
+        dislikeNews(newsid);
+      } else navigation.navigate("login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={color.primary} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 18, color: color.red }}>
+          Error loading data.
+        </Text>
+        <Text style={{ color: color.blue, marginTop: 10 }}>
+          Press the arrow button and Go back to home page
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -67,14 +119,37 @@ const Post = ({ route, navigation }) => {
             <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
             <Text>{formatDateToYYYYMMDD(date)}</Text>
           </View>
-          <Pressable>
-            <EvilIcons name="like" size={24} color={color.blue} />
-            <Text style={{ textAlign: "center" }}>{likes}</Text>
+          <Pressable
+            onPress={() => {
+              handleLiked(id);
+            }}
+          >
+            <AntDesign
+              name="like2"
+              size={18}
+              color={color.blue}
+              style={
+                data?.likedBy.includes(user?.id) ? styles.likedeButton : " "
+              }
+            />
+            <Text style={{ textAlign: "center" }}>{data?.likes}</Text>
           </Pressable>
-          <Pressable>
-            <AntDesign name="dislike2" size={18} color={color.blue} />
-            <Text style={{ textAlign: "center" }}>{dislikes}</Text>
+          <Pressable
+            onPress={() => {
+              handleDisliked(id);
+            }}
+          >
+            <AntDesign
+              name="dislike2"
+              size={18}
+              color={color.blue}
+              style={
+                data?.dislikedBy.includes(user?.id) ? styles.likedeButton : " "
+              }
+            />
+            <Text style={{ textAlign: "center" }}>{data?.dislikes}</Text>
           </Pressable>
+
           <Pressable
             onPress={() =>
               navigation.navigate("comments", {
@@ -83,7 +158,7 @@ const Post = ({ route, navigation }) => {
             }
           >
             <Text style={{ color: color.blue }}>comments</Text>
-            <Text style={{ textAlign: "center" }}>{comments.length}</Text>
+            <Text style={{ textAlign: "center" }}>{data?.comments.length}</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -100,5 +175,12 @@ const styles = StyleSheet.create({
   image: {
     width: width * 1,
     height: 400,
+  },
+  likedeButton: {
+    backgroundColor: color.blueOcean,
+    color: color.white,
+    width: 20,
+    height: 20,
+    borderRadius: 50,
   },
 });

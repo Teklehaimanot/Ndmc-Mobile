@@ -20,7 +20,10 @@ export const newsApi = createApi({
       query: ({ page, limit }) => `api/v1/news?page=${page}&limit=${limit}`,
       providesTags: ["News"],
     }),
-
+    getNewsById: builder.query({
+      query: (newsid) => `api/v1/news/${newsid}`,
+      providesTags: ["News"],
+    }),
     postComments: builder.mutation({
       query: ({ newComment, newsid }) => ({
         url: `api/v1/news/createComment/${newsid}`,
@@ -52,6 +55,7 @@ export const newsApi = createApi({
 
 export const {
   useGetNewsQuery,
+  useGetNewsByIdQuery,
   usePostCommentsMutation,
   useGetCommentsByIdQuery,
   useLikeNewsByIdMutation,
