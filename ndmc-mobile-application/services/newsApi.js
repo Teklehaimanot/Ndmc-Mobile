@@ -14,7 +14,7 @@ export const newsApi = createApi({
       }
     },
   }),
-  tagTypes: ["News", "Comments"],
+  tagTypes: ["News", "Comments", "Like"],
   endpoints: (builder) => ({
     getNews: builder.query({
       query: ({ page, limit }) => `api/v1/news?page=${page}&limit=${limit}`,
@@ -33,6 +33,20 @@ export const newsApi = createApi({
       query: (newsid) => `api/v1/news/${newsid}/comments`,
       providesTags: ["Comments", "News"],
     }),
+    likeNewsById: builder.mutation({
+      query: (newsid) => ({
+        url: `api/v1/news/${newsid}/like`,
+        method: "POST",
+      }),
+      invalidatesTags: ["News", "Like"],
+    }),
+    dislikeNewsById: builder.mutation({
+      query: (newsid) => ({
+        url: `api/v1/news/${newsid}/dislike`,
+        method: "POST",
+      }),
+      invalidatesTags: ["News", "Like"],
+    }),
   }),
 });
 
@@ -40,4 +54,6 @@ export const {
   useGetNewsQuery,
   usePostCommentsMutation,
   useGetCommentsByIdQuery,
+  useLikeNewsByIdMutation,
+  useDislikeNewsByIdMutation,
 } = newsApi;

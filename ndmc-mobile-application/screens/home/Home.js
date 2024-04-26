@@ -11,11 +11,16 @@ import {
   Pressable,
 } from "react-native";
 import { color } from "../../utilities/Colors";
-import { useGetNewsQuery } from "../../services";
+import {
+  useDislikeNewsByIdMutation,
+  useGetNewsQuery,
+  useLikeNewsByIdMutation,
+} from "../../services";
 import { RefreshControl } from "react-native-gesture-handler";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { baseUrl } from "../../config";
+import { useSelector } from "react-redux";
 
 const { width } = Dimensions.get("window");
 
@@ -25,12 +30,33 @@ const Home = ({ navigation }) => {
   const [pageSize, setPageSize] = useState(10);
   const [refreshing, setRefreshing] = useState(false);
   const [mynews, setNews] = useState([]);
+  const [like, setLike] = useState(false);
+  const [dislike, setDislike] = useState(false);
   const basicUrl = baseUrl;
+  const { user } = useSelector((state) => state.auth);
   const { data, error, isLoading, refetch } = useGetNewsQuery({
     page,
     limit: pageSize,
   });
-
+  const [
+    likeNews,
+    {
+      isLoading: likeIsLoading,
+      isError: likeIsError,
+      isSuccess: likeIsSuccess,
+      error: likeError,
+      data: likeData,
+    },
+  ] = useLikeNewsByIdMutation();
+  const [
+    dislikeNews,
+    {
+      isLoading: dislikeIsLoading,
+      isError: dislikeIsError,
+      isSuccess: dislikeIsSuccess,
+      error: dislikeError,
+    },
+  ] = useDislikeNewsByIdMutation();
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
     const year = dateObject.getFullYear();
@@ -60,6 +86,31 @@ const Home = ({ navigation }) => {
     }
   }, [data, error, isLoading, page]);
 
+  const handleLiked = (newsid) => {
+    try {
+      if (user) {
+        likeNews(newsid);
+        setLike(true);
+        setDislike(false);
+      } else navigation.navigate("login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDisliked = (newsid) => {
+    try {
+      if (user) {
+        dislikeNews(newsid);
+        setLike(false);
+        setDislike(true);
+      } else navigation.navigate("login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(likeData?.likedBy.length);
   const renderItem = ({ item }) => (
     <View style={styles.cardview}>
       <TouchableOpacity
@@ -116,12 +167,30 @@ const Home = ({ navigation }) => {
           <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
           <Text>{formatDateToYYYYMMDD(item.date)}</Text>
         </View>
-        <Pressable>
-          <EvilIcons name="like" size={24} color={color.blue} />
+        <Pressable
+          onPress={() => {
+            handleLiked(item._id);
+          }}
+        >
+          <AntDesign
+            name="like2"
+            size={18}
+            color={color.blue}
+            style={like ? styles.likedeButton : " "}
+          />
           <Text style={{ textAlign: "center" }}>{item.likes}</Text>
         </Pressable>
-        <Pressable>
-          <AntDesign name="dislike2" size={18} color={color.blue} />
+        <Pressable
+          onPress={() => {
+            handleDisliked(item._id);
+          }}
+        >
+          <AntDesign
+            name="dislike2"
+            size={18}
+            color={color.blue}
+            style={dislike ? styles.likedeButton : " "}
+          />
           <Text style={{ textAlign: "center" }}>{item.dislikes}</Text>
         </Pressable>
         <Pressable
@@ -216,6 +285,14 @@ const styles = StyleSheet.create({
     width: width * 1,
     height: 200,
     marginVertical: width * 0.08,
+  },
+  likedeButton: {
+    backgroundColor: color.blueOcean,
+    color: color.white,
+    // padding: 3,
+    width: 20,
+    height: 20,
+    borderRadius: 50,
   },
 });
 
