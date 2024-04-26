@@ -27,14 +27,18 @@ const newsSchema = new mongoose.Schema({
   },
   likedBy: [
     {
+      // user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
+      // },
     },
   ],
   dislikedBy: [
     {
+      // user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "users",
+      // },
     },
   ],
   comments: [

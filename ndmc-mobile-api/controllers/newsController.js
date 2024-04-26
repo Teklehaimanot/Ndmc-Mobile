@@ -174,14 +174,17 @@ const updateNews = async (req, res) => {
 
 const likeNews = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const { newsId } = req.params;
 
     const news = await News.findById(newsId);
     if (!news) {
       return res.status(404).json({ error: "News not found" });
     }
+    console.log("usser", userId);
+    // Check if the user has already liked the news
     if (news.likedBy.includes(userId)) {
+      console.log("news");
       return res
         .status(400)
         .json({ error: "You have already liked this news" });
@@ -205,7 +208,7 @@ const likeNews = async (req, res) => {
 
 const disLikeNews = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const { newsId } = req.params;
 
     const news = await News.findById(newsId);
