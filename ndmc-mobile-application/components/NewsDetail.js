@@ -16,10 +16,11 @@ import {
   useGetNewsByIdQuery,
   useLikeNewsByIdMutation,
 } from "../services";
+import { useEffect, useState } from "react";
 
 const { width } = Dimensions.get("window");
 const Post = ({ route, navigation }) => {
-  const { id, title, image, description, date } = route.params;
+  const { id, title, image, description, date, likes, dislikes } = route.params;
   const { user } = useSelector((state) => state.auth);
   const { data, error, isLoading, refetch } = useGetNewsByIdQuery(id);
 
@@ -34,6 +35,9 @@ const Post = ({ route, navigation }) => {
     return `${year}-${month}-${day}`;
   };
 
+  useEffect(() => {
+    refetch(likes, dislikes);
+  }, [likes, dislikes]);
   const handleLiked = (newsid) => {
     try {
       if (user) {
