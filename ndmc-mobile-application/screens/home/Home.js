@@ -178,6 +178,7 @@ const Home = ({ navigation }) => {
           onPress={() =>
             navigation.navigate("comments", {
               newsid: item._id,
+              comments: item.comments,
             })
           }
         >

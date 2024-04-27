@@ -20,7 +20,8 @@ import { useEffect, useState } from "react";
 
 const { width } = Dimensions.get("window");
 const Post = ({ route, navigation }) => {
-  const { id, title, image, description, date, likes, dislikes } = route.params;
+  const { id, title, image, description, date, likes, dislikes, comments } =
+    route.params;
   const { user } = useSelector((state) => state.auth);
   const { data, error, isLoading, refetch } = useGetNewsByIdQuery(id);
 
@@ -158,6 +159,7 @@ const Post = ({ route, navigation }) => {
             onPress={() =>
               navigation.navigate("comments", {
                 newsid: id,
+                comments: comments,
               })
             }
           >

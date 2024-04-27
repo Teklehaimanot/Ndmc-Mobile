@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
@@ -19,7 +19,7 @@ import { baseUrl } from "../config";
 const { width } = Dimensions.get("window");
 
 const CommentScreen = ({ route, navigation }) => {
-  const { newsid } = route.params;
+  const { newsid, comments } = route.params;
   const [comment, setComment] = useState("");
   const { user } = useSelector((state) => state.auth);
   const basicUrl = baseUrl;
@@ -28,9 +28,12 @@ const CommentScreen = ({ route, navigation }) => {
     data: commentsData,
     error: commentsError,
     isLoading: isCommentsLoading,
-    refetch: commentsRefetch,
+    refetch,
   } = useGetCommentsByIdQuery(newsid);
 
+  useEffect(() => {
+    refetch(comments);
+  }, [comments]);
   const [
     postCommment,
     {
