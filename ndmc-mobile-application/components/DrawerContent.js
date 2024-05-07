@@ -25,7 +25,7 @@ const CustomSidebarMenu = (props) => {
   const BASE_PATH =
     "https://firebasestorage.googleapis.com/v0/b/ndmc-mobile-5a8b5.appspot.com/o/profileImage";
   const proileImage =
-    "%2Flogo.png?alt=media&token=b9db2afd-6b47-4809-922e-b5bd8e2a68a1";
+    "%2FFinalb.png?alt=media&token=e2a1c01b-960f-4779-9b94-a5d922144283";
 
   const { user } = useSelector((state) => state.auth);
   const basicUrl = baseUrl;
