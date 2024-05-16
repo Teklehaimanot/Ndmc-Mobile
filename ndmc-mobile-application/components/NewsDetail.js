@@ -6,6 +6,7 @@ import {
   Dimensions,
   Pressable,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { color } from "../utilities/Colors";
@@ -124,7 +125,7 @@ const Post = ({ route, navigation }) => {
             <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
             <Text>{formatDateToYYYYMMDD(date)}</Text>
           </View>
-          <Pressable
+          <TouchableOpacity
             onPress={() => {
               handleLiked(id);
             }}
@@ -138,8 +139,8 @@ const Post = ({ route, navigation }) => {
               }
             />
             <Text style={{ textAlign: "center" }}>{data?.likes}</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => {
               handleDisliked(id);
             }}
@@ -153,9 +154,9 @@ const Post = ({ route, navigation }) => {
               }
             />
             <Text style={{ textAlign: "center" }}>{data?.dislikes}</Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity
             onPress={() =>
               navigation.navigate("comments", {
                 newsid: id,
@@ -165,7 +166,7 @@ const Post = ({ route, navigation }) => {
           >
             <Text style={{ color: color.blue }}>comments</Text>
             <Text style={{ textAlign: "center" }}>{data?.comments.length}</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

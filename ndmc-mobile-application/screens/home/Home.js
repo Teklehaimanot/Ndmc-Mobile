@@ -159,7 +159,7 @@ const Home = ({ navigation }) => {
           />
           <Text style={{ textAlign: "center" }}>{item.likes}</Text>
         </Pressable>
-        <Pressable
+        <TouchableOpacity
           onPress={() => {
             handleDisliked(item._id);
           }}
@@ -173,8 +173,8 @@ const Home = ({ navigation }) => {
             }
           />
           <Text style={{ textAlign: "center" }}>{item.dislikes}</Text>
-        </Pressable>
-        <Pressable
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() =>
             navigation.navigate("comments", {
               newsid: item._id,
@@ -184,7 +184,7 @@ const Home = ({ navigation }) => {
         >
           <Text style={{ color: color.blue }}>comments</Text>
           <Text style={{ textAlign: "center" }}>{item.comments.length}</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
     </View>
   );
