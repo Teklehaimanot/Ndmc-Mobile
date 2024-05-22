@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import AuthLayout from "./pages/AuthLayout";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import SignUp from "./components/SignUp";
+// import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -83,7 +83,7 @@ function App() {
           element={!isAuthenticated ? <AuthLayout /> : <Navigate to="/" />}
         >
           <Route index element={<Login />} />
-          <Route path="signUp" element={<SignUp />} />
+          {/* <Route path="signUp" element={<SignUp />} /> */}
         </Route>
         <Route
           path="*"

@@ -1,4 +1,4 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../state/auth/authSlice";
@@ -64,12 +64,12 @@ const Login = () => {
           disabled={isLoading}
         />
       </form>
-      <div className="flex flex-row justify-between mx-3">
+      {/* <div className="flex flex-row justify-between mx-3">
         <span className="text-bold text-xl">New user?</span>
         <Link to="/auth/signup">
           <span className="text-bold text-xl text-blue">Create an account</span>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };
