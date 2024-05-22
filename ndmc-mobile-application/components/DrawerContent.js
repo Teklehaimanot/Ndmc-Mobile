@@ -20,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { logout } from "../state/auth/authSlice";
 import { baseUrl } from "../config";
 import axios from "axios";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const CustomSidebarMenu = (props) => {
   const BASE_PATH =
@@ -108,7 +109,7 @@ const CustomSidebarMenu = (props) => {
           />
         </View>
         {!user ? (
-          <Pressable
+          <TouchableOpacity
             style={styles.customLogout}
             onPress={() => props.navigation.navigate("login")}
           >
@@ -123,9 +124,9 @@ const CustomSidebarMenu = (props) => {
             >
               Login
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         ) : (
-          <Pressable style={styles.customLogout} onPress={handleLogout}>
+          <TouchableOpacity style={styles.customLogout} onPress={handleLogout}>
             <SimpleLineIcons name="logout" size={16} color={color.blue} />
             <Text
               style={{
@@ -137,7 +138,7 @@ const CustomSidebarMenu = (props) => {
             >
               Logout
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         )}
       </DrawerContentScrollView>
     </SafeAreaView>

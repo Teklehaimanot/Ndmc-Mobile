@@ -5,6 +5,7 @@ import {
   Dimensions,
   Pressable,
   ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
 import { color } from "../utilities/Colors";
 import { TextInput } from "react-native-gesture-handler";
@@ -84,7 +85,7 @@ const LoginScreen = ({ navigation }) => {
           value={password}
           secureTextEntry={true}
         />
-        <Pressable style={styles.button} onPress={handleSubmit}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           {isLoading ? (
             <ActivityIndicator size="small" color={color.white} />
           ) : (
@@ -100,13 +101,13 @@ const LoginScreen = ({ navigation }) => {
               Login
             </Text>
           )}
-        </Pressable>
+        </TouchableOpacity>
 
         <View style={styles.createAccount}>
           <Text style={{ color: color.blueGray }}>New user?</Text>
-          <Pressable onPress={() => navigation.navigate("signUp")}>
+          <TouchableOpacity onPress={() => navigation.navigate("signUp")}>
             <Text style={{ color: color.blue }}>Create an Account</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
