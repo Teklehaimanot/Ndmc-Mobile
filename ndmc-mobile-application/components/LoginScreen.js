@@ -6,6 +6,7 @@ import {
   Pressable,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { color } from "../utilities/Colors";
 import { TextInput } from "react-native-gesture-handler";
@@ -53,64 +54,66 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.loginCard}>
-        <Text
-          style={{
-            color: color.error,
-          }}
-        >
-          {errors}
-        </Text>
-        <Text
-          style={{
-            fontWeight: "bold",
-            color: color.blueGray,
-            paddingHorizontal: 5,
-            fontSize: 20,
-          }}
-        >
-          Login
-        </Text>
-        <TextInput
-          placeholder="Email"
-          style={styles.textInput}
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-        />
-        <TextInput
-          placeholder="Password"
-          style={styles.textInput}
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          secureTextEntry={true}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          {isLoading ? (
-            <ActivityIndicator size="small" color={color.white} />
-          ) : (
-            <Text
-              style={{
-                color: color.white,
-                fontWeight: "bold",
-                fontSize: 15,
-                textAlign: "center",
-                letterSpacing: 1,
-              }}
-            >
-              Login
-            </Text>
-          )}
-        </TouchableOpacity>
-
-        <View style={styles.createAccount}>
-          <Text style={{ color: color.blueGray }}>New user?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("signUp")}>
-            <Text style={{ color: color.blue }}>Create an Account</Text>
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.loginCard}>
+          <Text
+            style={{
+              color: color.error,
+            }}
+          >
+            {errors}
+          </Text>
+          <Text
+            style={{
+              fontWeight: "bold",
+              color: color.blueGray,
+              paddingHorizontal: 5,
+              fontSize: 20,
+            }}
+          >
+            Login
+          </Text>
+          <TextInput
+            placeholder="Email"
+            style={styles.textInput}
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+          />
+          <TextInput
+            placeholder="Password"
+            style={styles.textInput}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            secureTextEntry={true}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            {isLoading ? (
+              <ActivityIndicator size="small" color={color.white} />
+            ) : (
+              <Text
+                style={{
+                  color: color.white,
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  textAlign: "center",
+                  letterSpacing: 1,
+                }}
+              >
+                Login
+              </Text>
+            )}
           </TouchableOpacity>
+
+          <View style={styles.createAccount}>
+            <Text style={{ color: color.blueGray }}>New user?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("signUp")}>
+              <Text style={{ color: color.blue }}>Create an Account</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -119,6 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: color.grayBackground,
   },
   loginCard: {
     width: width * 0.88,
