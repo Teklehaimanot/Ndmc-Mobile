@@ -74,9 +74,6 @@ const Home = ({ navigation }) => {
         likeNews(newsid);
         setNews(
           mynews.map((eachNews) => {
-            if (eachNews._id === newsid) {
-              console.log(eachNews.likes);
-            }
             return eachNews._id === newsid
               ? {
                   ...eachNews,

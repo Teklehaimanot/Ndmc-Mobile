@@ -25,6 +25,7 @@ const Post = ({ route, navigation }) => {
     route.params;
   const { user } = useSelector((state) => state.auth);
   const { data, error, isLoading, refetch } = useGetNewsByIdQuery(id);
+  const [news, setNews] = useState({});
 
   const [likeNews] = useLikeNewsByIdMutation();
   const [dislikeNews] = useDislikeNewsByIdMutation();
@@ -40,10 +41,26 @@ const Post = ({ route, navigation }) => {
   useEffect(() => {
     refetch(likes, dislikes);
   }, [likes, dislikes]);
+
+  useEffect(() => {
+    setNews(data);
+  }, [data]);
   const handleLiked = (newsid) => {
     try {
       if (user) {
+        console.log(news);
         likeNews(newsid);
+        setNews({
+          ...news,
+          likes: news.likedBy.includes(user.id) ? news.likes : news.likes + 1,
+          dislikes: news.dislikedBy.includes(user.id)
+            ? news.dislikes - 1
+            : news.dislikes,
+          likedBy: [...news.likedBy, user.id],
+          dislikedBy: news.dislikedBy.filter((eachDislike) => {
+            return eachDislike !== user.id;
+          }),
+        });
       } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
@@ -54,6 +71,19 @@ const Post = ({ route, navigation }) => {
     try {
       if (user) {
         dislikeNews(newsid);
+        setNews({
+          ...news,
+          dislikes: news.dislikedBy.includes(user.id)
+            ? news.dislikes
+            : news.dislikes + 1,
+          likes: news.dislikedBy.includes(user.id)
+            ? news.likes
+            : news.likes - 1,
+          dislikedBy: [...news.dislikedBy, user.id],
+          likedBy: news.likedBy.filter((eachlike) => {
+            return eachlike !== user.id;
+          }),
+        });
       } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
@@ -82,102 +112,110 @@ const Post = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Text
-          style={{
-            marginVertical: 20,
-            paddingHorizontal: 10,
-            fontWeight: "bold",
-            fontSize: 15,
-            lineHeight: 25,
-            letterSpacing: 1,
-            color: color.greenGray,
-          }}
-        >
-          {title}
-        </Text>
-        <Text
-          style={{
-            paddingHorizontal: 10,
-            color: color.blueGray,
-            marginBottom: 20,
-            lineHeight: 25,
-            letterSpacing: 0.75,
-          }}
-        >
-          {description}
-        </Text>
-        <Image style={styles.image} source={{ uri: image }} />
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "space-around",
-            margin: 10,
-            borderTopColor: color.blueOcean,
-            borderTopWidth: 0.5,
-            backgroundColor: color.gray,
-            paddingTop: 10,
-          }}
-        >
-          <View>
-            <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
-            <Text>{formatDateToYYYYMMDD(date)}</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              handleLiked(id);
-            }}
+    news && (
+      <View style={styles.container}>
+        <ScrollView>
+          <Text
             style={{
+              marginVertical: 20,
               paddingHorizontal: 10,
-              paddingVertical: 2,
+              fontWeight: "bold",
+              fontSize: 15,
+              lineHeight: 25,
+              letterSpacing: 1,
+              color: color.greenGray,
             }}
           >
-            <AntDesign
-              name="like2"
-              size={18}
-              color={color.blue}
-              style={
-                data?.likedBy.includes(user?.id) ? styles.likedeButton : " "
-              }
-            />
-            <Text style={{ textAlign: "center" }}>{data?.likes}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              handleDisliked(id);
-            }}
+            {title}
+          </Text>
+          <Text
             style={{
               paddingHorizontal: 10,
-              paddingVertical: 2,
+              color: color.blueGray,
+              marginBottom: 20,
+              lineHeight: 25,
+              letterSpacing: 0.75,
             }}
           >
-            <AntDesign
-              name="dislike2"
-              size={18}
-              color={color.blue}
-              style={
-                data?.dislikedBy.includes(user?.id) ? styles.likedeButton : " "
-              }
-            />
-            <Text style={{ textAlign: "center" }}>{data?.dislikes}</Text>
-          </TouchableOpacity>
+            {description}
+          </Text>
+          <Image style={styles.image} source={{ uri: image }} />
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "space-around",
+              margin: 10,
+              borderTopColor: color.blueOcean,
+              borderTopWidth: 0.5,
+              backgroundColor: color.gray,
+              paddingTop: 10,
+            }}
+          >
+            <View>
+              <Text style={{ color: color.blue, textAlign: "center" }}>
+                Date
+              </Text>
+              <Text>{formatDateToYYYYMMDD(date)}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                handleLiked(id);
+              }}
+              style={{
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+              }}
+            >
+              <AntDesign
+                name="like2"
+                size={18}
+                color={color.blue}
+                style={
+                  news.likedBy?.includes(user?.id) ? styles.likedeButton : " "
+                }
+              />
+              <Text style={{ textAlign: "center" }}>{news?.likes}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                handleDisliked(id);
+              }}
+              style={{
+                paddingHorizontal: 10,
+                paddingVertical: 2,
+              }}
+            >
+              <AntDesign
+                name="dislike2"
+                size={18}
+                color={color.blue}
+                style={
+                  news.dislikedBy?.includes(user?.id)
+                    ? styles.likedeButton
+                    : " "
+                }
+              />
+              <Text style={{ textAlign: "center" }}>{news?.dislikes}</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("comments", {
-                newsid: id,
-                comments: comments,
-              })
-            }
-          >
-            <Text style={{ color: color.blue }}>comments</Text>
-            <Text style={{ textAlign: "center" }}>{data?.comments.length}</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("comments", {
+                  newsid: id,
+                  comments: comments,
+                })
+              }
+            >
+              <Text style={{ color: color.blue }}>comments</Text>
+              <Text style={{ textAlign: "center" }}>
+                {news?.comments?.length}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
+    )
   );
 };
 

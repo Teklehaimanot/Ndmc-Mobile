@@ -15,6 +15,7 @@ import { useGetCommentsByIdQuery, usePostCommentsMutation } from "../services";
 import { Feather } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../config";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -87,22 +88,37 @@ const CommentScreen = ({ route, navigation }) => {
   }
 
   return (
-    <View style={styles.constainer}>
+    <SafeAreaView style={styles.constainer}>
       <ScrollView>
         {commentsData?.map(
           (comment) =>
             comment.comment.user && (
               <View style={styles.commentCard} key={comment.comment._id}>
-                <View>
-                  <Image style={styles.image} source={image} />
+                <View style={styles.image}>
+                  <Text style={styles.text}>
+                    {comment.comment.user.name.substring(0, 2).toUpperCase()}
+                  </Text>
+                  {/* <Image style={styles.image} source={image} /> */}
                 </View>
                 <View style={styles.commentView}>
                   <Text
-                    style={{ padding: 5, fontWeight: "bold", fontSize: 15 }}
+                    style={{
+                      padding: 5,
+                      fontWeight: "bold",
+                      letterSpacing: 0.8,
+                      fontSize: 15,
+                      color: color.greenGray,
+                    }}
                   >
                     {comment.comment.user.name}
                   </Text>
-                  <Text style={{ paddingHorizontal: 5 }}>
+                  <Text
+                    style={{
+                      paddingHorizontal: 5,
+                      paddingVertical: 2,
+                      color: color.black,
+                    }}
+                  >
                     {comment.comment.comment}
                   </Text>
                 </View>
@@ -129,7 +145,7 @@ const CommentScreen = ({ route, navigation }) => {
           onPress={handleSubmit}
         />
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -144,13 +160,19 @@ const styles = StyleSheet.create({
     width: width * 0.8,
   },
   image: {
-    resizeMode: "center",
     width: width * 0.13,
     height: width * 0.13,
     borderRadius: (width * 0.13) / 2,
-    alignSelf: "center",
-    backgroundColor: color.cameraBackground,
-    marginHorizontal: width * 0.02,
+    backgroundColor: color.greenGray,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: color.black,
+    marginHorizontal: 10,
+  },
+  text: {
+    color: color.white,
+    fontSize: width * 0.047,
+    fontWeight: "bold",
   },
   commentView: {
     backgroundColor: color.grayBackground,
