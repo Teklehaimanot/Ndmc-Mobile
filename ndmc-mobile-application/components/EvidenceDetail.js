@@ -19,13 +19,14 @@ const EvidenceDetail = ({ route }) => {
   const { title, image, description, date, pdf } = route.params;
   const [downloadingPdf, setDownloadingPdf] = useState(false);
   const apiUrl = pdf;
-  const name = apiUrl.split("/")[4];
+  const name = apiUrl.split("/")[5];
 
   const downloadFromUrl = async () => {
     setDownloadingPdf(true);
-
+    console.log(name);
     try {
       const filename = name;
+      console.log(apiUrl);
       const result = await FileSystem.downloadAsync(
         apiUrl,
         FileSystem.documentDirectory + filename
@@ -85,7 +86,7 @@ const EvidenceDetail = ({ route }) => {
     return `${year}-${month}-${day}`;
   };
 
-  console.log(pdf);
+  console.log(pdf, "pd");
   return (
     <View style={styles.container}>
       <ScrollView>

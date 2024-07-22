@@ -37,7 +37,7 @@ const Home = ({ navigation }) => {
     page,
     limit: pageSize,
   });
-  const [likeNews] = useLikeNewsByIdMutation();
+  const [likeNews, { isSuccess, isError }] = useLikeNewsByIdMutation();
   const [dislikeNews] = useDislikeNewsByIdMutation();
   const formatDateToYYYYMMDD = (date) => {
     const dateObject = new Date(date);
@@ -72,6 +72,28 @@ const Home = ({ navigation }) => {
     try {
       if (user) {
         likeNews(newsid);
+        setNews(
+          mynews.map((eachNews) => {
+            if (eachNews._id === newsid) {
+              console.log(eachNews.likes);
+            }
+            return eachNews._id === newsid
+              ? {
+                  ...eachNews,
+                  likes: eachNews.likedBy.includes(user.id)
+                    ? eachNews.likes
+                    : eachNews.likes + 1,
+                  dislikes: eachNews.dislikedBy.includes(user.id)
+                    ? eachNews.dislikes - 1
+                    : eachNews.dislikes,
+                  likedBy: [...eachNews.likedBy, user.id],
+                  dislikedBy: eachNews.dislikedBy.filter((eachDislike) => {
+                    return eachDislike !== user.id;
+                  }),
+                }
+              : eachNews;
+          })
+        );
       } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
@@ -82,6 +104,25 @@ const Home = ({ navigation }) => {
     try {
       if (user) {
         dislikeNews(newsid);
+        setNews(
+          mynews.map((eachNews) => {
+            return eachNews._id === newsid
+              ? {
+                  ...eachNews,
+                  dislikes: eachNews.dislikedBy.includes(user.id)
+                    ? eachNews.dislikes
+                    : eachNews.dislikes + 1,
+                  likes: eachNews.dislikedBy.includes(user.id)
+                    ? eachNews.likes
+                    : eachNews.likes - 1,
+                  dislikedBy: [...eachNews.dislikedBy, user.id],
+                  likedBy: eachNews.likedBy.filter((eachlike) => {
+                    return eachlike !== user.id;
+                  }),
+                }
+              : eachNews;
+          })
+        );
       } else navigation.navigate("login");
     } catch (error) {
       console.log(error);
@@ -146,9 +187,13 @@ const Home = ({ navigation }) => {
           <Text style={{ color: color.blue, textAlign: "center" }}>Date</Text>
           <Text>{formatDateToYYYYMMDD(item.date)}</Text>
         </View>
-        <Pressable
+        <TouchableOpacity
           onPress={() => {
             handleLiked(item._id);
+          }}
+          style={{
+            paddingHorizontal: 10,
+            paddingVertical: 2,
           }}
         >
           <AntDesign
@@ -158,10 +203,14 @@ const Home = ({ navigation }) => {
             style={item.likedBy.includes(user?.id) ? styles.likedeButton : " "}
           />
           <Text style={{ textAlign: "center" }}>{item.likes}</Text>
-        </Pressable>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             handleDisliked(item._id);
+          }}
+          style={{
+            paddingHorizontal: 10,
+            paddingVertical: 2,
           }}
         >
           <AntDesign
@@ -181,6 +230,10 @@ const Home = ({ navigation }) => {
               comments: item.comments,
             })
           }
+          style={{
+            paddingHorizontal: 8,
+            paddingVertical: 2,
+          }}
         >
           <Text style={{ color: color.blue }}>comments</Text>
           <Text style={{ textAlign: "center" }}>{item.comments.length}</Text>

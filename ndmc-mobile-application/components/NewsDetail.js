@@ -129,6 +129,10 @@ const Post = ({ route, navigation }) => {
             onPress={() => {
               handleLiked(id);
             }}
+            style={{
+              paddingHorizontal: 10,
+              paddingVertical: 2,
+            }}
           >
             <AntDesign
               name="like2"
@@ -143,6 +147,10 @@ const Post = ({ route, navigation }) => {
           <TouchableOpacity
             onPress={() => {
               handleDisliked(id);
+            }}
+            style={{
+              paddingHorizontal: 10,
+              paddingVertical: 2,
             }}
           >
             <AntDesign
