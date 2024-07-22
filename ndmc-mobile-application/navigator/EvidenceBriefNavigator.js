@@ -13,10 +13,12 @@ const EvidenceBriefNavigator = ({ navigation }) => {
 
       if (index === 1 || index === 2) {
         navigation.setOptions({
+          drawerLockMode: "locked-closed",
           headerShown: false,
         });
       } else {
         navigation.setOptions({
+          drawerLockMode: "unlocked",
           headerShown: true,
         });
       }
