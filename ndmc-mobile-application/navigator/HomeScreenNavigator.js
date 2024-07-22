@@ -4,11 +4,45 @@ import Post from "../components/NewsDetail";
 import CommentScreen from "../components/CommentScreen";
 import LoginScreen from "../components/LoginScreen";
 import RegisterAccount from "../components/RegisterAccount";
+import { useLayoutEffect } from "react";
+import { color } from "../utilities/Colors";
 
 const Stack = createNativeStackNavigator();
 const HomeScreenNavigator = ({ navigation }) => {
+  useLayoutEffect(() => {
+    const unsubscribe = navigation.addListener("state", (e) => {
+      const route = e.data.state.routes[e.data.state.index];
+      const index = route === null ? 0 : route?.state?.index;
+
+      if (index === 1 || index === 2) {
+        navigation.setOptions({
+          headerShown: false,
+        });
+      } else {
+        navigation.setOptions({
+          headerShown: true,
+        });
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        animation: "slide_from_right",
+        headerStyle: {
+          backgroundColor: color.primary,
+        },
+        headerTintColor: color.white,
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 20,
+        },
+        headerBackTitleVisible: false,
+      }}
+    >
       <Stack.Screen
         name="Home"
         component={Home}
@@ -19,7 +53,7 @@ const HomeScreenNavigator = ({ navigation }) => {
         component={Post}
         options={{
           headerShown: true,
-          headerTitle: "Details",
+          headerTitle: "News",
         }}
       />
       <Stack.Screen

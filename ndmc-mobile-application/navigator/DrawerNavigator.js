@@ -9,7 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ResearchJornalNavigator from "./ResearchJornalNavigator";
 
 const Drawer = createDrawerNavigator();
-const DrawerNavigator = (props) => {
+const DrawerNavigator = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: color.primary }}>
       <Drawer.Navigator
@@ -33,7 +33,10 @@ const DrawerNavigator = (props) => {
         <Drawer.Screen
           name="Home Page"
           component={HomeScreenNavigator}
-          options={{ drawerLabel: "News And Events", title: "NDMC" }}
+          options={{
+            drawerLabel: "News And Events",
+            title: "NDMC",
+          }}
         />
         <Drawer.Screen
           name="Evidence Brief Page"
