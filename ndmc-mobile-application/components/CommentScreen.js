@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Dimensions,
-  Image,
-  KeyboardAvoidingView,
   StyleSheet,
   Text,
   View,
@@ -127,7 +125,7 @@ const CommentScreen = ({ route, navigation }) => {
         )}
       </ScrollView>
 
-      <KeyboardAvoidingView behavior="padding" style={styles.commentInuptCard}>
+      <View style={styles.commentInuptCard}>
         <TextInput
           onChangeText={handleChangeComment}
           style={[
@@ -144,7 +142,7 @@ const CommentScreen = ({ route, navigation }) => {
           color={color.primary}
           onPress={handleSubmit}
         />
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -184,6 +182,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopWidth: 1,
     borderBlockColor: color.grayBackground,
+    backgroundColor: color.gray,
+    position: "absolute",
+    bottom: 0,
   },
   commentInput: {
     margin: 12,

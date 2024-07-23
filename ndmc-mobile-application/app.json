@@ -15,9 +15,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.teklehaimanot.NdmcMobile"
     },
     "android": {
       "package": "com.teklehaimanot.NdmcMobile",
