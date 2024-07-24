@@ -60,7 +60,7 @@ const CustomSidebarMenu = (props) => {
             <Text
               style={{
                 color: color.white,
-                fontSize: 20,
+                fontSize: 25,
                 fontWeight: "bold",
                 paddingBottom: 5,
               }}
@@ -69,8 +69,8 @@ const CustomSidebarMenu = (props) => {
             </Text>
             <Text
               style={{
-                color: color.blueOcean,
-                fontSize: 12,
+                color: color.white,
+                fontSize: 15,
                 fontWeight: "bold",
               }}
             >
