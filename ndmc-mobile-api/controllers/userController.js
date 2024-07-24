@@ -146,14 +146,15 @@ const updateUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid email format" });
     }
     const user = await User.findById({ _id: req.params.userId });
+    const saltRound = 10;
+    const passwordHash = await bcrypt.hash(password, saltRound);
     if (!user) {
       return res.status(404).json({ error: "user not found" });
     }
     (user.name = name),
       (user.email = email),
-      (user.password = password),
+      (user.password = passwordHash),
       (user.role = role);
-
     const updatedUser = await user.save();
     res.status(200).json(updatedUser);
   } catch (error) {
