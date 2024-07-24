@@ -12,6 +12,7 @@ const UserListView = ({ page, handlePagination, searchName }) => {
   const { data, error, isLoading } = useGetUsersQuery({
     page: page,
     name: debouncedValue,
+    limit: 15,
   });
   const [deleteUser] = useDeleteUserMutation();
 

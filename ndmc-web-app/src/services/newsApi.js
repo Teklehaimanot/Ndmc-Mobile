@@ -40,6 +40,10 @@ export const newsApi = createApi({
       }),
       invalidatesTags: ["News"],
     }),
+    getJornals: builder.query({
+      query: ({ page, title }) => `researches?page=${page}&title=${title}`,
+      providesTags: ["ResearchJornal"],
+    }),
   }),
 });
 
@@ -48,4 +52,5 @@ export const {
   useDeleteNewsMutation,
   useCreateNewsMutation,
   useUpdateNewsMutation,
+  useGetJornalsQuery,
 } = newsApi;
