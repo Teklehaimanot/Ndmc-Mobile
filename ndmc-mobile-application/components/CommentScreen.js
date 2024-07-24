@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     backgroundColor: color.gray,
     position: "absolute",
     bottom: 0,
+    zIndex: 1,
   },
   commentInput: {
     margin: 12,
