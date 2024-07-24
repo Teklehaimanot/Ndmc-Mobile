@@ -6,7 +6,7 @@ const isValidEmail = require("../utility/validateEmail");
 require("dotenv/config");
 
 const createUser = async (req, res) => {
-  let { name, email, role, password, confirmPassword } = _.pick(req.body, [
+  let { name, email, password, confirmPassword } = _.pick(req.body, [
     "name",
     "email",
     "role",
@@ -41,7 +41,7 @@ const createUser = async (req, res) => {
     const user = await User.create({
       name: name,
       email: email,
-      role: role,
+      role: "user",
       password: passwordHash,
       active: true,
     });

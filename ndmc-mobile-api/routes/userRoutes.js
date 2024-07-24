@@ -12,7 +12,7 @@ userRouter.post("/login", userController.loginUser);
 userRouter.get(
   "/",
   authMiddleware,
-  roleMiddleware("admin"),
+  // roleMiddleware("admin"),
   paginationMiddleware(User, "name"),
   userController.getAll
 );
@@ -24,7 +24,12 @@ userRouter.delete(
   userController.deleteUser
 );
 userRouter.get("/logout/:userId", userController.logoutUser);
-userRouter.patch("/:userId", userController.updateUser);
+userRouter.patch(
+  "/:userId",
+  authMiddleware,
+  roleMiddleware("admin"),
+  userController.updateUser
+);
 userRouter.get("/search/:name", userController.searchUserByName);
 
 module.exports = userRouter;
