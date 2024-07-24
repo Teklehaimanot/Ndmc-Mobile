@@ -44,7 +44,12 @@ const getResearchData = async (req, res) => {
         }
       })
     );
-    res.json({ articles: articles, currentPage: page, totalPages });
+    res.json({
+      articles: articles,
+      currentPage: page,
+      totalPages,
+      totalResults: totalResults,
+    });
   } catch (error) {
     console.error("Error retrieving articles:", error);
     res.status(500).send("Error retrieving articles");
