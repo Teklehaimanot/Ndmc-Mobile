@@ -10,7 +10,7 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:4001", "http://78.47.152.86:4001"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"], // add any other headers your client sends
