@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width * 1,
-    height: 400,
+    height: width * 0.5,
   },
   likedeButton: {
     backgroundColor: color.blueOcean,

@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: width * 1,
-    height: 200,
+    height: width * 0.5,
     marginVertical: width * 0.08,
   },
   likedeButton: {
