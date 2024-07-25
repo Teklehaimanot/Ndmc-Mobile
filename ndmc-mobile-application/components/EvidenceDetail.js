@@ -114,9 +114,10 @@ const EvidenceDetail = ({ route }) => {
         >
           {description}
         </Text>
-        {/* <Pressable onPress={() => setImageViewerVisible(true)}> */}
-        <Image style={styles.image} source={{ uri: image }} />
-        {/* </Pressable> */}
+        <View style={{ width: width * 1, height: 270 }}>
+          <Image style={styles.image} source={{ uri: image }} />
+        </View>
+
         <Text style={{ margin: 10, color: color.blue }}>
           Date: {formatDateToYYYYMMDD(date)}
         </Text>
@@ -147,9 +148,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: width * 1,
-    height: 300,
-    resizeMode: "contain",
+    width: "100%",
+    height: "100%",
+    resizeMode: "stretch",
   },
   button: {
     alignItems: "center",

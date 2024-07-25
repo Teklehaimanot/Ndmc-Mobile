@@ -319,12 +319,12 @@ const styles = StyleSheet.create({
     width: width * 1,
     borderColor: color.blueGray,
     borderWidth: 0.2,
-    marginTop: 3,
+    marginTop: 4,
   },
   image: {
     width: "100%",
     height: "100%",
-    resizeMode: "stretch",
+    resizeMode: "cover",
   },
   likedeButton: {
     backgroundColor: color.blueOcean,

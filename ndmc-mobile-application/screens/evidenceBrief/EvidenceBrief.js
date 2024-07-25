@@ -78,12 +78,21 @@ const EvidenceBrief = ({ navigation }) => {
         >
           {item.title}
         </Text>
-        <Image
-          style={styles.image}
-          source={{
-            uri: `${basicUrl + "/" + item.image}`,
+        <View
+          style={{
+            width: width * 0.9,
+            height: 250,
+            marginVertical: width * 0.08,
+            marginHorizontal: width * 0.05,
           }}
-        />
+        >
+          <Image
+            style={styles.image}
+            source={{
+              uri: `${basicUrl + "/" + item.image}`,
+            }}
+          />
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -162,18 +171,16 @@ const styles = StyleSheet.create({
     width: width * 1,
     borderColor: color.blueGray,
     borderWidth: 0.2,
-    marginTop: 10,
+    marginTop: 4,
     borderBottomWidth: 1,
     borderBottomColor: color.greenGray,
     borderRadius: 5,
   },
   image: {
-    width: width * 0.9,
-    height: width * 0.5,
-    marginVertical: width * 0.08,
-    marginHorizontal: width * 0.05,
+    width: "100%",
+    height: "100%",
     borderRadius: 5,
-    resizeMode: "contain",
+    resizeMode: "stretch",
   },
 });
 
