@@ -160,12 +160,20 @@ const Home = ({ navigation }) => {
           >
             {item.title}
           </Text>
-          <Image
-            style={styles.image}
-            source={{
-              uri: `${basicUrl + "/" + item.image}`,
+          <View
+            style={{
+              width: width * 1,
+              height: 220,
+              marginVertical: width * 0.06,
             }}
-          />
+          >
+            <Image
+              style={styles.image}
+              source={{
+                uri: `${basicUrl + "/" + item.image}`,
+              }}
+            />
+          </View>
         </View>
       </TouchableOpacity>
       <View
@@ -311,12 +319,12 @@ const styles = StyleSheet.create({
     width: width * 1,
     borderColor: color.blueGray,
     borderWidth: 0.2,
-    marginTop: 10,
+    marginTop: 3,
   },
   image: {
-    width: width * 1,
-    height: width * 0.5,
-    marginVertical: width * 0.08,
+    width: "100%",
+    height: "100%",
+    resizeMode: "stretch",
   },
   likedeButton: {
     backgroundColor: color.blueOcean,

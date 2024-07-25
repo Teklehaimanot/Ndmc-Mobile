@@ -139,7 +139,10 @@ const Post = ({ route, navigation }) => {
           >
             {description}
           </Text>
-          <Image style={styles.image} source={{ uri: image }} />
+          <View style={{ width: width * 1, height: 220 }}>
+            <Image style={styles.image} source={{ uri: image }} />
+          </View>
+
           <View
             style={{
               flex: 1,
@@ -226,8 +229,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    width: width * 1,
-    height: width * 0.5,
+    width: "100%",
+    height: "100%",
+    resizeMode: "stretch",
   },
   likedeButton: {
     backgroundColor: color.blueOcean,

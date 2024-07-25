@@ -114,9 +114,9 @@ const EvidenceDetail = ({ route }) => {
         >
           {description}
         </Text>
-        <Pressable onPress={() => setImageViewerVisible(true)}>
-          <Image style={styles.image} source={{ uri: image }} />
-        </Pressable>
+        {/* <Pressable onPress={() => setImageViewerVisible(true)}> */}
+        <Image style={styles.image} source={{ uri: image }} />
+        {/* </Pressable> */}
         <Text style={{ margin: 10, color: color.blue }}>
           Date: {formatDateToYYYYMMDD(date)}
         </Text>
