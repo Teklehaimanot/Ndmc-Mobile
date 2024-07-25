@@ -81,7 +81,7 @@ const EvidenceBrief = ({ navigation }) => {
         <View
           style={{
             width: width * 0.9,
-            height: 250,
+            height: 240,
             marginVertical: width * 0.08,
             marginHorizontal: width * 0.05,
           }}
