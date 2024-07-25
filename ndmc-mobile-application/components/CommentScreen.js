@@ -5,6 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { image } from "../assets/logo.png";
@@ -33,6 +35,7 @@ const CommentScreen = ({ route, navigation }) => {
   useEffect(() => {
     refetch(comments);
   }, [comments]);
+
   const [
     postCommment,
     {
@@ -72,6 +75,7 @@ const CommentScreen = ({ route, navigation }) => {
       </View>
     );
   }
+
   if (postError) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -86,69 +90,75 @@ const CommentScreen = ({ route, navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.constainer}>
-      <ScrollView>
-        {commentsData?.map(
-          (comment) =>
-            comment.comment.user && (
-              <View style={styles.commentCard} key={comment.comment._id}>
-                <View style={styles.image}>
-                  <Text style={styles.text}>
-                    {comment.comment.user.name.substring(0, 2).toUpperCase()}
-                  </Text>
-                  {/* <Image style={styles.image} source={image} /> */}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={80}
+      style={{ flex: 1 }}
+    >
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          {commentsData?.map(
+            (comment) =>
+              comment.comment.user && (
+                <View style={styles.commentCard} key={comment.comment._id}>
+                  <View style={styles.image}>
+                    <Text style={styles.text}>
+                      {comment.comment.user.name.substring(0, 2).toUpperCase()}
+                    </Text>
+                    {/* <Image style={styles.image} source={image} /> */}
+                  </View>
+                  <View style={styles.commentView}>
+                    <Text
+                      style={{
+                        padding: 5,
+                        fontWeight: "bold",
+                        letterSpacing: 0.8,
+                        fontSize: 15,
+                        color: color.greenGray,
+                      }}
+                    >
+                      {comment.comment.user.name}
+                    </Text>
+                    <Text
+                      style={{
+                        paddingHorizontal: 5,
+                        paddingVertical: 2,
+                        color: color.black,
+                      }}
+                    >
+                      {comment.comment.comment}
+                    </Text>
+                  </View>
                 </View>
-                <View style={styles.commentView}>
-                  <Text
-                    style={{
-                      padding: 5,
-                      fontWeight: "bold",
-                      letterSpacing: 0.8,
-                      fontSize: 15,
-                      color: color.greenGray,
-                    }}
-                  >
-                    {comment.comment.user.name}
-                  </Text>
-                  <Text
-                    style={{
-                      paddingHorizontal: 5,
-                      paddingVertical: 2,
-                      color: color.black,
-                    }}
-                  >
-                    {comment.comment.comment}
-                  </Text>
-                </View>
-              </View>
-            )
-        )}
-      </ScrollView>
+              )
+          )}
+        </ScrollView>
 
-      <View style={styles.commentInuptCard}>
-        <TextInput
-          onChangeText={handleChangeComment}
-          style={[
-            styles.commentInput,
-            { height: Math.max(40, comment.split("\n").length * 20) },
-          ]}
-          value={comment}
-          placeholder="Leave your thoughts here..."
-        />
-        <Feather
-          name="send"
-          style={{ marginRight: 10 }}
-          size={28}
-          color={color.primary}
-          onPress={handleSubmit}
-        />
-      </View>
-    </SafeAreaView>
+        <View style={styles.commentInputCard}>
+          <TextInput
+            onChangeText={handleChangeComment}
+            style={[
+              styles.commentInput,
+              { height: Math.max(40, comment.split("\n").length * 20) },
+            ]}
+            value={comment}
+            placeholder="Leave your thoughts here..."
+          />
+          <Feather
+            name="send"
+            style={{ marginRight: 10 }}
+            size={28}
+            color={color.primary}
+            onPress={handleSubmit}
+          />
+        </View>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  constainer: {
+  container: {
     flex: 1,
   },
   commentCard: {
@@ -177,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
   },
-  commentInuptCard: {
+  commentInputCard: {
     flexDirection: "row",
     alignItems: "center",
     borderTopWidth: 1,
@@ -196,4 +206,5 @@ const styles = StyleSheet.create({
     borderRadius: 1,
   },
 });
+
 export default CommentScreen;
