@@ -50,7 +50,7 @@ const CommentScreen = ({ route, navigation }) => {
     setComment(newText);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       if (user) {
         const newComment = {
@@ -59,7 +59,7 @@ const CommentScreen = ({ route, navigation }) => {
         };
 
         if (newComment.commentText) {
-          postCommment({ newComment, newsid });
+          await postCommment({ newComment, newsid });
           setComment("");
         }
       } else navigation.navigate("login");
